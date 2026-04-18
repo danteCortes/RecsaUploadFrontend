@@ -2,11 +2,12 @@ import { Component, input, signal } from "@angular/core";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { RouterLink } from "@angular/router";
 
 
 @Component({
     selector: 'dropdown-menu',
-	imports: [FontAwesomeModule],
+	imports: [FontAwesomeModule, RouterLink],
 	templateUrl: './dropdown.menu.html',
 })
 
