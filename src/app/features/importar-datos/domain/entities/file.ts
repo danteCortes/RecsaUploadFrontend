@@ -7,6 +7,7 @@ import type { FileId } from '../value-objects/file/fileId';
 import type { FileName } from '../value-objects/file/fileName.vo';
 import type { FilePath } from '../value-objects/file/filePath';
 import type { FileSize } from '../value-objects/file/fileSize';
+import type { Key } from '../value-objects/file/key.vo';
 import type { Process } from '../value-objects/file/process';
 import type { SpreadSheet } from '../value-objects/file/spreadsheet';
 
@@ -23,6 +24,7 @@ export class File {
     private readonly _delimiter: Delimiter | null,
     private readonly _spreadsheet: SpreadSheet | null,
     private readonly _configurationStatus: ConfigurationStatus,
+    private readonly _key: Key | null,
   ) {}
 
   static create(
@@ -37,6 +39,7 @@ export class File {
     delimiter: Delimiter | null,
     spreadsheet: SpreadSheet | null,
     configurationStatus: ConfigurationStatus,
+    key: Key | null,
   ) {
     return new File(
       id,
@@ -50,6 +53,7 @@ export class File {
       delimiter,
       spreadsheet,
       configurationStatus,
+      key,
     );
   }
 
@@ -95,5 +99,9 @@ export class File {
 
   isConfigurated(): boolean {
     return this._configurationStatus.value() === 'SI';
+  }
+
+  key(): Key | null {
+    return this._key;
   }
 }

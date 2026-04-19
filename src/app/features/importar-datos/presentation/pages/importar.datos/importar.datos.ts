@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowUpFromBracket,
@@ -10,6 +10,7 @@ import {
   faFileLines,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import { ProcessService } from '../../../infrastructure/services/process.service';
 
 @Component({
   selector: 'app-importar-datos',
@@ -26,7 +27,9 @@ export class ImportarDatos {
   faFileLines = faFileLines;
   faXmark = faXmark;
 
-  files: File[] = [];
+  private service: ProcessService = inject(ProcessService);
+
+  readonly files = this.service.files;
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -36,7 +39,7 @@ export class ImportarDatos {
   }
 
   onDragOver(event: DragEvent) {
-    event.preventDefault(); // necesario para permitir drop
+    event.preventDefault();
   }
 
   onDrop(event: DragEvent) {
@@ -48,13 +51,37 @@ export class ImportarDatos {
   }
 
   addFiles(fileList: FileList) {
+    const allowedExtensions = ['xml', 'csv', 'json', 'xlsx', 'txt'];
+
     const newFiles = Array.from(fileList);
 
-    // opcional: evitar duplicados por nombre
-    const uniqueFiles = newFiles.filter(
-      (newFile) => !this.files.some((f) => f.name === newFile.name),
+    const validFiles = newFiles.filter((file) => {
+      const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+      return allowedExtensions.includes(ext);
+    });
+
+    const uniqueFiles = validFiles.filter(
+      (newFile) => !this.files().some((f) => f.name === newFile.name),
     );
 
-    this.files = [...this.files, ...uniqueFiles];
+    this.files.update((current) => [...current, ...uniqueFiles]);
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes < 1024) {
+      return `${bytes} Bytes`;
+    }
+
+    const kb = bytes / 1024;
+    if (kb < 1024) {
+      return `${kb.toFixed(2)} KB`;
+    }
+
+    const mb = kb / 1024;
+    return `${mb.toFixed(2)} MB`;
+  }
+
+  getFileExtension(file: File): string {
+    return file.name.split('.').pop()?.toUpperCase() ?? '';
   }
 }

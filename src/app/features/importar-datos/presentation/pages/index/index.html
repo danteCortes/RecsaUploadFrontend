@@ -69,14 +69,14 @@
                   <fa-icon [icon]="faFileLines" class="text-[#1E3A5F]" />
                   <span class="text-sm text-[#1A1614]/70">Archivos</span>
                 </div>
-                <span class="font-medium text-[#1E3A5F]">0</span>
+                <span class="font-medium text-[#1E3A5F]">{{ files().length }}</span>
               </div>
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <fa-icon [icon]="faDatabase" class="text-[#1E3A5F]" />
                   <span class="text-sm text-[#1A1614]/70">Formatos</span>
                 </div>
-                <span class="font-medium text-[#1E3A5F]">CSV, XLSX</span>
+                <span class="font-medium text-sm text-[#1E3A5F]">{{ getExtensions(files()) }}</span>
               </div>
             </div>
             <div class="pt-6 border-t border-[#E4DDD1]">

@@ -22,6 +22,8 @@ import { ProcessService } from '../../../infrastructure/services/process.service
 export class ImportarDatosIndex implements OnInit {
   private service: ProcessService = inject(ProcessService);
 
+  readonly files = this.service.files;
+
   faArrowUpFromBracket = faArrowUpFromBracket;
   faCog = faCog;
   faCheckSquare = faCheckSquare;
@@ -35,6 +37,8 @@ export class ImportarDatosIndex implements OnInit {
     const processId = localStorage.getItem('process_id');
     if (processId) {
       console.log('Acá buscamos los archivos');
+      const data = await this.service.getFiles(processId);
+      this.service.files.set(data.map((f) => new File([], f.name)));
     } else {
       console.log('Acá buscamos un proceso guardado, si no hay creamos uno.');
       const process = await this.service.save({
@@ -46,5 +50,15 @@ export class ImportarDatosIndex implements OnInit {
       });
       localStorage.setItem('process_id', process.id);
     }
+  }
+
+  getExtensions(files: File[]): string {
+    const extensions = files
+      .map((file) => file.name.split('.').pop()?.toLowerCase() ?? '')
+      .filter((ext) => ext !== '');
+
+    const unique = Array.from(new Set(extensions));
+
+    return unique.map((ext) => ext.toUpperCase()).join(', ');
   }
 }

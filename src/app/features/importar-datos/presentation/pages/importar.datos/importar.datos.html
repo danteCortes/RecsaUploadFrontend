@@ -52,33 +52,35 @@
     </div>
   </div>
   <div class="space-y-3 mb-8">
-    <h3 class="text-lg mb-4 text-[#1E3A5F]">Archivos cargados (1)</h3>
-    <div
-      class="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-white to-[#FAF8F5] border border-[#E4DDD1] hover:border-[#2D9596] transition-colors group"
-    >
-      <div class="flex items-center gap-4 flex-1">
-        <div
-          class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center"
-        >
-          <fa-icon [icon]="faFileLines" class="text-white" />
-        </div>
-        <div class="flex-1">
-          <p class="font-medium text-[#1A1614]">Deuda clientes.csv</p>
-          <div class="flex items-center gap-3 mt-1">
-            <span class="text-sm text-[#1A1614]/50">2.0KB</span>
-            <span class="w-1 h-1 rounded-full bg-[#E4DDD1]"></span>
-            <span class="text-sm px-2 py-0.5 rounded bg-[#2D9596]/10 text-[#2D9596]"
-              >CSV detectado</span
-            >
+    <h3 class="text-lg mb-4 text-[#1E3A5F]">Archivos cargados ({{ files().length }})</h3>
+    @for (file of files(); track $index) {
+      <div
+        class="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-white to-[#FAF8F5] border border-[#E4DDD1] hover:border-[#2D9596] transition-colors group"
+      >
+        <div class="flex items-center gap-4 flex-1">
+          <div
+            class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center"
+          >
+            <fa-icon [icon]="faFileLines" class="text-white" />
+          </div>
+          <div class="flex-1">
+            <p class="font-medium text-[#1A1614]">{{ file.name }}</p>
+            <div class="flex items-center gap-3 mt-1">
+              <span class="text-sm text-[#1A1614]/50">{{ formatFileSize(file.size) }}</span>
+              <span class="w-1 h-1 rounded-full bg-[#E4DDD1]"></span>
+              <span class="text-sm px-2 py-0.5 rounded bg-[#2D9596]/10 text-[#2D9596]"
+                >{{ getFileExtension(file) }} detectado</span
+              >
+            </div>
           </div>
         </div>
+        <button
+          class="p-2 rounded-lg hover:bg-[#D16666]/10 text-[#D16666] transition-colors opacity-0 group-hover:opacity-100"
+        >
+          <fa-icon [icon]="faXmark" />
+        </button>
       </div>
-      <button
-        class="p-2 rounded-lg hover:bg-[#D16666]/10 text-[#D16666] transition-colors opacity-0 group-hover:opacity-100"
-      >
-        <fa-icon [icon]="faXmark" />
-      </button>
-    </div>
+    }
   </div>
   <div class="flex justify-end">
     <button
