@@ -1,4 +1,4 @@
-import type { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import type { File } from '../../domain/entities/file';
 import type { Process } from '../../domain/entities/process';
 import type { ProcessRepository } from '../../domain/ports/proces.port';
@@ -6,16 +6,36 @@ import type { ProcessId } from '../../domain/value-objects/process/processId';
 import { firstValueFrom } from 'rxjs';
 import type { ProcessDTO } from '../dtos/process.dto';
 import { ProcessMapper } from '../mappers/process.mapper';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
 
+@Injectable({ providedIn: 'root' })
 export class ProcessAdapter implements ProcessRepository {
-  constructor(private http: HttpClient) {}
+  private http: HttpClient = inject(HttpClient);
 
   async saveProcess(entity: Process): Promise<Process> {
-    const request = ProcessMapper.entityToSaveRequest(entity);
+    try {
+      const request = ProcessMapper.entityToSaveRequest(entity);
 
-    const data = await firstValueFrom(this.http.post<ProcessDTO>(`/process-config`, request));
+      const data = await firstValueFrom(
+        this.http.post<ProcessDTO>(`${environment.apiUrl}/process-config`, request),
+      );
 
-    return ProcessMapper.dtoToEntity(data);
+      return ProcessMapper.dtoToEntity(data);
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        throw new Error(
+          error.error?.message || 'Error al comunicarse con el servidor',
+          { cause: error }, // 👈 CLAVE
+        );
+      }
+
+      if (error instanceof Error) {
+        throw new Error(error.message, { cause: error }); // 👈 CLAVE
+      }
+
+      throw new Error('Error inesperado en infraestructura', { cause: error });
+    }
   }
 
   updateProcess(entity: Process): Promise<Process> {

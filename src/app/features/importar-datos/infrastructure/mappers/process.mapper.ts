@@ -18,7 +18,7 @@ export class ProcessMapper {
       dto.company ? ProcessType.create(dto.company) : null,
       dto.processType ? LayoutName.create(dto.processType) : null,
       dto.responsible ? Responsible.create(dto.responsible) : null,
-      Status.create('En espera'),
+      Status.create('Pendiente'),
     );
   }
 

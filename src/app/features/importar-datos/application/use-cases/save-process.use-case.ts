@@ -14,7 +14,7 @@ export class SaveProcessUseCase {
       dto.processType,
       dto.layout,
       dto.responsible,
-      null,
+      'Pendiente',
     );
     const response = await this.repository.saveProcess(entity);
 

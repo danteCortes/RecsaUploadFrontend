@@ -26,7 +26,7 @@ export class Process {
     responsible: Responsible | null,
     status: Status,
   ): Process {
-    if (!id && !company && !loadType && !processType && !layoutName && !responsible)
+    if (!id && !company && !loadType && !processType && !layoutName && !responsible && !status)
       throw new Error('El proceso no debe estar vacío.');
 
     return new Process(id, company, loadType, processType, layoutName, responsible, status);

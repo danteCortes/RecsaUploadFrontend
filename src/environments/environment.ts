@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://recsa-cargas.test/',
+  apiUrl: 'http://recsa-cargas.test',
 };

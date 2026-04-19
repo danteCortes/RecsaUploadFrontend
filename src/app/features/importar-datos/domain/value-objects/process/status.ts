@@ -2,11 +2,7 @@ export class Status {
   private constructor(private readonly _value: StatusType) {}
 
   public static create(value: string): Status {
-    if (
-      !['Pendiente', 'Procesando', 'Pausado', 'Detenido', 'Finalizado'].includes(
-        value.toUpperCase(),
-      )
-    ) {
+    if (!['Pendiente', 'Procesando', 'Pausado', 'Detenido', 'Finalizado'].includes(value)) {
       throw new Error('LEl estado del proceso es inválido.');
     }
 
