@@ -1,15 +1,13 @@
-export class SpreadSheet
-{
-    private constructor(private _value: number) {}
-    
-    public static create(value: number): SpreadSheet {
-        if(value < 0)
-            throw new Error("la hoja del archivo es inválido");
+export class SpreadSheet {
+  private constructor(private _value: number) {}
 
-        return new SpreadSheet(value);
-    }
+  public static create(value: number): SpreadSheet {
+    if (value < 0) throw new Error('la hoja del archivo es inválido');
 
-    value(): number {
-        return this._value;
-    }
+    return new SpreadSheet(value);
+  }
+
+  value(): number {
+    return this._value;
+  }
 }

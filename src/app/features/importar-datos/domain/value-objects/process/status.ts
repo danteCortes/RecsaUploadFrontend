@@ -1,18 +1,21 @@
-export class Status
-{
-    private constructor(private readonly _value: StatusType) {}
-    
-    public static create(value: string): Status {
-        if (!['En espera', 'Procesando', 'Pausado', 'Detenido', 'Finalizado'].includes(value.toUpperCase())) {
-            throw new Error('LEl estado del proceso es inválido.');
-        }
+export class Status {
+  private constructor(private readonly _value: StatusType) {}
 
-        return new Status(value as StatusType);
+  public static create(value: string): Status {
+    if (
+      !['Pendiente', 'Procesando', 'Pausado', 'Detenido', 'Finalizado'].includes(
+        value.toUpperCase(),
+      )
+    ) {
+      throw new Error('LEl estado del proceso es inválido.');
     }
 
-    value(): StatusType {
-        return this._value;
-    }
+    return new Status(value as StatusType);
+  }
+
+  value(): StatusType {
+    return this._value;
+  }
 }
 
-type StatusType = 'En espera' | 'Procesando' | 'Pausado' | 'Detenido' | 'Finalizado';
+type StatusType = 'Pendiente' | 'Procesando' | 'Pausado' | 'Detenido' | 'Finalizado';

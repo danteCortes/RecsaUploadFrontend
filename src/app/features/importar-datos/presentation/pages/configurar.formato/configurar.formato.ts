@@ -1,10 +1,7 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'configurar-datos',
-    templateUrl: './configurar.formato.html'
+  selector: 'app-configurar-datos',
+  templateUrl: './configurar.formato.html',
 })
-
-export class ConfigurarFormato {
-    
-}
+export class ConfigurarFormato {}

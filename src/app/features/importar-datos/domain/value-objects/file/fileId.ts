@@ -1,15 +1,13 @@
-export class FileId
-{
-    private constructor(private _value: string) {}
-    
-    public static create(value: string): FileId {
-        if(value.trim() === '')
-            throw new Error("El id del archivo no debe estar vacío");
+export class FileId {
+  private constructor(private _value: string) {}
 
-        return new FileId(value);
-    }
+  public static create(value: string): FileId {
+    if (value.trim() === '') throw new Error('El id del archivo no debe estar vacío');
 
-    value(): string {
-        return this._value;
-    }
+    return new FileId(value);
+  }
+
+  value(): string {
+    return this._value;
+  }
 }

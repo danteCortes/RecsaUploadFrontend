@@ -1,12 +1,11 @@
-import { File } from "../entities/file";
-import { Process } from "../entities/process";
-import { ProcessId } from "../value-objects/process/processId";
+import type { File } from '../entities/file';
+import type { Process } from '../entities/process';
+import type { ProcessId } from '../value-objects/process/processId';
 
-export interface ProcessRepository
-{
-    saveProces(entity: Process): Promise<Process>;
-    updateProces(entity: Process): Promise<Process>;
-    findProces(): Promise<Process | null>;
-    showProces(id: ProcessId): Promise<Process>;
-    getFilesByProces(id: ProcessId): Promise<File[]>;
+export interface ProcessRepository {
+  saveProcess(entity: Process): Promise<Process>;
+  updateProcess(entity: Process): Promise<Process>;
+  findProcess(): Promise<Process | null>;
+  showProcess(id: ProcessId): Promise<Process>;
+  getFilesByProcess(id: ProcessId): Promise<File[]>;
 }
