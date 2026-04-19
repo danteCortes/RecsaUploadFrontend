@@ -64,12 +64,12 @@
             <fa-icon [icon]="faFileLines" class="text-white" />
           </div>
           <div class="flex-1">
-            <p class="font-medium text-[#1A1614]">{{ file.name }}</p>
+            <p class="font-medium text-[#1A1614]">{{ file.file.name }}</p>
             <div class="flex items-center gap-3 mt-1">
               <span class="text-sm text-[#1A1614]/50">{{ formatFileSize(file.size) }}</span>
               <span class="w-1 h-1 rounded-full bg-[#E4DDD1]"></span>
               <span class="text-sm px-2 py-0.5 rounded bg-[#2D9596]/10 text-[#2D9596]"
-                >{{ getFileExtension(file) }} detectado</span
+                >{{ getFileExtension(file.file) }} detectado</span
               >
             </div>
           </div>
@@ -84,7 +84,7 @@
   </div>
   <div class="flex justify-end">
     <button
-      disabled
+      [disabled]="files().length === 0"
       class="px-8 py-3 rounded-xl bg-gradient-to-r from-[#1E3A5F] to-[#2D9596] text-white font-medium shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-2"
     >
       Continuar

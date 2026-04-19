@@ -23,6 +23,7 @@ export class ImportarDatosIndex implements OnInit {
   private service: ProcessService = inject(ProcessService);
 
   readonly files = this.service.files;
+  readonly processId = this.service.processId;
 
   faArrowUpFromBracket = faArrowUpFromBracket;
   faCog = faCog;
@@ -38,17 +39,19 @@ export class ImportarDatosIndex implements OnInit {
     if (processId) {
       console.log('Acá buscamos los archivos');
       const data = await this.service.getFiles(processId);
-      this.service.files.set(data.map((f) => new File([], f.name)));
+      this.processId.set(processId);
+      this.service.files.set(data.map((f) => ({ size: f.size, file: new File([], f.name) })));
     } else {
       console.log('Acá buscamos un proceso guardado, si no hay creamos uno.');
-      const process = await this.service.save({
+      const response = await this.service.save({
         company: null,
         layout: null,
         load_type: null,
         process_type: null,
         responsible: null,
       });
-      localStorage.setItem('process_id', process.id);
+      localStorage.setItem('process_id', response.id);
+      this.processId.set(response.id);
     }
   }
 

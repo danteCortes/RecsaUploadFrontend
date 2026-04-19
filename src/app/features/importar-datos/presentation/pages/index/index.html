@@ -76,7 +76,9 @@
                   <fa-icon [icon]="faDatabase" class="text-[#1E3A5F]" />
                   <span class="text-sm text-[#1A1614]/70">Formatos</span>
                 </div>
-                <span class="font-medium text-sm text-[#1E3A5F]">{{ getExtensions(files()) }}</span>
+                <span class="font-medium text-sm text-[#1E3A5F]">{{
+                  getExtensions(files().map((f) => f.file))
+                }}</span>
               </div>
             </div>
             <div class="pt-6 border-t border-[#E4DDD1]">

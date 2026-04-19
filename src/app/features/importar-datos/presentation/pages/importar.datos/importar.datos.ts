@@ -11,6 +11,7 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { ProcessService } from '../../../infrastructure/services/process.service';
+import { FileService } from '../../../infrastructure/services/file.service';
 
 @Component({
   selector: 'app-importar-datos',
@@ -27,9 +28,10 @@ export class ImportarDatos {
   faFileLines = faFileLines;
   faXmark = faXmark;
 
-  private service: ProcessService = inject(ProcessService);
+  private processService: ProcessService = inject(ProcessService);
+  private fileService: FileService = inject(FileService);
 
-  readonly files = this.service.files;
+  readonly files = this.processService.files;
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -50,7 +52,7 @@ export class ImportarDatos {
     }
   }
 
-  addFiles(fileList: FileList) {
+  async addFiles(fileList: FileList) {
     const allowedExtensions = ['xml', 'csv', 'json', 'xlsx', 'txt'];
 
     const newFiles = Array.from(fileList);
@@ -61,10 +63,18 @@ export class ImportarDatos {
     });
 
     const uniqueFiles = validFiles.filter(
-      (newFile) => !this.files().some((f) => f.name === newFile.name),
+      (newFile) => !this.files().some((f) => f.file.name === newFile.name),
     );
 
-    this.files.update((current) => [...current, ...uniqueFiles]);
+    const processId = this.processService.processId();
+    if (!processId) return;
+
+    await this.fileService.save(uniqueFiles, processId);
+
+    this.files.update((current) => [
+      ...current,
+      ...uniqueFiles.map((f) => ({ size: f.size, file: f })),
+    ]);
   }
 
   formatFileSize(bytes: number): string {

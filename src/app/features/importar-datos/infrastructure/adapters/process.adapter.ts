@@ -8,7 +8,6 @@ import type { ProcessDTO } from '../dtos/process.dto';
 import { ProcessMapper } from '../mappers/process.mapper';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import type { FileDTO } from '../dtos/file.dto';
 import { FileFactory } from '../../domain/factories/file.factory';
 
 @Injectable({ providedIn: 'root' })
@@ -53,25 +52,36 @@ export class ProcessAdapter implements ProcessRepository {
   async getFilesByProcess(id: ProcessId): Promise<File[]> {
     try {
       const data = await firstValueFrom(
-        this.http.get<{ importFiles: FileDTO[] }>(
-          `${environment.apiUrl}/process-config/${id.value()}/files`,
-        ),
+        this.http.get<{
+          importFiles: {
+            id: string;
+            processConfig: string;
+            fileName: string;
+            fileFormat: string;
+            fileSize: number;
+            storagePath: string;
+            fileDelimiter: string | null;
+            fileEncoding: string | null;
+            decimalSeparator: string | null;
+            spreadsheet: number | null;
+          }[];
+        }>(`${environment.apiUrl}/process-config/${id.value()}/files`),
       );
 
       return data.importFiles.map((file) =>
         FileFactory.fromPrimitives(
           file.id,
-          file.process,
-          file.name,
-          file.format,
-          file.size,
-          file.path,
-          file.delimiter,
-          file.codification,
-          file.separator,
+          file.processConfig,
+          file.fileName,
+          file.fileFormat,
+          file.fileSize,
+          file.storagePath,
+          file.fileDelimiter,
+          file.fileEncoding,
+          file.decimalSeparator,
           file.spreadsheet,
-          file.status,
-          file.key,
+          false,
+          null,
         ),
       );
     } catch (error: unknown) {

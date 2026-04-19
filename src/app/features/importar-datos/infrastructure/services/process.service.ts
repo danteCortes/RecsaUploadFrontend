@@ -13,7 +13,14 @@ export class ProcessService {
   private saveUseCase: SaveProcessUseCase = new SaveProcessUseCase(this.repository);
   private getFilesUseCase: GetFilesByProcessUseCase = new GetFilesByProcessUseCase(this.repository);
 
-  readonly files = signal<File[]>([]);
+  readonly files = signal<
+    {
+      size: number;
+      file: File;
+    }[]
+  >([]);
+
+  readonly processId = signal<string | null>(null);
 
   async save(request: SaveProcessRequest): Promise<ProcessDTO> {
     const dto = new SaveProcessDTO(
