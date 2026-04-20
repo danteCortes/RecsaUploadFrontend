@@ -1,38 +1,20 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import {
-  faArrowUpFromBracket,
-  faCheck,
-  faCheckSquare,
-  faCog,
-  faDatabase,
-  faPaperPlane,
-  faFileLines,
-  faXmark,
-} from '@fortawesome/free-solid-svg-icons';
 import { ProcessService } from '../../../infrastructure/services/process.service';
+import { ImportarDatosHeader } from '../../components/header/header';
+import { ImportDatasSummary } from '../../components/summary/summary';
 
 @Component({
   selector: 'app-importar-datos-index',
   templateUrl: './index.html',
-  imports: [FaIconComponent, RouterOutlet],
+  imports: [RouterOutlet, ImportarDatosHeader, ImportDatasSummary],
 })
 export class ImportarDatosIndex implements OnInit {
   private service: ProcessService = inject(ProcessService);
 
   readonly files = this.service.files;
   readonly processId = this.service.processId;
-
-  faArrowUpFromBracket = faArrowUpFromBracket;
-  faCog = faCog;
-  faCheckSquare = faCheckSquare;
-  faDatabase = faDatabase;
-  faPaperPlane = faPaperPlane;
-  faCheck = faCheck;
-  faFileLines = faFileLines;
-  faXmark = faXmark;
 
   async ngOnInit() {
     const processId = localStorage.getItem('process_id');
@@ -55,15 +37,5 @@ export class ImportarDatosIndex implements OnInit {
       localStorage.setItem('process_id', response.id);
       this.processId.set(response.id);
     }
-  }
-
-  getExtensions(files: File[]): string {
-    const extensions = files
-      .map((file) => file.name.split('.').pop()?.toLowerCase() ?? '')
-      .filter((ext) => ext !== '');
-
-    const unique = Array.from(new Set(extensions));
-
-    return unique.map((ext) => ext.toUpperCase()).join(', ');
   }
 }

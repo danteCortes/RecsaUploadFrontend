@@ -12,11 +12,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ProcessService } from '../../../infrastructure/services/process.service';
 import { FileService } from '../../../infrastructure/services/file.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-importar-datos',
   templateUrl: './importar.datos.html',
-  imports: [FaIconComponent],
+  imports: [FaIconComponent, RouterLink],
 })
 export class ImportarDatos {
   faArrowUpFromBracket = faArrowUpFromBracket;

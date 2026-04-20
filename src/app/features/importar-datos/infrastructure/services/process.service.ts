@@ -22,6 +22,7 @@ export class ProcessService {
   >([]);
 
   readonly processId = signal<string | null>(null);
+  readonly currentStep = signal<1 | 2 | 3 | 4 | 5>(1);
 
   async save(request: SaveProcessRequest): Promise<ProcessDTO> {
     const dto = new SaveProcessDTO(

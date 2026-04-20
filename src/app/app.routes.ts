@@ -18,7 +18,7 @@ export const routes: Routes = [
         component: ImportarDatos,
       },
       {
-        path: '',
+        path: 'formato',
         component: ConfigurarFormato,
       },
     ],
