@@ -21,11 +21,12 @@ import { SaveProcessRequest } from '../../../infrastructure/requests/save.proces
 import { FormsModule } from '@angular/forms';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs/operators';
+import { ConfigurarArchivo } from '../../components/configurar.archivo/configurar.archivo';
 
 @Component({
   selector: 'app-configurar-datos',
   templateUrl: './configurar.formato.html',
-  imports: [FaIconComponent, RouterLink, FormsModule],
+  imports: [FaIconComponent, RouterLink, FormsModule, ConfigurarArchivo],
 })
 export class ConfigurarFormato implements OnInit {
   constructor() {

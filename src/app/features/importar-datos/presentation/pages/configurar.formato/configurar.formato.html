@@ -151,56 +151,9 @@
         </div>
       </div>
     }
-    <div class="space-y-4">
+    <div class="flex flex-col gap-4">
       @for (file of files(); track $index) {
-        <div
-          class="p-5 rounded-xl border-2 transition-all border-[#E4DDD1] bg-white"
-          style="opacity: 1; transform: none"
-        >
-          <div class="flex items-center gap-3 mb-4">
-            <div class="flex flex-col items-center gap-1 flex-shrink-0">
-              <div
-                class="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-[#E8A838] to-[#C68B28] text-white font-bold text-lg shadow-md"
-              >
-                {{ $index + 1 }}
-              </div>
-              <div class="flex gap-0.5">
-                <button
-                  [disabled]="$index === 0"
-                  class="p-1 rounded hover:bg-[#1E3A5F]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  title="Mover arriba"
-                >
-                  <fa-icon [icon]="faAngleUp" class="w-3.5 h-3.5 text-[#1E3A5F]" />
-                </button>
-                <button
-                  [disabled]="$index === files().length - 1"
-                  class="p-1 rounded hover:bg-[#1E3A5F]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  title="Mover abajo"
-                >
-                  <fa-icon [icon]="faAngleDown" class="w-3.5 h-3.5 text-[#1E3A5F]" />
-                </button>
-              </div>
-            </div>
-            <button class="flex-1 flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div
-                  class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center"
-                >
-                  <fa-icon [icon]="faFileLines" class="text-white" />
-                </div>
-                <div class="text-left">
-                  <p class="font-medium text-[#1A1614]">{{ file.file.name }}</p>
-                  <p class="text-sm text-[#1A1614]/50">
-                    {{ getFileExtension(file.file) }} • Sin configurar
-                  </p>
-                </div>
-              </div>
-              <span class="px-3 py-1 rounded-full bg-[#E8A838]/10 text-[#E8A838] text-sm"
-                >Pendiente</span
-              >
-            </button>
-          </div>
-        </div>
+        <app-configure-file [file]="file" [index]="$index" />
       }
     </div>
   </div>

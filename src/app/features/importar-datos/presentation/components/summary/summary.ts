@@ -48,7 +48,6 @@ export class ImportDatasSummary {
 
   getWidth(): string {
     const part = this.paths.indexOf(this.router.url) + 1;
-    console.log(part);
     return `w-${part}/5`;
   }
 }
