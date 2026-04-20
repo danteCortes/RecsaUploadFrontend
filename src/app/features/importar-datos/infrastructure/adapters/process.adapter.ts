@@ -39,12 +39,35 @@ export class ProcessAdapter implements ProcessRepository {
     }
   }
 
-  updateProcess(entity: Process): Promise<Process> {
-    throw new Error('Method not implemented.' + entity.id()?.value());
+  async updateProcess(entity: Process, id: string): Promise<Process> {
+    try {
+      const request = ProcessMapper.entityToSaveRequest(entity);
+
+      const data = await firstValueFrom(
+        this.http.put<ProcessDTO>(`${environment.apiUrl}/process-config/${id}`, request),
+      );
+
+      return ProcessMapper.dtoToEntity(data);
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        throw new Error(
+          error.error?.message || 'Error al comunicarse con el servidor',
+          { cause: error }, // 👈 CLAVE
+        );
+      }
+
+      if (error instanceof Error) {
+        throw new Error(error.message, { cause: error }); // 👈 CLAVE
+      }
+
+      throw new Error('Error inesperado en infraestructura', { cause: error });
+    }
   }
+
   findProcess(): Promise<Process | null> {
     throw new Error('Method not implemented.');
   }
+
   showProcess(id: ProcessId): Promise<Process> {
     throw new Error('Method not implemented.' + id.value());
   }
