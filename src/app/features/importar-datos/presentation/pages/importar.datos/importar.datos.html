@@ -76,6 +76,7 @@
         </div>
         <button
           class="p-2 rounded-lg hover:bg-[#D16666]/10 text-[#D16666] transition-colors opacity-0 group-hover:opacity-100"
+          (click)="deleteFile(file.id ? file.id : '')"
         >
           <fa-icon [icon]="faXmark" />
         </button>

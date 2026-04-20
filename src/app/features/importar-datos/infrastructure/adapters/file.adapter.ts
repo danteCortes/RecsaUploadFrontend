@@ -62,4 +62,8 @@ export class FileAdapter implements FileRepository {
   async previewFile(id: FileId): Promise<FilePreview> {
     throw new Error('Method not implemented.' + id);
   }
+
+  async deleteFile(id: FileId): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`${environment.apiUrl}/import-file/${id.value()}`));
+  }
 }

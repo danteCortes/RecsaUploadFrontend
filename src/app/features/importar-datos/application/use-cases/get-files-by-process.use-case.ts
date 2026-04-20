@@ -9,7 +9,7 @@ export class GetFilesByProcessUseCase {
     const files = await this.repository.getFilesByProcess(ProcessId.create(id));
 
     return files.map((file) => ({
-      id: id,
+      id: file.id()?.value() ?? '',
       process: file.process().value(),
       name: file.name().value(),
       format: file.format().value(),

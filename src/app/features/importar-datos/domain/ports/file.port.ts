@@ -6,4 +6,5 @@ export interface FileRepository {
   uploadFiles(files: globalThis.File[], process: string): Promise<File[]>;
   updateFile(file: File): Promise<File>;
   previewFile(id: FileId): Promise<FilePreview>;
+  deleteFile(id: FileId): Promise<void>;
 }

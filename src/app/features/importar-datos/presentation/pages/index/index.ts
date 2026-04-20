@@ -40,7 +40,9 @@ export class ImportarDatosIndex implements OnInit {
       console.log('Acá buscamos los archivos');
       const data = await this.service.getFiles(processId);
       this.processId.set(processId);
-      this.service.files.set(data.map((f) => ({ size: f.size, file: new File([], f.name) })));
+      this.service.files.set(
+        data.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })),
+      );
     } else {
       console.log('Acá buscamos un proceso guardado, si no hay creamos uno.');
       const response = await this.service.save({

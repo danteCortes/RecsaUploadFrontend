@@ -69,12 +69,23 @@ export class ImportarDatos {
     const processId = this.processService.processId();
     if (!processId) return;
 
-    await this.fileService.save(uniqueFiles, processId);
+    const response = await this.fileService.save(uniqueFiles, processId);
 
     this.files.update((current) => [
       ...current,
-      ...uniqueFiles.map((f) => ({ size: f.size, file: f })),
+      ...response.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })),
     ]);
+  }
+
+  async deleteFile(id: string) {
+    const processId = this.processService.processId();
+    if (!processId) return;
+
+    await this.fileService.delete(id);
+
+    const data = await this.processService.getFiles(processId);
+
+    this.files.set(data.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })));
   }
 
   formatFileSize(bytes: number): string {

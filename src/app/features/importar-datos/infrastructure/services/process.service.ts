@@ -15,6 +15,7 @@ export class ProcessService {
 
   readonly files = signal<
     {
+      id: string | null;
       size: number;
       file: File;
     }[]
