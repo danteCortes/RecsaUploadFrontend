@@ -1,5 +1,6 @@
-export class UpdateFileDTO {
+export class FileResponse {
   constructor(
+    public readonly id: string | null,
     public readonly fileName: string,
     public readonly fileFormat: string,
     public readonly fileSize: number,

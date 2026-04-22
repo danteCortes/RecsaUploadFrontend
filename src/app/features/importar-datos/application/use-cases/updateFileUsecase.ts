@@ -1,44 +1,54 @@
-import { FileFactory } from "../../domain/factories/file.factory";
-import { FileRepository } from "../../domain/ports/file.port";
-import { UpdateFileDTO } from "../dtos/file/updateFileDTO";
-import { FileResponse } from "../responses/file/file.response";
+import { ImportFileFactory } from '../../domain/factories/ImportFileFactory';
+import type { FileRepository } from '../../domain/ports/FilePort';
+import type { UpdateFileDTO } from '../dtos/file/updateFileDTO';
+import { FileResponse } from '../responses/file/FileResponse';
 
 export class UpdateFileUseCase {
+  private constructor(private readonly repository: FileRepository) {}
 
-    constructor(private readonly repository: FileRepository){}
+  static create(repository: FileRepository): UpdateFileUseCase {
+    return new UpdateFileUseCase(repository);
+  }
 
-    async exec(dto: UpdateFileDTO, id: string): Promise<FileResponse> {
+  async exec(dto: UpdateFileDTO, id: string): Promise<FileResponse> {
+    const entity = await this.repository.updateFile(
+      ImportFileFactory.fromPrimitives(
+        id,
+        dto.fileName,
+        dto.fileFormat,
+        dto.fileSize,
+        dto.storagePath,
+        dto.decimalSeparator,
+        dto.fileEncoding,
+        dto.fileDelimiter,
+        dto.spreadsheet,
+        dto.processConfigId,
+        dto.firstRowHeaders,
+        dto.key,
+        dto.position,
+        dto.validRows,
+        dto.duplicatedRows,
+        dto.errorRows,
+      ),
+    );
 
-        const entity = FileFactory.fromPrimitives(
-            id,
-            dto.process_config,
-            dto.name,
-            dto.format,
-            dto.size,
-            dto.path,
-            dto.delimiter,
-            dto.encoding,
-            dto.separator,
-            dto.spreadsheet,
-            true,
-            null
-        );
-
-        const data = await this.repository.updateFile(entity);
-
-        return new FileResponse(
-            id,
-            data.process().value(),
-            data.name().value(),
-            data.format().value(),
-            data.size().value(),
-            data.path().value(),
-            data.separator()?.value() ?? null,
-            data.codification()?.value() ?? null,
-            data.delimiter()?.value() ?? null,
-            data.spreadsheet()?.value() ?? null,
-            data.isConfigurated(),
-            data.key()?.value() ?? null
-        );
-    }
+    return new FileResponse(
+      entity.id()?.value() ?? null,
+      entity.fileName().value(),
+      entity.fileFormat(),
+      entity.fileSize().value(),
+      entity.storagePath().value(),
+      entity.decimalSeparator(),
+      entity.fileEncoding(),
+      entity.fileDelimiter(),
+      entity.spreadsheet()?.value() ?? null,
+      entity.processConfigId().value(),
+      entity.isFirstRowHeaders(),
+      entity.key()?.value() ?? null,
+      entity.position()?.value() ?? null,
+      entity.validRows().value(),
+      entity.duplicatedRows().value(),
+      entity.errorRows().value(),
+    );
+  }
 }

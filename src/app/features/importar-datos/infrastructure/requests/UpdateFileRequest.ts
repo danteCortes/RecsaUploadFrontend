@@ -1,4 +1,4 @@
-export class UpdateFileDTO {
+export class UpdateFileRequest {
   constructor(
     public readonly fileName: string,
     public readonly fileFormat: string,

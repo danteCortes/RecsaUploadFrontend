@@ -11,7 +11,7 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { ProcessService } from '../../../infrastructure/services/process.service';
-import { FileService } from '../../../infrastructure/services/file.service';
+import { FileService } from '../../../infrastructure/services/FileService';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -32,7 +32,8 @@ export class ImportarDatos {
   private processService: ProcessService = inject(ProcessService);
   private fileService: FileService = inject(FileService);
 
-  readonly files = this.processService.files;
+  readonly files = this.fileService.files;
+  readonly importFiles = this.fileService.importFiles;
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -54,6 +55,9 @@ export class ImportarDatos {
   }
 
   async addFiles(fileList: FileList) {
+    const processId = this.processService.processId();
+    if (!processId) return;
+
     const allowedExtensions = ['xml', 'csv', 'json', 'xlsx', 'txt'];
 
     const newFiles = Array.from(fileList);
@@ -64,17 +68,31 @@ export class ImportarDatos {
     });
 
     const uniqueFiles = validFiles.filter(
-      (newFile) => !this.files().some((f) => f.file.name === newFile.name),
+      (newFile) => !this.files().some((f) => f.name === newFile.name),
     );
 
-    const processId = this.processService.processId();
-    if (!processId) return;
+    const response = await this.fileService.uploadFiles(uniqueFiles, processId);
 
-    const response = await this.fileService.save(uniqueFiles, processId);
-
-    this.files.update((current) => [
+    this.importFiles.update((current) => [
       ...current,
-      ...response.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })),
+      ...response.map((fileResponse) => ({
+        id: fileResponse.id,
+        fileName: fileResponse.fileName,
+        fileFormat: fileResponse.fileFormat,
+        fileSize: fileResponse.fileSize,
+        storagePath: fileResponse.storagePath,
+        decimalSeparator: fileResponse.decimalSeparator,
+        fileEncoding: fileResponse.fileEncoding,
+        fileDelimiter: fileResponse.fileDelimiter,
+        spreadsheet: fileResponse.spreadsheet,
+        processConfigId: fileResponse.processConfigId,
+        firstRowHeaders: fileResponse.firstRowHeaders,
+        key: fileResponse.key,
+        position: fileResponse.position,
+        validRows: fileResponse.validRows,
+        duplicatedRows: fileResponse.duplicatedRows,
+        errorRows: fileResponse.errorRows,
+      })),
     ]);
   }
 
@@ -82,11 +100,11 @@ export class ImportarDatos {
     const processId = this.processService.processId();
     if (!processId) return;
 
-    await this.fileService.delete(id);
+    await this.fileService.deleteFile(id);
 
-    const data = await this.processService.getFiles(processId);
+    await this.processService.getFiles(processId);
 
-    this.files.set(data.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })));
+    // this.files.set(data.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })));
   }
 
   formatFileSize(bytes: number): string {
@@ -103,7 +121,7 @@ export class ImportarDatos {
     return `${mb.toFixed(2)} MB`;
   }
 
-  getFileExtension(file: File): string {
-    return file.name.split('.').pop()?.toUpperCase() ?? '';
+  getFileExtension(name: string): string {
+    return name.split('.').pop()?.toUpperCase() ?? '';
   }
 }

@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import type { File } from '../../domain/entities/file';
+import type { File } from '../../domain/entities/ImportFile';
 import type { Process } from '../../domain/entities/process';
 import type { ProcessRepository } from '../../domain/ports/proces.port';
 import type { ProcessId } from '../../domain/value-objects/process/processId';
@@ -8,7 +8,7 @@ import type { ProcessDTO } from '../dtos/process.dto';
 import { ProcessMapper } from '../mappers/process.mapper';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import { FileFactory } from '../../domain/factories/file.factory';
+import { FileFactory } from '../../domain/factories/ImportFileFactory';
 
 @Injectable({ providedIn: 'root' })
 export class ProcessAdapter implements ProcessRepository {

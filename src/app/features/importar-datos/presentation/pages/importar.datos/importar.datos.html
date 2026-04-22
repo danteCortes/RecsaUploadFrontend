@@ -53,7 +53,7 @@
   </div>
   <div class="space-y-3 mb-8">
     <h3 class="text-lg mb-4 text-[#1E3A5F]">Archivos cargados ({{ files().length }})</h3>
-    @for (file of files(); track $index) {
+    @for (file of importFiles(); track $index) {
       <div
         class="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-white to-[#FAF8F5] border border-[#E4DDD1] hover:border-[#2D9596] transition-colors group"
       >
@@ -64,12 +64,12 @@
             <fa-icon [icon]="faFileLines" class="text-white" />
           </div>
           <div class="flex-1">
-            <p class="font-medium text-[#1A1614]">{{ file.file.name }}</p>
+            <p class="font-medium text-[#1A1614]">{{ file.fileName }}</p>
             <div class="flex items-center gap-3 mt-1">
-              <span class="text-sm text-[#1A1614]/50">{{ formatFileSize(file.size) }}</span>
+              <span class="text-sm text-[#1A1614]/50">{{ formatFileSize(file.fileSize) }}</span>
               <span class="w-1 h-1 rounded-full bg-[#E4DDD1]"></span>
               <span class="text-sm px-2 py-0.5 rounded bg-[#2D9596]/10 text-[#2D9596]"
-                >{{ getFileExtension(file.file) }} detectado</span
+                >{{ getFileExtension(file.fileName) }} detectado</span
               >
             </div>
           </div>

@@ -61,13 +61,16 @@ export class ConfigurarArchivo implements OnInit {
         spreadsheet: spreadsheets.length > 0 ? spreadsheets[0] : '',
         firstRowHeaders: true,
       }));
-    } else if(this.getFileExtension(this.file().file) === 'CSV' || this.getFileExtension(this.file().file) === 'TXT'){
+    } else if (
+      this.getFileExtension(this.file().file) === 'CSV' ||
+      this.getFileExtension(this.file().file) === 'TXT'
+    ) {
       this.form.update(() => ({
         delimiter: ';',
         encoding: 'UTF-8',
         separator: ',',
         spreadsheet: '',
-        firstRowHeaders: true
+        firstRowHeaders: true,
       }));
     } else {
       this.form.update(() => ({
@@ -75,7 +78,7 @@ export class ConfigurarArchivo implements OnInit {
         encoding: 'UTF-8',
         separator: '',
         spreadsheet: '',
-        firstRowHeaders: true
+        firstRowHeaders: true,
       }));
     }
   }
@@ -89,6 +92,6 @@ export class ConfigurarArchivo implements OnInit {
   }
 
   async updateConfigurationFile(): Promise<void> {
-    console.log(this.form())
+    console.log(this.form());
   }
 }
