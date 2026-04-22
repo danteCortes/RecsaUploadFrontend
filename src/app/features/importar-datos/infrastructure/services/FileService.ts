@@ -92,4 +92,29 @@ export class FileService {
   async deleteFile(id: string): Promise<void> {
     await this.deleteFileUseCase.exec(id);
   }
+
+  updateImportFile(updatedFile: FileResponse) {
+    this.importFiles.update((files) =>
+      files.map((f) => (f.id === updatedFile.id ? updatedFile : f)),
+    );
+  }
+
+  async swapFiles(indexA: number, indexB: number) {
+    const files = this.importFiles();
+    const fileA = files[indexA];
+    const fileB = files[indexB];
+
+    // Actualizar en BD (los dos intercambian posición)
+    await Promise.all([
+      this.updateFile({ ...fileA, position: indexB + 1 }, fileA.id!),
+      this.updateFile({ ...fileB, position: indexA + 1 }, fileB.id!),
+    ]);
+
+    // Actualizar el signal local
+    this.importFiles.update((current) => {
+      const updated = [...current];
+      [updated[indexA], updated[indexB]] = [updated[indexB], updated[indexA]];
+      return updated;
+    });
+  }
 }

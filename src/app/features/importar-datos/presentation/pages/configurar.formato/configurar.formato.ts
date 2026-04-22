@@ -28,11 +28,13 @@ import { CompanyService } from '../../../infrastructure/services/CompanyService'
 import { LoadTypeService } from '../../../infrastructure/services/LoadTypeService';
 import { ProcessTypeService } from '../../../infrastructure/services/ProcessTypeService';
 import { LayoutService } from '../../../infrastructure/services/LayoutService';
+import { FilePreview } from '../../components/file.preview/file.preview';
+import type { FileResponse } from '../../../application/responses/file/FileResponse';
 
 @Component({
   selector: 'app-configurar-datos',
   templateUrl: './configurar.formato.html',
-  imports: [FaIconComponent, RouterLink, FormsModule, ConfigurarArchivo],
+  imports: [FaIconComponent, RouterLink, FormsModule, ConfigurarArchivo, FilePreview],
 })
 export class ConfigurarFormato implements OnInit {
   constructor() {
@@ -140,9 +142,44 @@ export class ConfigurarFormato implements OnInit {
       this.form().responsible,
     );
 
-    await this.processService.updateProcess(request, id);
+    const response = await this.processService.updateProcess(request, id);
 
+    this.process.set({
+      id: response.id,
+      company: response.company,
+      loadType: response.loadType,
+      processType: response.processType,
+      layout: response.layout,
+      responsible: response.responsible,
+    });
     this.spinSave.set(true);
     setInterval(() => this.spinSave.set(false), 1000);
+  }
+
+  allConfigured(): boolean {
+    // Verificar process
+    const p = this.form();
+    if (!p?.company || !p?.layout_name || !p?.load_type || !p?.process_type || !p?.responsible) {
+      return false;
+    }
+
+    // Verificar que haya al menos un archivo
+    const files = this.importFiles();
+    if (files.length === 0) {
+      return false;
+    }
+
+    // Verificar que todos los archivos estén configurados
+    return files.every((file) => this.isFileConfigured(file));
+  }
+
+  private isFileConfigured(file: FileResponse): boolean {
+    if (file.fileFormat === 'XLSX') {
+      return !!(file.decimalSeparator && file.fileEncoding && file.spreadsheet);
+    } else if (file.fileFormat === 'CSV' || file.fileFormat === 'TXT') {
+      return !!(file.decimalSeparator && file.fileEncoding && file.fileDelimiter);
+    } else {
+      return !!(file.decimalSeparator && file.fileEncoding);
+    }
   }
 }

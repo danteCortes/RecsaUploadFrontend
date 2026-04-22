@@ -1,0 +1,57 @@
+<div
+  class="p-4 rounded-xl bg-gradient-to-r from-white to-[#FAF8F5] border border-[#E4DDD1] overflow-hidden min-w-0 w-full"
+>
+  <div class="flex items-center gap-3 mb-3">
+    <div
+      class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center"
+    >
+      <fa-icon [icon]="faFileLines" class="w-5 h-5 text-white" />
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="font-medium text-[#1A1614]">{{ file().fileName }}</p>
+      <p class="text-sm text-[#1A1614]/50">
+        {{ getFileExtension(file().fileName) }} •
+        {{ isConfigured() ? `Sep: ${file().decimalSeparator}` : 'Sin configurar' }}
+      </p>
+    </div>
+    @if (isConfigured()) {
+      <span
+        class="px-3 py-1 rounded-full bg-[#2D9596]/10 text-[#2D9596] text-sm flex-shrink-0"
+        style="font-weight: 500"
+        >Configurado</span
+      >
+    }
+  </div>
+  @if (isConfigured()) {
+    <div class="mt-3 p-4 bg-[#FAF8F5] rounded-xl border border-[#E4DDD1] w-full min-w-0">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-sm text-[#1A1614]/60">Vista previa de datos (primeras 3 filas)</p>
+        <p class="text-xs text-[#1A1614]/40 flex-shrink-0">
+          ← Deslizá para ver todas las columnas →
+        </p>
+      </div>
+      <div
+        class="w-full max-w-full overflow-x-auto border border-[#E4DDD1] rounded-lg bg-white max-h-64"
+      >
+        <table class="text-sm min-w-full">
+          <thead class="bg-[#1E3A5F] text-white sticky top-0">
+            <tr>
+              @for (header of filePreview().headers; track $index) {
+                <th class="px-4 py-2 text-left font-medium whitespace-nowrap">{{ header }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            @for (row of filePreview().data; track $index) {
+              <tr class="border-t border-[#E4DDD1] hover:bg-[#FAF8F5] transition-colors">
+                @for (cell of row; track $index) {
+                  <td class="px-4 py-2 text-[#1A1614]/70 whitespace-nowrap">{{ cell }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

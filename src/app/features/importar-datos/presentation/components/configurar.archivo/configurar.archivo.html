@@ -15,14 +15,16 @@
       </div>
       <div class="flex gap-0.5">
         <button
-          [disabled]="index() === 0"
+          [disabled]="index() === 0 || isMoving()"
+          (click)="moveUp()"
           class="p-1 rounded hover:bg-[#1E3A5F]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           title="Mover arriba"
         >
           <fa-icon [icon]="faAngleUp" class="w-3.5 h-3.5 text-[#1E3A5F]" />
         </button>
         <button
-          [disabled]="index() === importFiles().length - 1"
+          [disabled]="index() === importFiles().length - 1 || isMoving()"
+          (click)="moveDown()"
           class="p-1 rounded hover:bg-[#1E3A5F]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           title="Mover abajo"
         >
@@ -125,13 +127,22 @@
           >La primera fila contiene encabezados</span
         >
       </span>
-      <button
-        class="mt-4 w-full px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 bg-[#1E3A5F] text-white hover:bg-[#152944] shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md"
-        (click)="updateConfigurationFile()"
-      >
-        <fa-icon [icon]="faSave" />
-        Guardar Configuración
-      </button>
+      @if (isSave()) {
+        <button
+          class="mt-4 w-full px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 bg-[#2D9596] text-white shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md"
+        >
+          <fa-icon [icon]="faCheck" />
+          Configuración guardada
+        </button>
+      } @else {
+        <button
+          class="mt-4 w-full px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 bg-[#1E3A5F] text-white hover:bg-[#152944] shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md"
+          (click)="updateConfigurationFile()"
+        >
+          <fa-icon [icon]="faSave" />
+          Guardar Configuración
+        </button>
+      }
     </div>
   }
 </div>

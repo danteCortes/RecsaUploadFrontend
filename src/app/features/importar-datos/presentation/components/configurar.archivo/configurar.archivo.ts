@@ -53,7 +53,9 @@ export class ConfigurarArchivo implements OnInit {
   });
   readonly index = input<number>(1);
 
+  readonly isMoving = signal(false);
   readonly isOpen = signal<boolean>(false);
+  readonly isSave = signal<boolean>(false);
   readonly spreadsheets = signal<string[]>([]);
   readonly form = signal<{
     delimiter: string;
@@ -117,7 +119,7 @@ export class ConfigurarArchivo implements OnInit {
       if (this.file().decimalSeparator && this.file().fileEncoding && this.file().spreadsheet) {
         return true;
       }
-    } else if (this.file().fileFormat === 'CSV' && this.file().fileFormat === 'TXT') {
+    } else if (this.file().fileFormat === 'CSV' || this.file().fileFormat === 'TXT') {
       if (this.file().decimalSeparator && this.file().fileEncoding && this.file().fileDelimiter) {
         return true;
       }
@@ -133,7 +135,7 @@ export class ConfigurarArchivo implements OnInit {
     const id = this.file().id;
     if (!id) throw new Error('El archivo no tiene un id');
 
-    await this.fileService.updateFile(
+    const data = await this.fileService.updateFile(
       {
         ...this.file(),
         decimalSeparator: this.form().separator,
@@ -145,9 +147,49 @@ export class ConfigurarArchivo implements OnInit {
       },
       id,
     );
+    this.fileService.updateImportFile(data);
 
-    const data = await this.fileService.previewFile(id);
+    this.isSave.set(true);
 
-    console.log(data);
+    setTimeout(() => this.isSave.set(false), 1000);
+  }
+
+  async changePosition(): Promise<void> {
+    const id = this.file().id;
+    if (!id) throw new Error('El archivo no tiene un id');
+
+    const data = await this.fileService.updateFile(
+      {
+        ...this.file(),
+        decimalSeparator: this.form().separator,
+        fileDelimiter: this.form().delimiter,
+        fileEncoding: this.form().encoding,
+        spreadsheet: this.form().spreadsheet,
+        firstRowHeaders: this.form().firstRowHeaders,
+        position: this.index() + 1,
+      },
+      id,
+    );
+    this.fileService.updateImportFile(data);
+
+    this.isSave.set(true);
+
+    setTimeout(() => this.isSave.set(false), 1000);
+  }
+
+  async moveUp() {
+    if (this.index() > 0 && !this.isMoving()) {
+      this.isMoving.set(true);
+      await this.fileService.swapFiles(this.index(), this.index() - 1);
+      this.isMoving.set(false);
+    }
+  }
+
+  async moveDown() {
+    if (this.index() < this.fileService.importFiles().length - 1 && !this.isMoving()) {
+      this.isMoving.set(true);
+      await this.fileService.swapFiles(this.index(), this.index() + 1);
+      this.isMoving.set(false);
+    }
   }
 }
