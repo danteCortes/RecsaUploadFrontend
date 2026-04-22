@@ -133,7 +133,7 @@
       <h3 class="text-lg text-[#1E3A5F]">Configuración de archivos</h3>
     </div>
     <p class="text-sm text-[#1A1614]/60 mb-4">Configurá cada archivo según su tipo y formato</p>
-    @if (files().length > 1) {
+    @if (importFiles().length > 1) {
       <div
         class="mb-6 p-4 rounded-lg bg-gradient-to-r from-[#E8A838]/10 to-[#E8A838]/5 border border-[#E8A838]/30"
       >
@@ -152,14 +152,14 @@
       </div>
     }
     <div class="flex flex-col gap-4">
-      @for (file of files(); track $index) {
+      @for (file of importFiles(); track $index) {
         <app-configure-file [file]="file" [index]="$index" />
       }
     </div>
   </div>
   <div class="space-y-3 mb-8 max-w-full">
     <h3 class="text-lg mb-4 text-[#1E3A5F]" style="font-weight: 600">Vista previa</h3>
-    @for (file of files(); track $index) {
+    @for (file of importFiles(); track $index) {
       <div
         class="p-4 rounded-xl bg-gradient-to-r from-white to-[#FAF8F5] border border-[#E4DDD1] overflow-hidden"
       >
@@ -170,9 +170,9 @@
             <fa-icon [icon]="faFileLines" class="w-5 h-5 text-white" />
           </div>
           <div class="flex-1 min-w-0">
-            <p class="font-medium text-[#1A1614]">{{ file.file.name }}</p>
+            <p class="font-medium text-[#1A1614]">{{ file.fileName }}</p>
             <p class="text-sm text-[#1A1614]/50">
-              {{ getFileExtension(file.file) }} • Sin configurar
+              {{ getFileExtension(file.fileName) }} • Sin configurar
             </p>
           </div>
         </div>

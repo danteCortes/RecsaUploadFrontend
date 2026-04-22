@@ -10,7 +10,7 @@ import {
   faFileLines,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { ProcessService } from '../../../infrastructure/services/process.service';
+import { ProcessService } from '../../../infrastructure/services/ProcessService';
 import { FileService } from '../../../infrastructure/services/FileService';
 import { RouterLink } from '@angular/router';
 
@@ -55,7 +55,7 @@ export class ImportarDatos {
   }
 
   async addFiles(fileList: FileList) {
-    const processId = this.processService.processId();
+    const processId = this.processService.process()?.id;
     if (!processId) return;
 
     const allowedExtensions = ['xml', 'csv', 'json', 'xlsx', 'txt'];
@@ -85,7 +85,7 @@ export class ImportarDatos {
         fileEncoding: fileResponse.fileEncoding,
         fileDelimiter: fileResponse.fileDelimiter,
         spreadsheet: fileResponse.spreadsheet,
-        processConfigId: fileResponse.processConfigId,
+        processConfig: fileResponse.processConfig,
         firstRowHeaders: fileResponse.firstRowHeaders,
         key: fileResponse.key,
         position: fileResponse.position,
@@ -97,14 +97,14 @@ export class ImportarDatos {
   }
 
   async deleteFile(id: string) {
-    const processId = this.processService.processId();
+    const processId = this.processService.process()?.id;
     if (!processId) return;
 
     await this.fileService.deleteFile(id);
 
-    await this.processService.getFiles(processId);
+    const data = await this.processService.filesProcess(processId);
 
-    // this.files.set(data.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })));
+    this.importFiles.set(data);
   }
 
   formatFileSize(bytes: number): string {

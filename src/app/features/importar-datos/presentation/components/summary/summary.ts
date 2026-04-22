@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { faFileLines, faDatabase } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { ProcessService } from '../../../infrastructure/services/process.service';
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { FileService } from '../../../infrastructure/services/FileService';
 
 @Component({
   selector: 'app-import-datas-summary',
@@ -14,10 +14,10 @@ export class ImportDatasSummary {
   faFileLines = faFileLines;
   faDatabase = faDatabase;
 
-  private processService = inject(ProcessService);
+  private fileService = inject(FileService);
   private router = inject(Router);
 
-  readonly files = this.processService.files;
+  readonly files = this.fileService.files;
 
   private paths = [
     '/cargas/importar',

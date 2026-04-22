@@ -1,62 +1,52 @@
-import type { Company } from '../value-objects/process/company';
-import type { LayoutName } from '../value-objects/process/layoutName';
-import type { LoadType } from '../value-objects/process/loadType';
-import type { ProcessId } from '../value-objects/process/processId';
-import type { ProcessType } from '../value-objects/process/processType';
-import type { Responsible } from '../value-objects/process/responsible';
-import type { Status } from '../value-objects/process/status';
+import type { CompanyId } from '../value-objects/process/CompanyId';
+import type { LayoutId } from '../value-objects/process/LayoutId';
+import type { LoadTypeId } from '../value-objects/process/LoadTypeId';
+import type { ProcessId } from '../value-objects/process/ProcessId';
+import type { ProcessTypeId } from '../value-objects/process/ProcessTypeId';
+import type { Responsible } from '../value-objects/process/Responsible';
 
 export class Process {
   private constructor(
     private readonly _id: ProcessId | null,
-    private readonly _company: Company | null,
-    private readonly _loadType: LoadType | null,
-    private readonly _processType: ProcessType | null,
-    private readonly _layoutName: LayoutName | null,
+    private readonly _companyId: CompanyId | null,
+    private readonly _loadTypeId: LoadTypeId | null,
+    private readonly _processTypeId: ProcessTypeId | null,
+    private readonly _layoutId: LayoutId | null,
     private readonly _responsible: Responsible | null,
-    private readonly _status: Status,
   ) {}
 
   static create(
     id: ProcessId | null,
-    company: Company | null,
-    loadType: LoadType | null,
-    processType: ProcessType | null,
-    layoutName: LayoutName | null,
+    companyId: CompanyId | null,
+    loadTypeId: LoadTypeId | null,
+    processTypeId: ProcessTypeId | null,
+    layoutId: LayoutId | null,
     responsible: Responsible | null,
-    status: Status,
   ): Process {
-    if (!id && !company && !loadType && !processType && !layoutName && !responsible && !status)
-      throw new Error('El proceso no debe estar vacío.');
-
-    return new Process(id, company, loadType, processType, layoutName, responsible, status);
+    return new Process(id, companyId, loadTypeId, processTypeId, layoutId, responsible);
   }
 
   id(): ProcessId | null {
     return this._id;
   }
 
-  company(): Company | null {
-    return this._company;
+  companyId(): CompanyId | null {
+    return this._companyId;
   }
 
-  loadType(): LoadType | null {
-    return this._loadType;
+  loadTypeId(): LoadTypeId | null {
+    return this._loadTypeId;
   }
 
-  processType(): ProcessType | null {
-    return this._processType;
+  processTypeId(): ProcessTypeId | null {
+    return this._processTypeId;
   }
 
-  layoutName(): LayoutName | null {
-    return this._layoutName;
+  layoutId(): LayoutId | null {
+    return this._layoutId;
   }
 
   responsible(): Responsible | null {
     return this._responsible;
-  }
-
-  status(): Status {
-    return this._status;
   }
 }

@@ -31,7 +31,7 @@ export class FileService {
       fileEncoding: string | null;
       fileDelimiter: string | null;
       spreadsheet: string | null;
-      processConfigId: string;
+      processConfig: string;
       firstRowHeaders: boolean;
       key: string | null;
       position: number | null;
@@ -69,7 +69,7 @@ export class FileService {
         request.fileEncoding,
         request.fileDelimiter,
         request.spreadsheet,
-        request.processConfigId,
+        request.processConfig,
         request.firstRowHeaders,
         request.key,
         request.position,

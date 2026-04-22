@@ -1,9 +1,10 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ProcessService } from '../../../infrastructure/services/process.service';
+import { ProcessService } from '../../../infrastructure/services/ProcessService';
 import { ImportarDatosHeader } from '../../components/header/header';
 import { ImportDatasSummary } from '../../components/summary/summary';
+import { FileService } from '../../../infrastructure/services/FileService';
 
 @Component({
   selector: 'app-importar-datos-index',
@@ -11,29 +12,31 @@ import { ImportDatasSummary } from '../../components/summary/summary';
   imports: [RouterOutlet, ImportarDatosHeader, ImportDatasSummary],
 })
 export class ImportarDatosIndex implements OnInit {
-  private service: ProcessService = inject(ProcessService);
+  private processService: ProcessService = inject(ProcessService);
+  private fileService: FileService = inject(FileService);
 
-  readonly files = this.service.files;
-  readonly processId = this.service.processId;
+  readonly importFiles = this.fileService.importFiles;
+  readonly process = this.processService.process;
 
   async ngOnInit() {
     const processId = localStorage.getItem('process_id');
     if (processId) {
-      const data = await this.service.getFiles(processId);
-      this.processId.set(processId);
-      this.service.files.set(
-        data.map((f) => ({ id: f.id, size: f.size, file: new File([], f.name) })),
-      );
+      const [files, process] = await Promise.all([
+        this.processService.filesProcess(processId),
+        this.processService.showProcess(processId),
+      ]);
+      this.process.set(process);
+      this.fileService.importFiles.set(files);
     } else {
-      const response = await this.service.save({
+      const response = await this.processService.saveProcess({
         company: null,
         layout: null,
         load_type: null,
         process_type: null,
         responsible: null,
       });
-      localStorage.setItem('process_id', response.id);
-      this.processId.set(response.id);
+      localStorage.setItem('process_id', response.id ?? '');
+      this.process.set(response);
     }
   }
 }

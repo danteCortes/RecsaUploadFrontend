@@ -85,6 +85,7 @@
   </div>
   <div class="flex justify-end">
     <button
+      [disabled]="importFiles().length === 0"
       routerLink="/cargas/importar/formato"
       class="px-8 py-3 rounded-xl bg-gradient-to-r from-[#1E3A5F] to-[#2D9596] text-white font-medium shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-2"
     >

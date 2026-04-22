@@ -15,13 +15,19 @@ import {
   faAngleLeft,
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import { ProcessService } from '../../../infrastructure/services/process.service';
+import { ProcessService } from '../../../infrastructure/services/ProcessService';
 import { RouterLink } from '@angular/router';
-import { SaveProcessRequest } from '../../../infrastructure/requests/save.process.request';
+import { SaveProcessRequest } from '../../../infrastructure/requests/SaveProcessRequest';
 import { FormsModule } from '@angular/forms';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs/operators';
 import { ConfigurarArchivo } from '../../components/configurar.archivo/configurar.archivo';
+import { FileService } from '../../../infrastructure/services/FileService';
+import type { ProcessResponse } from '../../../application/responses/process/ProcessResponse';
+import { CompanyService } from '../../../infrastructure/services/CompanyService';
+import { LoadTypeService } from '../../../infrastructure/services/LoadTypeService';
+import { ProcessTypeService } from '../../../infrastructure/services/ProcessTypeService';
+import { LayoutService } from '../../../infrastructure/services/LayoutService';
 
 @Component({
   selector: 'app-configurar-datos',
@@ -31,22 +37,33 @@ import { ConfigurarArchivo } from '../../components/configurar.archivo/configura
 export class ConfigurarFormato implements OnInit {
   constructor() {
     // Convertir la señal a Observable
-    toObservable(this.processId)
+    toObservable(this.process)
       .pipe(
         // Filtrar solo cuando NO sea null
-        filter((id): id is string => id !== null),
+        filter(
+          (process): process is ProcessResponse & { id: string } =>
+            process !== null && process.id !== null,
+        ),
         // Hacer la petición cada vez que cambie el ID
-        switchMap(() => this.processService.getCurrentProcess()),
+        switchMap((process) => this.processService.showProcess(process.id)),
       )
       .subscribe(() => {
         this.form.set({
-          company: this.currentProcess()?.company ?? '',
-          load_type: this.currentProcess()?.load_type ?? '',
-          layout_name: this.currentProcess()?.layout_name ?? '',
-          process_type: this.currentProcess()?.process_type ?? '',
-          responsible: this.currentProcess()?.responsible ?? '',
+          company: this.process()?.company ?? '',
+          load_type: this.process()?.loadType ?? '',
+          layout_name: this.process()?.layout ?? '',
+          process_type: this.process()?.processType ?? '',
+          responsible: this.process()?.responsible ?? '',
         });
       });
+
+    this.form.set({
+      company: this.process()?.company ?? '',
+      load_type: this.process()?.loadType ?? '',
+      layout_name: this.process()?.layout ?? '',
+      process_type: this.process()?.processType ?? '',
+      responsible: this.process()?.responsible ?? '',
+    });
   }
 
   faDiagramProject = faDiagramProject;
@@ -62,15 +79,20 @@ export class ConfigurarFormato implements OnInit {
   faAngleLeft = faAngleLeft;
   faCheck = faCheck;
 
-  private processService = inject(ProcessService);
+  private processService: ProcessService = inject(ProcessService);
+  private fileService: FileService = inject(FileService);
+  private companyService: CompanyService = inject(CompanyService);
+  private loadTypeService: LoadTypeService = inject(LoadTypeService);
+  private processTypeService: ProcessTypeService = inject(ProcessTypeService);
+  private layoutService: LayoutService = inject(LayoutService);
 
-  readonly files = this.processService.files;
-  readonly processId = this.processService.processId;
-  readonly companies = this.processService.companies;
-  readonly loadTypes = this.processService.loadTypes;
-  readonly layouts = this.processService.layouts;
-  readonly processTypes = this.processService.processTypes;
-  readonly currentProcess = this.processService.currentProcess;
+  readonly importFiles = this.fileService.importFiles;
+  readonly process = this.processService.process;
+
+  readonly companies = this.companyService.companies;
+  readonly loadTypes = this.loadTypeService.loadTypes;
+  readonly processTypes = this.processTypeService.processTypes;
+  readonly layouts = this.layoutService.layouts;
 
   spinSave = signal<boolean>(false);
 
@@ -89,20 +111,25 @@ export class ConfigurarFormato implements OnInit {
   });
 
   async ngOnInit() {
-    await Promise.all([
-      this.processService.getCompanies(),
-      this.processService.getLoadType(),
-      this.processService.getLayouts(),
-      this.processService.getProcessTypes(),
+    const [companies, loadTypes, layouts, processTypes] = await Promise.all([
+      this.companyService.getCompanies(),
+      this.loadTypeService.getLoadTypes(),
+      this.layoutService.getLayouts(),
+      this.processTypeService.getProcessTypes(),
     ]);
+
+    this.companies.set(companies);
+    this.loadTypes.set(loadTypes);
+    this.layouts.set(layouts);
+    this.processTypes.set(processTypes);
   }
 
-  getFileExtension(file: File): string {
-    return file.name.split('.').pop()?.toUpperCase() ?? '';
+  getFileExtension(name: string): string {
+    return name.split('.').pop()?.toUpperCase() ?? '';
   }
 
   async configureProcess(): Promise<void> {
-    const id = this.processId();
+    const id = this.process()?.id;
     if (!id) return;
 
     const request = new SaveProcessRequest(
@@ -113,7 +140,7 @@ export class ConfigurarFormato implements OnInit {
       this.form().responsible,
     );
 
-    await this.processService.configure(request, id);
+    await this.processService.updateProcess(request, id);
 
     this.spinSave.set(true);
     setInterval(() => this.spinSave.set(false), 1000);

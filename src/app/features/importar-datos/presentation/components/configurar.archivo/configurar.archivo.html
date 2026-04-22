@@ -22,7 +22,7 @@
           <fa-icon [icon]="faAngleUp" class="w-3.5 h-3.5 text-[#1E3A5F]" />
         </button>
         <button
-          [disabled]="index() === files().length - 1"
+          [disabled]="index() === importFiles().length - 1"
           class="p-1 rounded hover:bg-[#1E3A5F]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           title="Mover abajo"
         >
@@ -38,19 +38,29 @@
           <fa-icon [icon]="faFileLines" class="text-white" />
         </div>
         <div class="text-left">
-          <p class="font-medium text-[#1A1614]">{{ file().file.name }}</p>
+          <p class="font-medium text-[#1A1614]">{{ file().fileName }}</p>
           <p class="text-sm text-[#1A1614]/50">
-            {{ getFileExtension(file().file) }} • Sin configurar
+            {{ getFileExtension(file().fileName) }} •
+            {{ isConfigured() ? 'Configurado' : 'Sin configurar' }}
           </p>
         </div>
       </div>
-      <span class="px-3 py-1 rounded-full bg-[#E8A838]/10 text-[#E8A838] text-sm">Pendiente</span>
+      @if (isConfigured()) {
+        <span class="px-3 py-1 rounded-full bg-[#2D9596]/10 text-[#2D9596] text-sm">
+          <fa-icon [icon]="faCheck" />
+          Configurado
+        </span>
+      } @else {
+        <span class="px-3 py-1 rounded-full bg-[#E8A838]/10 text-[#E8A838] text-sm">Pendiente</span>
+      }
     </button>
   </div>
   @if (isOpen()) {
     <div class="pt-4 border-t border-[#E4DDD1]">
       <div class="grid grid-cols-2 gap-4">
-        @if (getFileExtension(file().file) === 'TXT' || getFileExtension(file().file) === 'CSV') {
+        @if (
+          getFileExtension(file().fileName) === 'TXT' || getFileExtension(file().fileName) === 'CSV'
+        ) {
           <div>
             <span class="block text-sm mb-2 text-[#1A1614]/70" style="font-weight: 500"
               >Delimitador</span
@@ -91,7 +101,7 @@
             <option value="Windows-1252">Windows-1252</option>
           </select>
         </div>
-        @if (getFileExtension(file().file) === 'XLSX') {
+        @if (getFileExtension(file().fileName) === 'XLSX') {
           <div>
             <span class="block text-sm mb-2 text-[#1A1614]/70" style="font-weight: 500">Hoja</span>
             <select

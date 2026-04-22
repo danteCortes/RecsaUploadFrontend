@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import type { ImportFile } from '../../domain/entities/ImportFile';
 import type { FileRepository } from '../../domain/ports/FilePort';
 import { FilePreview } from '../../domain/value-objects/file/FilePreview';
@@ -12,6 +12,7 @@ import type { FileResponse } from '../../application/responses/file/FileResponse
 import { ImportFileFactory } from '../../domain/factories/ImportFileFactory';
 import { UpdateFileRequest } from '../requests/UpdateFileRequest';
 
+@Injectable({ providedIn: 'root' })
 export class FileAdapter implements FileRepository {
   private http = inject(HttpClient);
 
@@ -47,7 +48,7 @@ export class FileAdapter implements FileRepository {
         data.fileEncoding,
         data.fileDelimiter,
         data.spreadsheet,
-        data.processConfigId,
+        data.processConfig,
         data.firstRowHeaders,
         data.key,
         data.position,
@@ -67,7 +68,7 @@ export class FileAdapter implements FileRepository {
         message: string;
         data: FileResponse;
       }>(
-        `${environment}/import-file/${id}`,
+        `${environment.apiUrl}/import-file/${id.value()}`,
         new UpdateFileRequest(
           file.fileName().value(),
           file.fileFormat(),
@@ -98,7 +99,7 @@ export class FileAdapter implements FileRepository {
       data.data.fileEncoding,
       data.data.fileDelimiter,
       data.data.spreadsheet,
-      data.data.processConfigId,
+      data.data.processConfig,
       data.data.firstRowHeaders,
       data.data.key,
       data.data.position,
@@ -120,6 +121,6 @@ export class FileAdapter implements FileRepository {
   }
 
   async deleteFile(id: ImportFileId): Promise<void> {
-    await firstValueFrom(this.http.delete<void>(`${environment}/import-file/${id.value()}`));
+    await firstValueFrom(this.http.delete<void>(`${environment.apiUrl}/import-file/${id.value()}`));
   }
 }

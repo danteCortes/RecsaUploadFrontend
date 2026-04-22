@@ -1,13 +1,20 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject, input, signal } from '@angular/core';
-import { ProcessService } from '../../../infrastructure/services/process.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faAngleUp, faAngleDown, faFileLines, faSave } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleUp,
+  faAngleDown,
+  faFileLines,
+  faSave,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 import { NgClass } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../../environments/environment';
 import { FormsModule } from '@angular/forms';
+import { FileService } from '../../../infrastructure/services/FileService';
+import type { FileResponse } from '../../../application/responses/file/FileResponse';
 
 @Component({
   selector: 'app-configure-file',
@@ -15,20 +22,34 @@ import { FormsModule } from '@angular/forms';
   imports: [FaIconComponent, NgClass, FormsModule],
 })
 export class ConfigurarArchivo implements OnInit {
-  private processService = inject(ProcessService);
+  private fileService = inject(FileService);
   private http = inject(HttpClient);
 
   faAngleUp = faAngleUp;
   faAngleDown = faAngleDown;
   faFileLines = faFileLines;
   faSave = faSave;
+  faCheck = faCheck;
 
-  readonly files = this.processService.files;
+  readonly importFiles = this.fileService.importFiles;
 
-  readonly file = input<{ id: string | null; size: number; file: File }>({
+  readonly file = input<FileResponse>({
     id: null,
-    size: 0,
-    file: new File([], ''),
+    fileName: '',
+    fileFormat: '',
+    fileSize: 0,
+    storagePath: '',
+    decimalSeparator: null,
+    fileEncoding: null,
+    fileDelimiter: null,
+    spreadsheet: null,
+    processConfig: '',
+    firstRowHeaders: true,
+    key: null,
+    position: null,
+    validRows: 0,
+    duplicatedRows: 0,
+    errorRows: 0,
   });
   readonly index = input<number>(1);
 
@@ -49,21 +70,21 @@ export class ConfigurarArchivo implements OnInit {
   });
 
   async ngOnInit() {
-    if (this.getFileExtension(this.file().file) === 'XLSX') {
+    if (this.getFileExtension(this.file().fileName) === 'XLSX') {
       const spreadsheets = await firstValueFrom(
         this.http.get<string[]>(`${environment.apiUrl}/import-file/${this.file().id}/spreadsheets`),
       );
       this.spreadsheets.update(() => spreadsheets);
       this.form.update(() => ({
-        delimiter: ';',
+        delimiter: '',
         encoding: 'UTF-8',
-        separator: '',
+        separator: ',',
         spreadsheet: spreadsheets.length > 0 ? spreadsheets[0] : '',
         firstRowHeaders: true,
       }));
     } else if (
-      this.getFileExtension(this.file().file) === 'CSV' ||
-      this.getFileExtension(this.file().file) === 'TXT'
+      this.getFileExtension(this.file().fileName) === 'CSV' ||
+      this.getFileExtension(this.file().fileName) === 'TXT'
     ) {
       this.form.update(() => ({
         delimiter: ';',
@@ -74,24 +95,59 @@ export class ConfigurarArchivo implements OnInit {
       }));
     } else {
       this.form.update(() => ({
-        delimiter: ';',
+        delimiter: '',
         encoding: 'UTF-8',
-        separator: '',
+        separator: ',',
         spreadsheet: '',
         firstRowHeaders: true,
       }));
     }
   }
 
-  getFileExtension(file: File): string {
-    return file.name.split('.').pop()?.toUpperCase() ?? '';
+  getFileExtension(name: string): string {
+    return name.split('.').pop()?.toUpperCase() ?? '';
   }
 
   toggle() {
     this.isOpen.update((v) => !v);
   }
 
+  isConfigured(): boolean {
+    if (this.file().fileFormat === 'XLSX') {
+      if (this.file().decimalSeparator && this.file().fileEncoding && this.file().spreadsheet) {
+        return true;
+      }
+    } else if (this.file().fileFormat === 'CSV' && this.file().fileFormat === 'TXT') {
+      if (this.file().decimalSeparator && this.file().fileEncoding && this.file().fileDelimiter) {
+        return true;
+      }
+    } else {
+      if (this.file().decimalSeparator && this.file().fileEncoding) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   async updateConfigurationFile(): Promise<void> {
-    console.log(this.form());
+    const id = this.file().id;
+    if (!id) throw new Error('El archivo no tiene un id');
+
+    await this.fileService.updateFile(
+      {
+        ...this.file(),
+        decimalSeparator: this.form().separator,
+        fileDelimiter: this.form().delimiter,
+        fileEncoding: this.form().encoding,
+        spreadsheet: this.form().spreadsheet,
+        firstRowHeaders: this.form().firstRowHeaders,
+        position: this.index() + 1,
+      },
+      id,
+    );
+
+    const data = await this.fileService.previewFile(id);
+
+    console.log(data);
   }
 }

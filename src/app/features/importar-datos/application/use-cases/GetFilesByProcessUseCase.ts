@@ -1,12 +1,16 @@
-import type { ProcessRepository } from '../../domain/ports/proces.port';
-import { ProcessId } from '../../domain/value-objects/process/processId';
+import type { ProcessRepository } from '../../domain/ports/ProcessPort';
+import { ProcessId } from '../../domain/value-objects/process/ProcessId';
 import { FileResponse } from '../responses/file/FileResponse';
 
 export class GetFilesByProcessUseCase {
-  constructor(private readonly repository: ProcessRepository) {}
+  private constructor(private readonly repository: ProcessRepository) {}
+
+  static create(repository: ProcessRepository): GetFilesByProcessUseCase {
+    return new GetFilesByProcessUseCase(repository);
+  }
 
   async exec(id: string): Promise<FileResponse[]> {
-    const entities = await this.repository.getFilesByProcess(ProcessId.create(id));
+    const entities = await this.repository.files(ProcessId.create(id));
 
     return entities.map(
       (entity) =>

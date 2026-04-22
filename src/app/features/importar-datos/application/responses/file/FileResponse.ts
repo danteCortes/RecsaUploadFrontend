@@ -9,7 +9,7 @@ export class FileResponse {
     public readonly fileEncoding: string | null,
     public readonly fileDelimiter: string | null,
     public readonly spreadsheet: string | null,
-    public readonly processConfigId: string,
+    public readonly processConfig: string,
     public readonly firstRowHeaders: boolean,
     public readonly key: string | null,
     public readonly position: number | null,

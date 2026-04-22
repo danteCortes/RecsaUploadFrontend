@@ -8,7 +8,6 @@ import {
   faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { ProcessService } from '../../../infrastructure/services/process.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,10 +22,7 @@ export class ImportarDatosHeader {
   faDatabase = faDatabase;
   faCheck = faCheck;
 
-  private service = inject(ProcessService);
   private router = inject(Router);
-
-  readonly currentStep = this.service.currentStep;
 
   setBackgroundColor(step: number): string {
     const paths = [
