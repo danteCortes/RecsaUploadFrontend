@@ -9,7 +9,7 @@
         <fa-icon [icon]="faFileLines" class="text-[#1E3A5F]" />
         <span class="text-sm text-[#1A1614]/70">Archivos</span>
       </div>
-      <span class="font-medium text-[#1E3A5F]">{{ files().length }}</span>
+      <span class="font-medium text-[#1E3A5F]">{{ importFiles().length }}</span>
     </div>
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -17,7 +17,7 @@
         <span class="text-sm text-[#1A1614]/70">Formatos</span>
       </div>
       <span class="font-medium text-sm text-[#1E3A5F]">{{
-        getExtensions(files().map((f) => f))
+        getExtensions(importFiles().map((f) => f))
       }}</span>
     </div>
   </div>
@@ -29,7 +29,7 @@
     <div class="h-2 bg-[#E4DDD1] rounded-full overflow-hidden w-full">
       <div
         class="h-full bg-gradient-to-r from-[#1E3A5F] to-[#2D9596] rounded-full"
-        [ngClass]="getWidth()"
+        [style.width]="getPercent()"
       ></div>
     </div>
   </div>

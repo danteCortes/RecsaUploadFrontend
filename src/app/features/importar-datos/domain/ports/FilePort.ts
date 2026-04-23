@@ -1,3 +1,4 @@
+import type { ColumnAssignment } from '../entities/ColumnAssignment';
 import type { ImportFile } from '../entities/ImportFile';
 import type { FilePreview } from '../value-objects/file/FilePreview';
 import type { FileUploadCommand } from '../value-objects/file/FileUploadCommand';
@@ -9,4 +10,5 @@ export interface FileRepository {
   updateFile(file: ImportFile): Promise<ImportFile>;
   previewFile(id: ImportFileId): Promise<FilePreview>;
   deleteFile(id: ImportFileId): Promise<void>;
+  getColumnAssignmentsbyFile(id: ImportFileId): Promise<ColumnAssignment[]>;
 }

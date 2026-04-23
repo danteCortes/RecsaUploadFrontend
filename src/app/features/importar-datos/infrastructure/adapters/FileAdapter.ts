@@ -11,6 +11,9 @@ import type { ProcessConfigId } from '../../domain/value-objects/file/ProcessCon
 import type { FileResponse } from '../../application/responses/file/FileResponse';
 import { ImportFileFactory } from '../../domain/factories/ImportFileFactory';
 import { UpdateFileRequest } from '../requests/UpdateFileRequest';
+import type { ColumnAssignment } from '../../domain/entities/ColumnAssignment';
+import type { ColumnAssignmentResponse } from '../../application/responses/columnAssignment/ColumnAssignmentResponse';
+import { ColumnAssignmentFactory } from '../../domain/factories/ColumnAssignmentFactory';
 
 @Injectable({ providedIn: 'root' })
 export class FileAdapter implements FileRepository {
@@ -122,5 +125,22 @@ export class FileAdapter implements FileRepository {
 
   async deleteFile(id: ImportFileId): Promise<void> {
     await firstValueFrom(this.http.delete<void>(`${environment.apiUrl}/import-file/${id.value()}`));
+  }
+
+  async getColumnAssignmentsbyFile(id: ImportFileId): Promise<ColumnAssignment[]> {
+    const data = await firstValueFrom(
+      this.http.get<ColumnAssignmentResponse[]>(
+        `${environment.apiUrl}/import-file/${id.value()}/column-assignments`,
+      ),
+    );
+
+    return data.map((column) =>
+      ColumnAssignmentFactory.fromPrimitives(
+        column.id,
+        column.import_file_id,
+        column.column_name,
+        column.system_field_id,
+      ),
+    );
   }
 }

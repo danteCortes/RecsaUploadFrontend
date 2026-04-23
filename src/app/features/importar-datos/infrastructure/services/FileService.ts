@@ -9,6 +9,8 @@ import type { UpdateFileRequest } from '../requests/UpdateFileRequest';
 import { UpdateFileDTO } from '../../application/dtos/file/updateFileDTO';
 import type { FileResponse } from '../../application/responses/file/FileResponse';
 import type { FilePreviewResponse } from '../../application/responses/file/FilePreviewResponse';
+import type { ColumnAssignmentResponse } from '../../application/responses/columnAssignment/ColumnAssignmentResponse';
+import { GetColumnAssignmentsByFileUseCase } from '../../application/use-cases/GetColumnAssignmentsByFileUseCase';
 
 @Injectable({ providedIn: 'root' })
 export class FileService {
@@ -18,8 +20,11 @@ export class FileService {
   private updateFileUseCase: UpdateFileUseCase = UpdateFileUseCase.create(this.repository);
   private previewFileUseCase: PreviewFileUseCase = PreviewFileUseCase.create(this.repository);
   private deleteFileUseCase: DeleteFileUseCase = DeleteFileUseCase.create(this.repository);
+  private getColumnAssignmentsByFileUseCase: GetColumnAssignmentsByFileUseCase =
+    GetColumnAssignmentsByFileUseCase.create(this.repository);
 
   readonly files = signal<File[]>([]);
+  readonly columnAssignments = signal<ColumnAssignmentResponse[]>([]);
   readonly importFiles = signal<
     {
       id: string | null;
@@ -91,6 +96,12 @@ export class FileService {
 
   async deleteFile(id: string): Promise<void> {
     await this.deleteFileUseCase.exec(id);
+  }
+
+  async getColumnAssignmentsByFile(id: string): Promise<ColumnAssignmentResponse[]> {
+    const response = await this.getColumnAssignmentsByFileUseCase.exec(id);
+
+    return response;
   }
 
   updateImportFile(updatedFile: FileResponse) {

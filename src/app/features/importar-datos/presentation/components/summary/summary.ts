@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { faFileLines, faDatabase } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
-import { NgClass } from '@angular/common';
 import { FileService } from '../../../infrastructure/services/FileService';
+import type { FileResponse } from '../../../application/responses/file/FileResponse';
 
 @Component({
   selector: 'app-import-datas-summary',
   templateUrl: './summary.html',
-  imports: [FaIconComponent, NgClass],
+  imports: [FaIconComponent],
 })
 export class ImportDatasSummary {
   faFileLines = faFileLines;
@@ -17,7 +17,7 @@ export class ImportDatasSummary {
   private fileService = inject(FileService);
   private router = inject(Router);
 
-  readonly files = this.fileService.files;
+  readonly importFiles = this.fileService.importFiles;
 
   private paths = [
     '/cargas/importar',
@@ -31,9 +31,9 @@ export class ImportDatasSummary {
     return this.paths.indexOf(this.router.url) + 1;
   }
 
-  getExtensions(files: File[]): string {
+  getExtensions(files: FileResponse[]): string {
     const extensions = files
-      .map((file) => file.name.split('.').pop()?.toLowerCase() ?? '')
+      .map((file) => file.fileName.split('.').pop()?.toLowerCase() ?? '')
       .filter((ext) => ext !== '');
 
     const unique = Array.from(new Set(extensions));

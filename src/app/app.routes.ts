@@ -3,6 +3,7 @@ import { Dashboard } from './features/dashboard/presentation/pages/dashboard';
 import { ImportarDatosIndex } from './features/importar-datos/presentation/pages/index/index';
 import { ImportarDatos } from './features/importar-datos/presentation/pages/importar.datos/importar.datos';
 import { ConfigurarFormato } from './features/importar-datos/presentation/pages/configurar.formato/configurar.formato';
+import { CheckColumns } from './features/importar-datos/presentation/pages/check.columns/check.columns';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
       {
         path: 'formato',
         component: ConfigurarFormato,
+      },
+      {
+        path: 'columnas',
+        component: CheckColumns,
       },
     ],
   },
