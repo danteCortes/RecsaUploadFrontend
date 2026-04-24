@@ -3,7 +3,7 @@ export class UploadFilesDTO {
     public readonly files: {
       name: string;
       mimeType: string;
-      content: ArrayBuffer;
+      content: File;
     }[],
     public readonly processConfigId: string,
   ) {}

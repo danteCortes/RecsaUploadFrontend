@@ -53,7 +53,7 @@ export class FileService {
           files.map(async (file) => ({
             name: file.name,
             mimeType: file.type,
-            content: await file.arrayBuffer(),
+            content: file,
           })),
         ),
         processConfigId,

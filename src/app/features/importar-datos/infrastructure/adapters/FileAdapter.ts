@@ -5,7 +5,8 @@ import { FilePreview } from '../../domain/value-objects/file/FilePreview';
 import type { FileUploadCommand } from '../../domain/value-objects/file/FileUploadCommand';
 import type { ImportFileId } from '../../domain/value-objects/file/ImportFileId';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import type { ProcessConfigId } from '../../domain/value-objects/file/ProcessConfigId';
 import type { FileResponse } from '../../application/responses/file/FileResponse';
@@ -18,48 +19,20 @@ import { ColumnAssignmentFactory } from '../../domain/factories/ColumnAssignment
 @Injectable({ providedIn: 'root' })
 export class FileAdapter implements FileRepository {
   private http = inject(HttpClient);
+  private uploadProgress$ = new Subject<number>();
 
   async uploadFiles(
     files: FileUploadCommand[],
     process_config: ProcessConfigId,
   ): Promise<ImportFile[]> {
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append(
-        'files[]',
-        new Blob([file.content()], { type: file.mimeType() }),
-        file.name(),
-      );
-    });
-    formData.append('process_config', process_config.value());
+    const results: ImportFile[] = [];
 
-    const data = await firstValueFrom(
-      this.http.post<{
-        message: string;
-        data: FileResponse[];
-      }>(`${environment.apiUrl}/import-file`, formData),
-    );
+    for (const file of files) {
+      const imported = await this.uploadSingleFileInChunks(file.content(), process_config.value());
+      results.push(imported);
+    }
 
-    return data.data.map((data) =>
-      ImportFileFactory.fromPrimitives(
-        data.id,
-        data.fileName,
-        data.fileFormat,
-        data.fileSize,
-        data.storagePath,
-        data.decimalSeparator,
-        data.fileEncoding,
-        data.fileDelimiter,
-        data.spreadsheet,
-        data.processConfig,
-        data.firstRowHeaders,
-        data.key,
-        data.position,
-        data.validRows,
-        data.duplicatedRows,
-        data.errorRows,
-      ),
-    );
+    return results;
   }
 
   async updateFile(file: ImportFile): Promise<ImportFile> {
@@ -142,5 +115,60 @@ export class FileAdapter implements FileRepository {
         column.system_field_id,
       ),
     );
+  }
+
+  private async uploadSingleFileInChunks(file: File, processConfigId: string): Promise<ImportFile> {
+    const CHUNK_SIZE = 5 * 1024 * 1024; // 5 MB
+    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+    const uploadId = crypto.randomUUID();
+
+    for (let i = 0; i < totalChunks; i++) {
+      const chunk = file.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+      const formData = new FormData();
+      formData.append('chunk', chunk);
+      formData.append('upload_id', uploadId);
+      formData.append('chunk_index', String(i));
+      formData.append('total_chunks', String(totalChunks));
+      formData.append('filename', file.name);
+      formData.append('mime_type', file.type);
+      formData.append('process_config', processConfigId);
+
+      await firstValueFrom(this.http.post(`${environment.apiUrl}/import-file/chunk`, formData));
+
+      // Emite progreso si tienes un Subject/Signal para la barra
+      this.uploadProgress$.next(Math.round(((i + 1) / totalChunks) * 100));
+    }
+
+    // Notifica que terminó y recibe la entidad creada
+    const data = await firstValueFrom(
+      this.http.post<{ data: FileResponse }>(`${environment.apiUrl}/import-file/complete`, {
+        upload_id: uploadId,
+        filename: file.name,
+        process_config: processConfigId,
+      }),
+    );
+
+    return ImportFileFactory.fromPrimitives(
+      data.data.id,
+      data.data.fileName,
+      data.data.fileFormat,
+      data.data.fileSize,
+      data.data.storagePath,
+      data.data.decimalSeparator,
+      data.data.fileEncoding,
+      data.data.fileDelimiter,
+      data.data.spreadsheet,
+      data.data.processConfig,
+      data.data.firstRowHeaders,
+      data.data.key,
+      data.data.position,
+      data.data.validRows,
+      data.data.duplicatedRows,
+      data.data.errorRows,
+    );
+  }
+
+  getUploadProgress$(): Observable<number> {
+    return this.uploadProgress$.asObservable();
   }
 }

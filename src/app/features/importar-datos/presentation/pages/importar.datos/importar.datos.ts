@@ -58,7 +58,7 @@ export class ImportarDatos {
     const processId = this.processService.process()?.id;
     if (!processId) return;
 
-    const allowedExtensions = ['xml', 'csv', 'json', 'xlsx', 'txt'];
+    const allowedExtensions = ['csv', 'xlsx', 'txt'];
 
     const newFiles = Array.from(fileList);
 

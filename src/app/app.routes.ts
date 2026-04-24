@@ -4,6 +4,7 @@ import { ImportarDatosIndex } from './features/importar-datos/presentation/pages
 import { ImportarDatos } from './features/importar-datos/presentation/pages/importar.datos/importar.datos';
 import { ConfigurarFormato } from './features/importar-datos/presentation/pages/configurar.formato/configurar.formato';
 import { CheckColumns } from './features/importar-datos/presentation/pages/check.columns/check.columns';
+import { DataOrigin } from './features/importar-datos/presentation/pages/data.origin/data.origin';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,14 @@ export const routes: Routes = [
       {
         path: 'columnas',
         component: CheckColumns,
+      },
+      {
+        path: 'origen',
+        component: DataOrigin,
+      },
+      {
+        path: 'confirmar',
+        component: ImportarDatos,
       },
     ],
   },

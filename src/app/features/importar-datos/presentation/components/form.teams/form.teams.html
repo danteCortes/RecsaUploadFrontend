@@ -1,0 +1,39 @@
+<div
+  class="mb-8 p-6 rounded-xl bg-gradient-to-br from-[#FAF8F5] to-white border border-[#E4DDD1]"
+  style="opacity: 1; height: auto"
+>
+  <h3 class="text-lg mb-4 text-[#1E3A5F]" style="font-weight: 600">
+    Configuración de Microsoft Teams
+  </h3>
+  <div class="grid grid-cols-1 gap-4">
+    <div>
+      <span class="flex items-center gap-2 text-sm mb-2 text-[#1A1614]/70" style="font-weight: 500">
+        <fa-icon [icon]="faMessage" class="w-4 h-4" />
+        Canal de Teams
+      </span>
+      <input
+        type="text"
+        class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] bg-white focus:outline-none focus:border-[#2D9596] focus:ring-2 focus:ring-[#2D9596]/20 transition-all"
+        placeholder="Equipo / Canal"
+      />
+    </div>
+    <div>
+      <span class="flex items-center gap-2 text-sm mb-2 text-[#1A1614]/70" style="font-weight: 500">
+        <fa-icon [icon]="faFolder" class="w-4 h-4" />
+        Carpeta de archivos
+      </span>
+      <input
+        type="text"
+        class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] bg-white focus:outline-none focus:border-[#2D9596] focus:ring-2 focus:ring-[#2D9596]/20 transition-all"
+        placeholder="Documentos/Importaciones"
+      />
+    </div>
+    <div class="p-4 rounded-lg bg-[#2D9596]/10 border border-[#2D9596]/20">
+      <p class="text-sm text-[#1A1614]/70">
+        <strong>Nota:</strong>
+        El bot monitoreará este canal y procesará automáticamente los archivos compartidos en la
+        carpeta especificada.
+      </p>
+    </div>
+  </div>
+</div>
