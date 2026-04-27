@@ -1,5 +1,5 @@
 import type { ProcessRepository } from '../../domain/ports/ProcessPort';
-import { ProcessId } from '../../domain/value-objects/process/ProcessId';
+import { ProcessId } from '../../domain/value-objects/process/processId';
 import { ProcessResponse } from '../responses/process/ProcessResponse';
 
 export class FindProcessByIdUseCase {

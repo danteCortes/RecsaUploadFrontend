@@ -1,0 +1,143 @@
+<div class="p-8">
+  <!-- Header -->
+  <h1 class="text-3xl font-bold text-[#1E3A5F] mb-1">Bitácora de Cargas</h1>
+  <p class="text-[#1A1614]/60 mb-8">Monitoreá el estado de los procesos de carga</p>
+
+  <!-- Stats cards -->
+  <div class="grid grid-cols-4 gap-4 mb-8">
+    <div class="bg-white rounded-xl border border-[#E4DDD1] p-5 flex items-start justify-between">
+      <div>
+        <p class="text-xs text-[#1A1614]/50 mb-1">Pendientes</p>
+        <p class="text-3xl font-light text-[#1A1614]">{{ pendientes() }}</p>
+      </div>
+      <fa-icon [icon]="faClock" class="text-[#1A1614]/30 text-lg mt-1" />
+    </div>
+    <div class="bg-white rounded-xl border border-[#E4DDD1] p-5 flex items-start justify-between">
+      <div>
+        <p class="text-xs text-[#1A1614]/50 mb-1">Ejecutados</p>
+        <p class="text-3xl font-light text-[#E8A838]">{{ ejecutados() }}</p>
+      </div>
+      <fa-icon [icon]="faSpinner" class="text-[#E8A838]/60 text-lg mt-1" />
+    </div>
+    <div class="bg-white rounded-xl border border-[#E4DDD1] p-5 flex items-start justify-between">
+      <div>
+        <p class="text-xs text-[#1A1614]/50 mb-1">Finalizados</p>
+        <p class="text-3xl font-light text-[#2D9596]">{{ finalizados() }}</p>
+      </div>
+      <fa-icon [icon]="faCircleCheck" class="text-[#2D9596]/60 text-lg mt-1" />
+    </div>
+    <div class="bg-white rounded-xl border border-[#E4DDD1] p-5 flex items-start justify-between">
+      <div>
+        <p class="text-xs text-[#1A1614]/50 mb-1">Con errores</p>
+        <p class="text-3xl font-light text-[#D16666]">{{ conErrores() }}</p>
+      </div>
+      <fa-icon [icon]="faCircleXmark" class="text-[#D16666]/60 text-lg mt-1" />
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="flex items-center gap-3 mb-6">
+    <div class="relative flex-1 max-w-xs">
+      <fa-icon [icon]="faMagnifyingGlass" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm" />
+      <input
+        type="text"
+        placeholder="Buscar..."
+        class="w-full pl-9 pr-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors"
+      />
+    </div>
+    <select class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors">
+      <option>Todas las empresas</option>
+      <option>Empresa Demo S.A.</option>
+      <option>Servicios Integrales Ltda.</option>
+      <option>Tecnología Avanzada Inc.</option>
+    </select>
+    <select class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors">
+      <option>Todos los tipos</option>
+      <option>Flujo</option>
+      <option>Refresco</option>
+    </select>
+    <select class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors">
+      <option>Todos los estados</option>
+      <option>Pendiente</option>
+      <option>Ejecutado</option>
+      <option>Finalizado</option>
+      <option>Error</option>
+    </select>
+  </div>
+
+  <!-- Tabla -->
+  <div class="bg-white rounded-xl border border-[#E4DDD1] overflow-hidden">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-[#E4DDD1] bg-[#FAF8F5]">
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Nombre de la empresa</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Tipo de proceso</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Fecha de inicio</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Estado</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Duración</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Registros</th>
+          <th class="text-right px-6 py-3 text-[#1A1614]/50 font-medium">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (proceso of procesos(); track proceso.fechaInicio) {
+          <tr class="border-b border-[#E4DDD1] last:border-0 hover:bg-[#FAF8F5] transition-colors">
+            <td class="px-6 py-4 text-[#1A1614]/70">{{ proceso.empresa }}</td>
+            <td class="px-6 py-4">
+              <span [class]="tipoBadgeClass(proceso.tipo) + ' px-2.5 py-0.5 rounded-full text-xs font-medium'">
+                {{ proceso.tipo }}
+              </span>
+            </td>
+            <td class="px-6 py-4 text-[#1A1614]/60 font-mono text-xs">{{ proceso.fechaInicio }}</td>
+            <td class="px-6 py-4">
+              <span [class]="estadoColor(proceso.estado) + ' flex items-center gap-1.5 text-xs font-medium'">
+                @if (proceso.estado === 'Finalizado') {
+                  <fa-icon [icon]="faCircleCheck" class="text-sm" />
+                } @else if (proceso.estado === 'Ejecutado') {
+                  <fa-icon [icon]="faSpinner" class="text-sm" />
+                } @else if (proceso.estado === 'Error') {
+                  <fa-icon [icon]="faCircleXmark" class="text-sm" />
+                } @else {
+                  <fa-icon [icon]="faClock" class="text-sm" />
+                }
+                {{ proceso.estado }}
+              </span>
+            </td>
+            <td class="px-6 py-4 text-[#1A1614]/60 text-xs">{{ proceso.duracion }}</td>
+            <td class="px-6 py-4 text-[#1A1614]/60 text-xs">{{ proceso.registros }}</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-end gap-2">
+                @if (proceso.estado === 'Ejecutado') {
+                  <button class="text-[#1A1614]/40 hover:text-[#E8A838] transition-colors p-1">
+                    <fa-icon [icon]="faStop" class="text-xs" />
+                  </button>
+                  <button class="text-[#1A1614]/40 hover:text-[#1E3A5F] transition-colors p-1">
+                    <fa-icon [icon]="faEye" class="text-xs" />
+                  </button>
+                } @else if (proceso.estado === 'Error') {
+                  <button class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors p-1">
+                    <fa-icon [icon]="faRotateRight" class="text-xs" />
+                  </button>
+                  <button class="text-[#1A1614]/40 hover:text-[#1E3A5F] transition-colors p-1">
+                    <fa-icon [icon]="faEye" class="text-xs" />
+                  </button>
+                } @else if (proceso.estado === 'Pendiente') {
+                  <button class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors p-1">
+                    <fa-icon [icon]="faPlay" class="text-xs" />
+                  </button>
+                  <button class="text-[#1A1614]/40 hover:text-[#1E3A5F] transition-colors p-1">
+                    <fa-icon [icon]="faEye" class="text-xs" />
+                  </button>
+                } @else {
+                  <button class="text-[#1A1614]/40 hover:text-[#1E3A5F] transition-colors p-1">
+                    <fa-icon [icon]="faEye" class="text-xs" />
+                  </button>
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

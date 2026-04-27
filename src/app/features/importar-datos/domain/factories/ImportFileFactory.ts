@@ -7,12 +7,12 @@ import { FirstRowHeadersValues } from '../enums/FirstRowHeaders';
 import { DuplicatedRows } from '../value-objects/file/DuplicatedRows';
 import { ErrorRows } from '../value-objects/file/ErrorRows';
 import { FileName } from '../value-objects/file/FileName';
-import { FileSize } from '../value-objects/file/FileSize';
+import { FileSize } from '../value-objects/file/fileSize';
 import { ImportFileId } from '../value-objects/file/ImportFileId';
 import { Key } from '../value-objects/file/Key';
 import { Position } from '../value-objects/file/Position';
 import { ProcessConfigId } from '../value-objects/file/ProcessConfigId';
-import { SpreadSheet } from '../value-objects/file/Spreadsheet';
+import { SpreadSheet } from '../value-objects/file/spreadsheet';
 import { StoragePath } from '../value-objects/file/StoragePath';
 import { ValidRows } from '../value-objects/file/ValidRows';
 

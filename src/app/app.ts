@@ -1,24 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faArrowUpFromBracket,
   faCity,
   faBell,
-  faArrowTrendUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { DropdownMenu } from './shared/components/dropdown.menu/dropdown.menu';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FontAwesomeModule, DropdownMenu],
+  imports: [RouterOutlet, RouterLink, FontAwesomeModule, DropdownMenu],
   templateUrl: './app.html',
 })
 export class App {
   faArrowUpFromBracket = faArrowUpFromBracket;
   faCity = faCity;
   faBell = faBell;
-  faArrowTrendUp = faArrowTrendUp;
 
   menu = [
     {
@@ -28,6 +26,10 @@ export class App {
         {
           text: 'Importar datos',
           href: '/cargas/importar',
+        },
+        {
+          text: 'Bitácora',
+          href: '/cargas/bitacora',
         },
       ],
     },

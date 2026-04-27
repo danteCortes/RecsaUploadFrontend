@@ -1,0 +1,78 @@
+<div class="p-8 max-w-5xl">
+  <!-- Volver -->
+  <a routerLink="/empresas" class="inline-flex items-center gap-2 text-[#2D9596] hover:text-[#1E3A5F] transition-colors mb-6 text-sm font-medium">
+    <fa-icon [icon]="faArrowLeft" class="text-xs" />
+    Volver a empresas
+  </a>
+
+  <h1 class="text-3xl font-bold text-[#1E3A5F] mb-1">Nueva empresa</h1>
+  <p class="text-[#1A1614]/60 mb-8">Completá los datos para crear una nueva empresa</p>
+
+  <!-- Card datos empresa -->
+  <div class="bg-white rounded-xl border border-[#E4DDD1] p-6 mb-6">
+    <h2 class="text-sm font-semibold text-[#D16666] uppercase tracking-wide mb-4">Nueva empresa</h2>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <input
+        type="text"
+        placeholder="Ingrese código"
+        class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors"
+      />
+      <input
+        type="text"
+        placeholder="Ingrese nombre"
+        class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors"
+      />
+      <input
+        type="text"
+        placeholder="Responsable"
+        class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors"
+      />
+      <select class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white">
+        <option value="" disabled selected>País</option>
+        @for (p of paises; track p) {
+          <option [value]="p">{{ p }}</option>
+        }
+      </select>
+    </div>
+    <input
+      type="text"
+      placeholder="Ingrese nombre de fantasía"
+      class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors mb-4"
+    />
+    <div class="flex justify-end gap-3">
+      <a routerLink="/empresas" class="px-4 py-2 rounded-lg border border-[#D16666] text-[#D16666] hover:bg-[#D16666]/5 transition-colors text-sm font-medium">
+        Cancelar
+      </a>
+      <button class="px-4 py-2 rounded-lg bg-[#2D9596] text-white hover:bg-[#257f7f] transition-colors text-sm font-medium">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+  <!-- Card parámetros -->
+  <div class="bg-white rounded-xl border border-[#E4DDD1] p-6">
+    <h2 class="text-sm font-semibold text-[#D16666] uppercase tracking-wide mb-4">Parámetros</h2>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <select class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white">
+        @for (o of opcionesProducto; track o) { <option [value]="o">{{ o }}</option> }
+      </select>
+      <select class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white">
+        @for (o of opcionesArmory; track o) { <option [value]="o">{{ o }}</option> }
+      </select>
+      <select class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white">
+        @for (o of opcionesPaleta; track o) { <option [value]="o">{{ o }}</option> }
+      </select>
+      <select class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white">
+        @for (o of opcionesHomologaciones; track o) { <option [value]="o">{{ o }}</option> }
+      </select>
+    </div>
+    <div class="flex justify-end gap-3">
+      <a routerLink="/empresas" class="px-4 py-2 rounded-lg border border-[#D16666] text-[#D16666] hover:bg-[#D16666]/5 transition-colors text-sm font-medium">
+        Cancelar
+      </a>
+      <button class="px-4 py-2 rounded-lg bg-[#2D9596] text-white hover:bg-[#257f7f] transition-colors text-sm font-medium">
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>

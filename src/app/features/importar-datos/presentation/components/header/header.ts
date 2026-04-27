@@ -26,11 +26,11 @@ export class ImportarDatosHeader {
 
   setBackgroundColor(step: number): string {
     const paths = [
-      '/cargas/importar',
-      '/cargas/importar/formato',
-      '/cargas/importar/columnas',
-      '/cargas/importar/origen',
-      '/cargas/importar/confirmar',
+      '/cargas/importar/manual/nueva',
+      '/cargas/importar/manual/nueva/formato',
+      '/cargas/importar/manual/nueva/columnas',
+      '/cargas/importar/manual/nueva/origen',
+      '/cargas/importar/manual/nueva/confirmar',
     ];
 
     if (paths.indexOf(this.router.url) === step) {

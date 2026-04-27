@@ -1,0 +1,99 @@
+<div class="p-8">
+  <!-- Header -->
+  <div class="flex items-start justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-[#1E3A5F] mb-1">Gestión de empresas</h1>
+      <p class="text-[#1A1614]/60">Administrá las empresas del sistema</p>
+    </div>
+    <a
+      routerLink="/empresas/nueva"
+      class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1E3A5F] text-white hover:bg-[#16304F] transition-colors text-sm font-medium"
+    >
+      <fa-icon [icon]="faPlus" class="text-xs" />
+      Nueva empresa
+    </a>
+  </div>
+
+  <!-- Buscador -->
+  <div class="relative mb-6 max-w-sm">
+    <fa-icon [icon]="faMagnifyingGlass" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm" />
+    <input
+      type="text"
+      placeholder="Buscar por código, nombre..."
+      class="w-full pl-9 pr-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors"
+    />
+  </div>
+
+  <!-- Tabla -->
+  <div class="bg-white rounded-xl border border-[#E4DDD1] overflow-hidden mb-6">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-[#E4DDD1] bg-[#FAF8F5]">
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Código</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Nombre</th>
+          <th class="text-left px-6 py-3 text-[#2D9596] font-medium">Nombre Fantasía</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">País</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Responsable</th>
+          <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Estado</th>
+          <th class="text-right px-6 py-3 text-[#1A1614]/50 font-medium">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (empresa of empresas(); track empresa.codigo) {
+          <tr class="border-b border-[#E4DDD1] last:border-0 hover:bg-[#FAF8F5] transition-colors">
+            <td class="px-6 py-4 text-[#2D9596] font-medium">{{ empresa.codigo }}</td>
+            <td class="px-6 py-4 text-[#1A1614]/70">{{ empresa.nombre }}</td>
+            <td class="px-6 py-4 text-[#2D9596]">{{ empresa.nombreFantasia }}</td>
+            <td class="px-6 py-4 text-[#1A1614]/70">{{ empresa.pais }}</td>
+            <td class="px-6 py-4 text-[#2D9596]">{{ empresa.responsable }}</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-2">
+                <button
+                  (click)="toggleEstado(empresa.codigo)"
+                  [class]="empresa.activo
+                    ? 'relative inline-flex w-10 h-5 rounded-full bg-[#2D9596] transition-colors'
+                    : 'relative inline-flex w-10 h-5 rounded-full bg-[#1A1614]/20 transition-colors'"
+                >
+                  <span
+                    [class]="empresa.activo
+                      ? 'absolute top-0.5 left-5 w-4 h-4 rounded-full bg-white shadow transition-all'
+                      : 'absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-all'"
+                  ></span>
+                </button>
+                <span [class]="empresa.activo ? 'text-[#2D9596] text-xs' : 'text-[#1A1614]/40 text-xs'">
+                  {{ empresa.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-end gap-3">
+                <button class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors">
+                  <fa-icon [icon]="faPen" />
+                </button>
+                <button class="text-[#1A1614]/40 hover:text-[#D16666] transition-colors">
+                  <fa-icon [icon]="faTrash" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-3 gap-4">
+    <div class="bg-white rounded-xl border border-[#E4DDD1] p-5">
+      <p class="text-xs text-[#1A1614]/50 mb-1">Total de empresas</p>
+      <p class="text-3xl font-light text-[#1A1614]">{{ total() }}</p>
+    </div>
+    <div class="bg-white rounded-xl border border-[#E4DDD1] p-5">
+      <p class="text-xs text-[#1A1614]/50 mb-1">Activas</p>
+      <p class="text-3xl font-light text-[#2D9596]">{{ activas() }}</p>
+    </div>
+    <div class="bg-white rounded-xl border border-[#E4DDD1] p-5">
+      <p class="text-xs text-[#1A1614]/50 mb-1">Inactivas</p>
+      <p class="text-3xl font-light text-[#1A1614]/40">{{ inactivas() }}</p>
+    </div>
+  </div>
+</div>

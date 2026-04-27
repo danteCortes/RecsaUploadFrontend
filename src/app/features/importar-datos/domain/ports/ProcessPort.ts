@@ -1,6 +1,6 @@
 import type { ImportFile } from '../entities/ImportFile';
 import type { Process } from '../entities/process';
-import type { ProcessId } from '../value-objects/process/ProcessId';
+import type { ProcessId } from '../value-objects/process/processId';
 
 export interface ProcessRepository {
   save(entity: Process): Promise<Process>;

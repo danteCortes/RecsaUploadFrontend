@@ -1,6 +1,6 @@
 import type { ColumnAssignment } from '../entities/ColumnAssignment';
 import type { ImportFile } from '../entities/ImportFile';
-import type { FilePreview } from '../value-objects/file/FilePreview';
+import type { FilePreview } from '../value-objects/file/filePreview';
 import type { FileUploadCommand } from '../value-objects/file/FileUploadCommand';
 import type { ImportFileId } from '../value-objects/file/ImportFileId';
 import type { ProcessConfigId } from '../value-objects/file/ProcessConfigId';

@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowUpFromBracket, faCity, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
+import { faRobot, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-dashboard',
   imports: [FontAwesomeModule, RouterLink],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
+  faRobot = faRobot;
   faArrowUpFromBracket = faArrowUpFromBracket;
-  faCity = faCity;
-  faArrowTrendUp = faArrowTrendUp;
 }

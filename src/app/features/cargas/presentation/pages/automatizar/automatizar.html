@@ -1,0 +1,104 @@
+<div class="p-8 max-w-4xl">
+  <!-- Volver -->
+  <a routerLink="/cargas/importar" class="inline-flex items-center gap-2 text-[#2D9596] hover:text-[#1E3A5F] transition-colors mb-6 text-sm font-medium">
+    <fa-icon [icon]="faArrowLeft" class="text-xs" />
+    Volver
+  </a>
+
+  <!-- Título -->
+  <h1 class="text-3xl font-bold text-[#1E3A5F] mb-1">Automatizar carga</h1>
+  <p class="text-[#1A1614]/60 mb-8">Configurá el origen de datos para la extracción automática de archivos.</p>
+
+  <!-- Selector de origen -->
+  <p class="text-sm font-semibold text-[#1A1614]/70 uppercase tracking-wide mb-4">Seleccioná el origen de datos</p>
+  <div class="flex gap-4 mb-8">
+    <!-- SFTP -->
+    <button
+      (click)="selectOrigin('sftp')"
+      [ngClass]="originType() === 'sftp'
+        ? 'border-2 border-[#2D9596] bg-[#2D9596]/5'
+        : 'border border-[#1A1614]/15 bg-white hover:border-[#2D9596]/50'"
+      class="flex flex-col items-center gap-3 p-6 rounded-xl w-48 transition-all cursor-pointer"
+    >
+      <div
+        [ngClass]="originType() === 'sftp' ? 'bg-[#2D9596] text-white' : 'bg-[#1E3A5F]/10 text-[#1E3A5F]'"
+        class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+      >
+        <fa-icon [icon]="faServer" />
+      </div>
+      <span class="text-sm font-medium text-[#1A1614]">SFTP</span>
+    </button>
+
+    <!-- Correo electrónico -->
+    <button
+      (click)="selectOrigin('email')"
+      [ngClass]="originType() === 'email'
+        ? 'border-2 border-[#2D9596] bg-[#2D9596]/5'
+        : 'border border-[#1A1614]/15 bg-white hover:border-[#2D9596]/50'"
+      class="flex flex-col items-center gap-3 p-6 rounded-xl w-48 transition-all cursor-pointer"
+    >
+      <div
+        [ngClass]="originType() === 'email' ? 'bg-[#2D9596] text-white' : 'bg-[#1E3A5F]/10 text-[#1E3A5F]'"
+        class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+      >
+        <fa-icon [icon]="faEnvelope" />
+      </div>
+      <span class="text-sm font-medium text-[#1A1614]">Correo electrónico</span>
+    </button>
+
+    <!-- Microsoft Teams -->
+    <button
+      (click)="selectOrigin('teams')"
+      [ngClass]="originType() === 'teams'
+        ? 'border-2 border-[#2D9596] bg-[#2D9596]/5'
+        : 'border border-[#1A1614]/15 bg-white hover:border-[#2D9596]/50'"
+      class="flex flex-col items-center gap-3 p-6 rounded-xl w-48 transition-all cursor-pointer"
+    >
+      <div
+        [ngClass]="originType() === 'teams' ? 'bg-[#2D9596] text-white' : 'bg-[#1E3A5F]/10 text-[#1E3A5F]'"
+        class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+      >
+        <fa-icon [icon]="faComments" />
+      </div>
+      <span class="text-sm font-medium text-[#1A1614]">Microsoft Teams</span>
+    </button>
+  </div>
+
+  <!-- Panel de configuración -->
+  @if (originType()) {
+    <div class="border border-[#1A1614]/15 rounded-xl bg-white p-6">
+      <h2 class="text-lg font-semibold text-[#1E3A5F] mb-6">
+        Configuración de
+        @if (originType() === 'sftp') { SFTP }
+        @if (originType() === 'email') { Correo electrónico }
+        @if (originType() === 'teams') { Microsoft Teams }
+      </h2>
+
+      @if (originType() === 'sftp') {
+        <app-form-sftp />
+      }
+      @if (originType() === 'email') {
+        <app-form-email />
+      }
+      @if (originType() === 'teams') {
+        <app-form-teams />
+      }
+
+      <!-- Acciones -->
+      <div class="flex justify-end gap-3 mt-6 pt-6 border-t border-[#1A1614]/10">
+        <button
+          (click)="cancel()"
+          class="px-5 py-2 rounded-lg border border-[#1A1614]/20 text-[#1A1614]/70 hover:bg-[#1A1614]/5 transition-colors text-sm font-medium"
+        >
+          Cancelar
+        </button>
+        <button
+          disabled
+          class="px-5 py-2 rounded-lg bg-[#2D9596]/40 text-white text-sm font-medium cursor-not-allowed"
+        >
+          Guardar configuración
+        </button>
+      </div>
+    </div>
+  }
+</div>

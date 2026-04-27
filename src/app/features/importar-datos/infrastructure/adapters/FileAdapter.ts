@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import type { ImportFile } from '../../domain/entities/ImportFile';
 import type { FileRepository } from '../../domain/ports/FilePort';
-import { FilePreview } from '../../domain/value-objects/file/FilePreview';
+import { FilePreview } from '../../domain/value-objects/file/filePreview';
 import type { FileUploadCommand } from '../../domain/value-objects/file/FileUploadCommand';
 import type { ImportFileId } from '../../domain/value-objects/file/ImportFileId';
 import { HttpClient } from '@angular/common/http';

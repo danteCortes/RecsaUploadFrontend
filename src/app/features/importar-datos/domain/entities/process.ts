@@ -1,9 +1,9 @@
 import type { CompanyId } from '../value-objects/process/CompanyId';
 import type { LayoutId } from '../value-objects/process/LayoutId';
 import type { LoadTypeId } from '../value-objects/process/LoadTypeId';
-import type { ProcessId } from '../value-objects/process/ProcessId';
+import type { ProcessId } from '../value-objects/process/processId';
 import type { ProcessTypeId } from '../value-objects/process/ProcessTypeId';
-import type { Responsible } from '../value-objects/process/Responsible';
+import type { Responsible } from '../value-objects/process/responsible';
 
 export class Process {
   private constructor(

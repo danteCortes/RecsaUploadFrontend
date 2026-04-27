@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import type { ProcessRepository } from '../../domain/ports/ProcessPort';
 import { HttpClient } from '@angular/common/http';
 import type { Process } from '../../domain/entities/process';
-import type { ProcessId } from '../../domain/value-objects/process/ProcessId';
+import type { ProcessId } from '../../domain/value-objects/process/processId';
 import type { ImportFile } from '../../domain/entities/ImportFile';
 import { firstValueFrom } from 'rxjs';
 import type { ProcessResponse } from '../../application/responses/process/ProcessResponse';
