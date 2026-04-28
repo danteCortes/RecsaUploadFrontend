@@ -108,7 +108,10 @@
             <td class="px-6 py-4">
               <div class="flex items-center justify-end gap-2">
                 @if (proceso.estado === 'Ejecutado') {
-                  <button class="text-[#1A1614]/40 hover:text-[#E8A838] transition-colors p-1">
+                  <button class="text-[#1A1614]/40 hover:text-[#E8A838] transition-colors p-1" title="Pausar">
+                    <fa-icon [icon]="faPause" class="text-xs" />
+                  </button>
+                  <button class="text-[#1A1614]/40 hover:text-[#D16666] transition-colors p-1" title="Detener">
                     <fa-icon [icon]="faStop" class="text-xs" />
                   </button>
                   <button class="text-[#1A1614]/40 hover:text-[#1E3A5F] transition-colors p-1">

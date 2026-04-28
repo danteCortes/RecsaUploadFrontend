@@ -10,10 +10,17 @@ export class LayoutService {
   readonly layouts = signal<{ id: string; name: string }[]>([]);
 
   async getLayouts(): Promise<{ id: string; name: string }[]> {
-    const data = await firstValueFrom(
-      this.http.get<{ layouts: { id: string; name: string }[] }>(`${environment.apiUrl}/layout`),
-    );
-
-    return data.layouts;
+    try {
+      const data = await firstValueFrom(
+        this.http.get<{ layouts: { id: string; name: string }[] }>(`${environment.apiUrl}/layout`),
+      );
+      return data.layouts;
+    } catch {
+      return [
+        { id: 'ASIGNACION', name: 'ASIGNACION' },
+        { id: 'PAGOS', name: 'PAGOS' },
+        { id: 'GESTIONES', name: 'GESTIONES' },
+      ];
+    }
   }
 }

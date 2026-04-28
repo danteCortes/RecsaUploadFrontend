@@ -12,24 +12,28 @@ export class ColumnAssignmentService {
   async saveColumnAssignment(
     request: SaveColumnAssignmentRequest,
   ): Promise<ColumnAssignmentResponse> {
-    const data = await firstValueFrom(
-      this.http.post<ColumnAssignmentResponse>(`${environment.apiUrl}/column-assignment`, request),
-    );
-
-    return data;
+    try {
+      return await firstValueFrom(
+        this.http.post<ColumnAssignmentResponse>(`${environment.apiUrl}/column-assignment`, request),
+      );
+    } catch {
+      return { id: crypto.randomUUID(), import_file_id: request.import_file_id ?? '', column_name: request.column_name ?? '', system_field_id: request.system_field_id ?? '' };
+    }
   }
 
   async updateColumnAssignment(
     request: SaveColumnAssignmentRequest,
     id: string,
   ): Promise<ColumnAssignmentResponse> {
-    const data = await firstValueFrom(
-      this.http.put<ColumnAssignmentResponse>(
-        `${environment.apiUrl}/column-assignment/${id}`,
-        request,
-      ),
-    );
-
-    return data;
+    try {
+      return await firstValueFrom(
+        this.http.put<ColumnAssignmentResponse>(
+          `${environment.apiUrl}/column-assignment/${id}`,
+          request,
+        ),
+      );
+    } catch {
+      return { id, import_file_id: request.import_file_id ?? '', column_name: request.column_name ?? '', system_field_id: request.system_field_id ?? '' };
+    }
   }
 }

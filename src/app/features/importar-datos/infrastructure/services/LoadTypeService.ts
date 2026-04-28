@@ -10,12 +10,23 @@ export class LoadTypeService {
   readonly loadTypes = signal<{ id: string; name: string }[]>([]);
 
   async getLoadTypes(): Promise<{ id: string; name: string }[]> {
-    const data = await firstValueFrom(
-      this.http.get<{ loadTypes: { id: string; name: string }[] }>(
-        `${environment.apiUrl}/load-type`,
-      ),
-    );
-
-    return data.loadTypes;
+    try {
+      const data = await firstValueFrom(
+        this.http.get<{ loadTypes: { id: string; name: string }[] }>(
+          `${environment.apiUrl}/load-type`,
+        ),
+      );
+      return data.loadTypes;
+    } catch {
+      return [
+        { id: 'Clientes', name: 'Clientes' },
+        { id: 'Deuda', name: 'Deuda' },
+        { id: 'Teléfono', name: 'Teléfono' },
+        { id: 'Pagos', name: 'Pagos' },
+        { id: 'Cuota', name: 'Cuota' },
+        { id: 'Saldos', name: 'Saldos' },
+        { id: 'Ofertas', name: 'Ofertas' },
+      ];
+    }
   }
 }

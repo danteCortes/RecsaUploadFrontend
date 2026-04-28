@@ -1,19 +1,14 @@
 import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  faArrowUpFromBracket,
-  faBuilding,
-  faClockRotateLeft,
-} from '@fortawesome/free-solid-svg-icons';
+import { faRobot, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-importar-selector',
   imports: [FontAwesomeModule, RouterLink],
-  templateUrl: './dashboard.html',
+  templateUrl: './importar-selector.html',
 })
-export class Dashboard {
+export class ImportarSelector {
+  faRobot = faRobot;
   faArrowUpFromBracket = faArrowUpFromBracket;
-  faBuilding = faBuilding;
-  faClockRotateLeft = faClockRotateLeft;
 }

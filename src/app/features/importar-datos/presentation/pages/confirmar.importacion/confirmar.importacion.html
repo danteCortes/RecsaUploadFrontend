@@ -1,0 +1,141 @@
+<div class="bg-white rounded-2xl p-8 shadow-lg shadow-[#1E3A5F]/5">
+  <h2 class="text-3xl mb-2 text-[#1E3A5F]">Confirmá la importación</h2>
+  <p class="text-[#1A1614]/60 mb-8">Revisá el resumen antes de procesar</p>
+
+  <!-- Stats cards -->
+  <div class="grid grid-cols-3 gap-4 mb-6">
+    <!-- Filas válidas -->
+    <div class="p-5 rounded-xl border border-[#2D9596]/30 bg-[#2D9596]/5 flex items-center justify-between">
+      <div>
+        <p class="text-sm text-[#1A1614]/60 mb-1">Filas válidas</p>
+        <p class="text-3xl font-bold text-[#2D9596]">{{ totalValidRows() }}</p>
+      </div>
+      <fa-icon [icon]="faCheckCircle" class="text-[#2D9596] text-2xl opacity-60" />
+    </div>
+
+    <!-- Filas con error -->
+    <div
+      class="p-5 rounded-xl border flex items-center justify-between"
+      [ngClass]="totalErrorRows() > 0
+        ? 'border-[#D16666]/30 bg-[#D16666]/5'
+        : 'border-[#E4DDD1] bg-[#FAF8F5]'"
+    >
+      <div>
+        <p class="text-sm text-[#1A1614]/60 mb-1">Filas con error</p>
+        <p
+          class="text-3xl font-bold"
+          [ngClass]="totalErrorRows() > 0 ? 'text-[#D16666]' : 'text-[#1A1614]/40'"
+        >{{ totalErrorRows() }}</p>
+      </div>
+      <fa-icon
+        [icon]="faCircleXmark"
+        class="text-2xl opacity-60"
+        [ngClass]="totalErrorRows() > 0 ? 'text-[#D16666]' : 'text-[#1A1614]/30'"
+      />
+    </div>
+
+    <!-- Duplicados -->
+    <div
+      class="p-5 rounded-xl border flex items-center justify-between"
+      [ngClass]="totalDuplicatedRows() > 0
+        ? 'border-[#E8A838]/30 bg-[#E8A838]/5'
+        : 'border-[#E4DDD1] bg-[#FAF8F5]'"
+    >
+      <div>
+        <p class="text-sm text-[#1A1614]/60 mb-1">Duplicados</p>
+        <p
+          class="text-3xl font-bold"
+          [ngClass]="totalDuplicatedRows() > 0 ? 'text-[#E8A838]' : 'text-[#1A1614]/40'"
+        >{{ totalDuplicatedRows() }}</p>
+      </div>
+      <fa-icon
+        [icon]="faCopy"
+        class="text-2xl opacity-60"
+        [ngClass]="totalDuplicatedRows() > 0 ? 'text-[#E8A838]' : 'text-[#1A1614]/30'"
+      />
+    </div>
+  </div>
+
+  <!-- Advertencia si hay errores -->
+  @if (hasWarnings()) {
+    <div class="mb-6 p-4 rounded-xl border border-[#E8A838]/40 bg-[#E8A838]/8 flex items-start gap-3">
+      <fa-icon [icon]="faWarning" class="text-[#E8A838] mt-0.5 flex-shrink-0" />
+      <div>
+        <p class="font-medium text-[#1A1614] text-sm">Revisá antes de continuar</p>
+        <p class="text-sm text-[#1A1614]/60 mt-0.5">
+          Se encontraron algunos problemas que <span class="font-semibold">deberías</span> revisar antes de procesar.
+        </p>
+      </div>
+    </div>
+  }
+
+  <!-- Archivos a procesar -->
+  <div class="mb-8">
+    <h3 class="text-base font-semibold text-[#1E3A5F] mb-4">Archivos a procesar</h3>
+    <div class="flex flex-col gap-4">
+      @for (file of importFiles(); track $index) {
+        <div class="p-4 rounded-xl border border-[#E4DDD1] bg-[#FAF8F5]">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-linear-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center flex-shrink-0">
+              <fa-icon [icon]="faFileLines" class="text-white" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-medium text-[#1A1614] truncate">{{ file.fileName }}</p>
+              <div class="flex items-center gap-2 flex-wrap mt-1">
+                <span class="px-2 py-0.5 rounded text-xs font-medium bg-[#1E3A5F]/10 text-[#1E3A5F]">
+                  {{ getFileExtension(file.fileName) }}
+                </span>
+                @if (file.fileDelimiter) {
+                  <span class="px-2 py-0.5 rounded text-xs bg-[#E4DDD1] text-[#1A1614]/60">
+                    Separador: {{ file.fileDelimiter }}
+                  </span>
+                }
+                @if (file.key) {
+                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-[#E8A838]/15 text-[#C68B28] flex items-center gap-1">
+                    <fa-icon [icon]="faKey" class="text-xs" />
+                    Clave: {{ file.key }}
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-3 pt-3 border-t border-[#E4DDD1]">
+            <div>
+              <p class="text-xs text-[#1A1614]/50 mb-0.5">Filas válidas</p>
+              <p class="font-semibold text-[#2D9596]">{{ file.validRows }}</p>
+            </div>
+            <div>
+              <p class="text-xs text-[#1A1614]/50 mb-0.5">Con error</p>
+              <p class="font-semibold" [ngClass]="file.errorRows > 0 ? 'text-[#D16666]' : 'text-[#1A1614]/40'">
+                {{ file.errorRows }}
+              </p>
+            </div>
+            <div>
+              <p class="text-xs text-[#1A1614]/50 mb-0.5">Duplicados</p>
+              <p class="font-semibold" [ngClass]="file.duplicatedRows > 0 ? 'text-[#E8A838]' : 'text-[#1A1614]/40'">
+                {{ file.duplicatedRows }}
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Botones navegación -->
+  <div class="flex justify-between">
+    <button
+      routerLink="/cargas/importar/manual/nueva/columnas"
+      class="px-8 py-3 rounded-xl border-2 border-[#E4DDD1] text-[#1A1614] font-medium hover:border-[#1E3A5F] hover:bg-[#FAF8F5] transition-all flex items-center gap-2"
+    >
+      <fa-icon [icon]="faAngleLeft" /> Volver
+    </button>
+    <button
+      (click)="procesarImportacion()"
+      class="px-8 py-3 rounded-xl bg-linear-to-r from-[#1E3A5F] to-[#2D9596] text-white font-medium shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex items-center gap-2"
+    >
+      Procesar importación
+      <fa-icon [icon]="faPaperPlane" />
+    </button>
+  </div>
+</div>

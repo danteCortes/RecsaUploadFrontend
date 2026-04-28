@@ -1,0 +1,71 @@
+<div class="p-8">
+  <div class="mb-10 text-center">
+    <h1 class="text-3xl font-semibold text-[#1E3A5F] mb-2">Importar Datos</h1>
+    <p class="text-[#1A1614]/60">Seleccioná el tipo de carga que deseas realizar</p>
+  </div>
+  <div class="flex justify-center gap-6 flex-wrap">
+
+    <!-- Automatizar carga -->
+    <a routerLink="/cargas/automatizar" class="w-72">
+      <div
+        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-lg shadow-[#1E3A5F]/5 hover:shadow-xl transition-shadow cursor-pointer h-full"
+      >
+        <div
+          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center mb-5 text-white mx-auto"
+        >
+          <fa-icon [icon]="faRobot" class="text-xl" />
+        </div>
+        <h3 class="text-lg font-semibold mb-2 text-[#1E3A5F] text-center">Automatizar carga</h3>
+        <p class="text-sm text-[#1A1614]/60 mb-4 text-center">
+          Configurá el origen de datos para procesos automatizados mediante bot
+        </p>
+        <ul class="space-y-1">
+          <li class="text-sm text-[#2D9596] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#2D9596] inline-block flex-shrink-0"></span>
+            Configurar SFTP, Email o Teams
+          </li>
+          <li class="text-sm text-[#2D9596] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#2D9596] inline-block flex-shrink-0"></span>
+            Extracción automática de archivos
+          </li>
+          <li class="text-sm text-[#2D9596] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#2D9596] inline-block flex-shrink-0"></span>
+            Programación de procesos
+          </li>
+        </ul>
+      </div>
+    </a>
+
+    <!-- Carga manual -->
+    <a routerLink="/cargas/importar/manual" class="w-72">
+      <div
+        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-lg shadow-[#1E3A5F]/5 hover:shadow-xl transition-shadow cursor-pointer h-full"
+      >
+        <div
+          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E8A838] to-[#D16666] flex items-center justify-center mb-5 text-white mx-auto"
+        >
+          <fa-icon [icon]="faArrowUpFromBracket" class="text-xl" />
+        </div>
+        <h3 class="text-lg font-semibold mb-2 text-[#1E3A5F] text-center">Carga manual</h3>
+        <p class="text-sm text-[#1A1614]/60 mb-4 text-center">
+          Cargá archivos manualmente usando configuraciones existentes
+        </p>
+        <ul class="space-y-1">
+          <li class="text-sm text-[#E8A838] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#E8A838] inline-block flex-shrink-0"></span>
+            Usar configuraciones guardadas
+          </li>
+          <li class="text-sm text-[#E8A838] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#E8A838] inline-block flex-shrink-0"></span>
+            Carga inmediata de archivos
+          </li>
+          <li class="text-sm text-[#E8A838] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#E8A838] inline-block flex-shrink-0"></span>
+            Validación y procesamiento
+          </li>
+        </ul>
+      </div>
+    </a>
+
+  </div>
+</div>

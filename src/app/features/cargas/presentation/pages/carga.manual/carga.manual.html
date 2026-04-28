@@ -37,6 +37,7 @@
         <tr class="border-b border-[#E4DDD1] bg-[#FAF8F5]">
           <th class="text-left px-6 py-3 text-[#2D9596] font-medium">Código</th>
           <th class="text-left px-6 py-3 text-[#2D9596] font-medium">Nombre de la empresa</th>
+          <th class="text-left px-6 py-3 text-[#2D9596] font-medium">Nombre de template</th>
           <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">País</th>
           <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Responsable</th>
           <th class="text-left px-6 py-3 text-[#1A1614]/50 font-medium">Estado</th>
@@ -48,6 +49,7 @@
           <tr class="border-b border-[#E4DDD1] last:border-0 hover:bg-[#FAF8F5] transition-colors">
             <td class="px-6 py-4 text-[#2D9596] font-medium">{{ config.codigo }}</td>
             <td class="px-6 py-4 text-[#2D9596]">{{ config.empresa }}</td>
+            <td class="px-6 py-4 text-[#2D9596]">{{ config.templateName }}</td>
             <td class="px-6 py-4 text-[#1A1614]/70">{{ config.pais }}</td>
             <td class="px-6 py-4 text-[#1A1614]/70">{{ config.responsable }}</td>
             <td class="px-6 py-4">
@@ -77,8 +79,8 @@
                 <button class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors">
                   <fa-icon [icon]="faPen" />
                 </button>
-                <button class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors">
-                  <fa-icon [icon]="faDownload" />
+                <button (click)="cargarArchivo(config)" class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors" title="Cargar archivo">
+                  <fa-icon [icon]="faArrowUpFromBracket" />
                 </button>
               </div>
             </td>

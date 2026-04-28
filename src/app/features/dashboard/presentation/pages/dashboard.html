@@ -1,67 +1,55 @@
 <div class="p-8">
-  <div class="mb-10 text-center">
-    <h1 class="text-3xl font-semibold text-[#1E3A5F] mb-2">Importar Datos</h1>
-    <p class="text-[#1A1614]/60">Seleccioná el tipo de carga que deseas realizar</p>
+  <div class="mb-10">
+    <h1 class="text-3xl font-semibold text-[#1E3A5F] mb-2">Bienvenido al sistema de gestión</h1>
+    <p class="text-[#1A1614]/60">Administrá tus empresas, importá datos y gestioná tus procesos</p>
   </div>
-  <div class="flex justify-center gap-6 flex-wrap">
-    <a routerLink="/cargas/automatizar" class="w-72">
+  <div class="flex gap-6 flex-wrap">
+
+    <!-- Importar datos -->
+    <a routerLink="/cargas/importar" class="w-72">
       <div
-        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-lg shadow-[#1E3A5F]/5 hover:shadow-xl transition-shadow cursor-pointer h-full"
+        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full"
       >
         <div
-          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center mb-5 text-white"
+          class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center mb-5 text-white"
         >
-          <fa-icon [icon]="faRobot" class="text-xl" />
+          <fa-icon [icon]="faArrowUpFromBracket" class="text-lg" />
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#1E3A5F]">Automatizar carga</h3>
-        <p class="text-sm text-[#1A1614]/60 mb-4">
-          Configurá el origen de datos para procesos automatizados mediante bot
-        </p>
-        <ul class="space-y-1">
-          <li class="text-sm text-[#1A1614]/60 flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#2D9596] inline-block"></span>
-            Configurar SFTP, Email o Teams
-          </li>
-          <li class="text-sm text-[#1A1614]/60 flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#2D9596] inline-block"></span>
-            Extracción automática de archivos
-          </li>
-          <li class="text-sm text-[#1A1614]/60 flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#2D9596] inline-block"></span>
-            Programación de procesos
-          </li>
-        </ul>
+        <h3 class="text-base font-semibold mb-1 text-[#2D9596]">Importar datos</h3>
+        <p class="text-sm text-[#1A1614]/60">Automatizá cargas o realizá cargas manuales</p>
       </div>
     </a>
-    <a routerLink="/cargas/importar/manual" class="w-72">
+
+    <!-- Gestión de empresas -->
+    <a routerLink="/empresas" class="w-72">
       <div
-        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-lg shadow-[#1E3A5F]/5 hover:shadow-xl transition-shadow cursor-pointer h-full"
+        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full"
       >
         <div
-          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E8A838] to-[#D16666] flex items-center justify-center mb-5 text-white"
+          class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2D9596] to-[#1E3A5F] flex items-center justify-center mb-5 text-white"
         >
-          <fa-icon [icon]="faArrowUpFromBracket" class="text-xl" />
+          <fa-icon [icon]="faBuilding" class="text-lg" />
         </div>
-        <h3 class="text-lg font-semibold mb-2 text-[#1E3A5F]">Carga manual</h3>
-        <p class="text-sm text-[#1A1614]/60 mb-4">
-          Cargá archivos manualmente usando configuraciones existentes
-        </p>
-        <ul class="space-y-1">
-          <li class="text-sm text-[#1A1614]/60 flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#E8A838] inline-block"></span>
-            Usar configuraciones guardadas
-          </li>
-          <li class="text-sm text-[#1A1614]/60 flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#E8A838] inline-block"></span>
-            Carga inmediata de archivos
-          </li>
-          <li class="text-sm text-[#1A1614]/60 flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#E8A838] inline-block"></span>
-            Validación y procesamiento
-          </li>
-        </ul>
+        <h3 class="text-base font-semibold mb-1 text-[#2D9596]">Gestión de empresas</h3>
+        <p class="text-sm text-[#1A1614]/60">Administrá las empresas y sus configuraciones</p>
       </div>
     </a>
+
+    <!-- Bitácora -->
+    <a routerLink="/cargas/bitacora" class="w-72">
+      <div
+        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full"
+      >
+        <div
+          class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#E8A838] to-[#D16666] flex items-center justify-center mb-5 text-white"
+        >
+          <fa-icon [icon]="faClockRotateLeft" class="text-lg" />
+        </div>
+        <h3 class="text-base font-semibold mb-1 text-[#E8A838]">Bitácora</h3>
+        <p class="text-sm text-[#1A1614]/60">Monitoreá el estado de los procesos de carga</p>
+      </div>
+    </a>
+
   </div>
 </div>
 

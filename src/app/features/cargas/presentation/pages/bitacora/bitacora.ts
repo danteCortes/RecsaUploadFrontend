@@ -7,6 +7,7 @@ import {
   faCircleXmark,
   faMagnifyingGlass,
   faPlay,
+  faPause,
   faStop,
   faRotateRight,
   faEye,
@@ -36,6 +37,7 @@ export class Bitacora {
   readonly faCircleXmark = faCircleXmark;
   readonly faMagnifyingGlass = faMagnifyingGlass;
   readonly faPlay = faPlay;
+  readonly faPause = faPause;
   readonly faStop = faStop;
   readonly faRotateRight = faRotateRight;
   readonly faEye = faEye;

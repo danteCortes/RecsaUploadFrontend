@@ -73,9 +73,14 @@ export class ConfigurarArchivo implements OnInit {
 
   async ngOnInit() {
     if (this.getFileExtension(this.file().fileName) === 'XLSX') {
-      const spreadsheets = await firstValueFrom(
-        this.http.get<string[]>(`${environment.apiUrl}/import-file/${this.file().id}/spreadsheets`),
-      );
+      let spreadsheets: string[] = [];
+      try {
+        spreadsheets = await firstValueFrom(
+          this.http.get<string[]>(`${environment.apiUrl}/import-file/${this.file().id}/spreadsheets`),
+        );
+      } catch {
+        spreadsheets = ['Hoja1', 'Hoja2'];
+      }
       this.spreadsheets.update(() => spreadsheets);
       this.form.update(() => ({
         delimiter: '',

@@ -1,130 +1,8 @@
 <div class="bg-white rounded-2xl p-8 shadow-lg shadow-[#1E3A5F]/5 max-w-full overflow-x-hidden">
   <h2 class="text-3xl mb-2 text-[#1E3A5F]">Configurá el formato</h2>
   <p class="text-[#1A1614]/60 mb-8">
-    Definí la información del proceso y cómo se deben leer tus archivos
+    Definí cómo se deben leer tus archivos: delimitador, codificación y encabezados
   </p>
-  <div
-    class="bg-gradient-to-br from-[#1E3A5F]/5 to-[#2D9596]/5 p-6 rounded-xl border border-[#1E3A5F]/20 mb-8"
-  >
-    <div class="flex items-center gap-2 mb-6">
-      <fa-icon [icon]="faDiagramProject" />
-      <h3 class="text-lg text-[#1E3A5F]">Configuración del proceso</h3>
-    </div>
-    <div class="grid grid-cols-2 gap-4 mb-4">
-      <div>
-        <label for="slc-company" class="flex items-center gap-2 text-sm mb-2 text-[#1A1614]/70">
-          <fa-icon [icon]="faCity" />
-          Empresa
-        </label>
-        <select
-          id="slc-company"
-          class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] bg-white focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 transition-all"
-          [(ngModel)]="form().company"
-        >
-          <option value>Seleccioná una empresa</option>
-          @for (company of companies(); track $index) {
-            <option [value]="company.id">{{ company.name }}</option>
-          }
-        </select>
-      </div>
-      <div>
-        <label for="slc-load-type" class="flex items-center gap-2 text-sm mb-2 text-[#1A1614]/70">
-          <fa-icon [icon]="faArrowUpFromBracket" />
-          Tipo de carga
-        </label>
-        <select
-          id="slc-load-type"
-          class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] bg-white focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 transition-all"
-          [(ngModel)]="form().load_type"
-        >
-          <option value>Seleccioná el tipo de carga</option>
-          @for (loadType of loadTypes(); track $index) {
-            <option [value]="loadType.id">{{ loadType.name }}</option>
-          }
-        </select>
-      </div>
-      <div>
-        <label
-          for="slc-process-type"
-          class="flex items-center gap-2 text-sm mb-2 text-[#1A1614]/70"
-        >
-          <fa-icon [icon]="faDiagramProject" />
-          Tipo de proceso
-        </label>
-        <select
-          id="slc-process-type"
-          class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] bg-white focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 transition-all"
-          [(ngModel)]="form().process_type"
-        >
-          <option value>Seleccioná un tipo</option>
-          @for (processType of processTypes(); track $index) {
-            <option [value]="processType.id">{{ processType.name }}</option>
-          }
-        </select>
-      </div>
-      <div>
-        <label for="slc-layout" class="flex items-center gap-2 text-sm mb-2 text-[#1A1614]/70">
-          <fa-icon [icon]="faDatabase" />
-          Nombre de interfaz
-        </label>
-        <select
-          id="slc-layout"
-          class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] bg-white focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 transition-all"
-          [(ngModel)]="form().layout_name"
-        >
-          <option value>Seleccioná una interfaz</option>
-          @for (layout of layouts(); track $index) {
-            <option [value]="layout.id">{{ layout.name }}</option>
-          }
-        </select>
-      </div>
-      <div class="col-span-2">
-        <label for="inp-responsible" class="text-sm mb-2 block text-[#1A1614]/70"
-          >Responsable</label
-        >
-        <input
-          id="inp-responsible"
-          type="text"
-          placeholder="Ingresá el nombre del responsable"
-          class="w-full px-4 py-2.5 rounded-lg border border-[#E4DDD1] bg-white focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/20 transition-all"
-          autocomplete="off"
-          [(ngModel)]="form().responsible"
-        />
-      </div>
-    </div>
-    @if (
-      form().company !== '' &&
-      form().load_type !== '' &&
-      form().process_type !== '' &&
-      form().layout_name !== '' &&
-      form().responsible !== ''
-    ) {
-      @if (spinSave()) {
-        <button
-          class="w-full px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 bg-[#2D9596] text-white shadow-md"
-        >
-          <fa-icon [icon]="faCheck" />
-          Configuración guardada
-        </button>
-      } @else {
-        <button
-          class="w-full px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 bg-[#1E3A5F] text-white hover:bg-[#152944] shadow-md hover:shadow-lg"
-          (click)="configureProcess()"
-        >
-          <fa-icon [icon]="faSave" />
-          Guardar configuración
-        </button>
-      }
-    } @else {
-      <button
-        disabled
-        class="w-full px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 bg-[#E4DDD1] text-[#1A1614]/40 cursor-not-allowed"
-      >
-        <fa-icon [icon]="faSave" />
-        Guardar configuración
-      </button>
-    }
-  </div>
   <div
     class="bg-gradient-to-br from-[#FAF8F5] to-white p-6 rounded-xl border border-[#E4DDD1] mb-8"
   >
@@ -167,7 +45,7 @@
   </div>
   <div class="flex justify-between">
     <button
-      routerLink="/cargas/importar/manual/nueva"
+      routerLink="/cargas/importar/manual/nueva/archivos"
       class="px-8 py-3 rounded-xl border-2 border-[#E4DDD1] text-[#1A1614] font-medium hover:border-[#1E3A5F] hover:bg-[#FAF8F5] transition-all flex items-center gap-2"
     >
       <fa-icon [icon]="faAngleLeft" /> Volver
