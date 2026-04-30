@@ -76,7 +76,9 @@ export class ConfigurarArchivo implements OnInit {
       let spreadsheets: string[] = [];
       try {
         spreadsheets = await firstValueFrom(
-          this.http.get<string[]>(`${environment.apiUrl}/import-file/${this.file().id}/spreadsheets`),
+          this.http.get<string[]>(
+            `${environment.apiUrl}/import-file/${this.file().id}/spreadsheets`,
+          ),
         );
       } catch {
         spreadsheets = ['Hoja1', 'Hoja2'];

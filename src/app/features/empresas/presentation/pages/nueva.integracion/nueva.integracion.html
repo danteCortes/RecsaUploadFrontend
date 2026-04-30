@@ -1,6 +1,9 @@
 <div class="p-8 max-w-5xl">
   <!-- Volver -->
-  <a routerLink="/empresas/interfaces" class="inline-flex items-center gap-2 text-[#2D9596] hover:text-[#1E3A5F] transition-colors mb-6 text-sm font-medium">
+  <a
+    routerLink="/empresas/interfaces"
+    class="inline-flex items-center gap-2 text-[#2D9596] hover:text-[#1E3A5F] transition-colors mb-6 text-sm font-medium"
+  >
     <fa-icon [icon]="faArrowLeft" class="text-xs" />
     Volver a integraciones
   </a>
@@ -14,7 +17,10 @@
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-sm font-semibold text-[#1A1614]/70">Integración {{ item.id }}</h2>
         @if (items().length > 1) {
-          <button (click)="eliminar(item.id)" class="text-[#1A1614]/40 hover:text-[#D16666] transition-colors text-xs flex items-center gap-1">
+          <button
+            (click)="eliminar(item.id)"
+            class="text-[#1A1614]/40 hover:text-[#D16666] transition-colors text-xs flex items-center gap-1"
+          >
             <fa-icon [icon]="faTrash" />
           </button>
         }
@@ -25,13 +31,17 @@
           placeholder="Ej: ASIGNACION"
           class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors"
         />
-        <select class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white">
+        <select
+          class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white"
+        >
           <option value="" disabled selected>Seleccionar país</option>
           @for (p of paises; track p) {
             <option [value]="p">{{ p }}</option>
           }
         </select>
-        <select class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white">
+        <select
+          class="px-4 py-2.5 rounded-lg border border-[#E4DDD1] text-sm text-[#1A1614]/60 focus:outline-none focus:border-[#2D9596] transition-colors bg-white"
+        >
           <option value="" disabled selected>Seleccionar empresa</option>
           @for (e of empresas; track e) {
             <option [value]="e">{{ e }}</option>
@@ -51,10 +61,15 @@
 
   <!-- Acciones -->
   <div class="flex justify-end gap-3">
-    <a routerLink="/empresas/interfaces" class="px-5 py-2 rounded-lg border border-[#1A1614]/20 text-[#1A1614]/70 hover:bg-[#1A1614]/5 transition-colors text-sm font-medium">
+    <a
+      routerLink="/empresas/interfaces"
+      class="px-5 py-2 rounded-lg border border-[#1A1614]/20 text-[#1A1614]/70 hover:bg-[#1A1614]/5 transition-colors text-sm font-medium"
+    >
       Cancelar
     </a>
-    <button class="px-5 py-2 rounded-lg bg-[#1E3A5F] text-white hover:bg-[#16304F] transition-colors text-sm font-medium">
+    <button
+      class="px-5 py-2 rounded-lg bg-[#1E3A5F] text-white hover:bg-[#16304F] transition-colors text-sm font-medium"
+    >
       Guardar
     </button>
   </div>

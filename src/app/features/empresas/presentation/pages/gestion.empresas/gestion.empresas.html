@@ -16,7 +16,10 @@
 
   <!-- Buscador -->
   <div class="relative mb-6 max-w-sm">
-    <fa-icon [icon]="faMagnifyingGlass" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm" />
+    <fa-icon
+      [icon]="faMagnifyingGlass"
+      class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm"
+    />
     <input
       type="text"
       placeholder="Buscar por código, nombre..."
@@ -50,17 +53,23 @@
               <div class="flex items-center gap-2">
                 <button
                   (click)="toggleEstado(empresa.codigo)"
-                  [class]="empresa.activo
-                    ? 'relative inline-flex w-10 h-5 rounded-full bg-[#2D9596] transition-colors'
-                    : 'relative inline-flex w-10 h-5 rounded-full bg-[#1A1614]/20 transition-colors'"
+                  [class]="
+                    empresa.activo
+                      ? 'relative inline-flex w-10 h-5 rounded-full bg-[#2D9596] transition-colors'
+                      : 'relative inline-flex w-10 h-5 rounded-full bg-[#1A1614]/20 transition-colors'
+                  "
                 >
                   <span
-                    [class]="empresa.activo
-                      ? 'absolute top-0.5 left-5 w-4 h-4 rounded-full bg-white shadow transition-all'
-                      : 'absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-all'"
+                    [class]="
+                      empresa.activo
+                        ? 'absolute top-0.5 left-5 w-4 h-4 rounded-full bg-white shadow transition-all'
+                        : 'absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-all'
+                    "
                   ></span>
                 </button>
-                <span [class]="empresa.activo ? 'text-[#2D9596] text-xs' : 'text-[#1A1614]/40 text-xs'">
+                <span
+                  [class]="empresa.activo ? 'text-[#2D9596] text-xs' : 'text-[#1A1614]/40 text-xs'"
+                >
                   {{ empresa.activo ? 'Activo' : 'Inactivo' }}
                 </span>
               </div>

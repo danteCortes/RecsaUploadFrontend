@@ -34,9 +34,21 @@ export class TemplateFlow implements OnInit {
   readonly process = this.processService.process;
 
   readonly steps = [
-    { label: 'Subir archivos', icon: faArrowUpFromBracket, path: '/cargas/importar/manual/template' },
-    { label: 'Tipo de proceso', icon: faDiagramProject, path: '/cargas/importar/manual/template/tipo-proceso' },
-    { label: 'Confirmar importación', icon: faPaperPlane, path: '/cargas/importar/manual/template/confirmar' },
+    {
+      label: 'Subir archivos',
+      icon: faArrowUpFromBracket,
+      path: '/cargas/importar/manual/template',
+    },
+    {
+      label: 'Tipo de proceso',
+      icon: faDiagramProject,
+      path: '/cargas/importar/manual/template/tipo-proceso',
+    },
+    {
+      label: 'Confirmar importación',
+      icon: faPaperPlane,
+      path: '/cargas/importar/manual/template/confirmar',
+    },
   ];
 
   async ngOnInit() {
@@ -98,4 +110,3 @@ export class TemplateFlow implements OnInit {
     return f.firstRowHeaders;
   });
 }
-

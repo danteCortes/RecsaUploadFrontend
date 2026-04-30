@@ -2,7 +2,9 @@
   <!-- Template config card -->
   @if (config()) {
     <div class="bg-white rounded-2xl p-6 shadow-lg shadow-[#1E3A5F]/5 border border-[#E4DDD1]">
-      <h3 class="text-sm font-medium text-[#1A1614]/50 uppercase tracking-wider mb-4">Configuración de template</h3>
+      <h3 class="text-sm font-medium text-[#1A1614]/50 uppercase tracking-wider mb-4">
+        Configuración de template
+      </h3>
       <div class="grid grid-cols-2 gap-4">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-lg bg-[#2D9596]/10 flex items-center justify-center">
@@ -61,11 +63,15 @@
         [class.hover:border-[#1E3A5F]/50]="selectedType() !== 'Flujo'"
       >
         @if (selectedType() === 'Flujo') {
-          <div class="absolute top-4 right-4 w-5 h-5 rounded-full bg-[#1E3A5F] flex items-center justify-center">
+          <div
+            class="absolute top-4 right-4 w-5 h-5 rounded-full bg-[#1E3A5F] flex items-center justify-center"
+          >
             <fa-icon [icon]="faCheck" class="text-white text-xs" />
           </div>
         }
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center mb-4 shadow-md">
+        <div
+          class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center mb-4 shadow-md"
+        >
           <fa-icon [icon]="faDiagramProject" class="text-white text-xl" />
         </div>
         <h3 class="text-xl font-semibold text-[#1E3A5F] mb-1">Flujo</h3>
@@ -83,11 +89,15 @@
         [class.hover:border-[#E8A838]/50]="selectedType() !== 'Refresco'"
       >
         @if (selectedType() === 'Refresco') {
-          <div class="absolute top-4 right-4 w-5 h-5 rounded-full bg-[#E8A838] flex items-center justify-center">
+          <div
+            class="absolute top-4 right-4 w-5 h-5 rounded-full bg-[#E8A838] flex items-center justify-center"
+          >
             <fa-icon [icon]="faCheck" class="text-white text-xs" />
           </div>
         }
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#E8A838] to-[#D97706] flex items-center justify-center mb-4 shadow-md">
+        <div
+          class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#E8A838] to-[#D97706] flex items-center justify-center mb-4 shadow-md"
+        >
           <fa-icon [icon]="faDiagramProject" class="text-white text-xl" />
         </div>
         <h3 class="text-xl font-semibold text-[#E8A838] mb-1">Refresco</h3>

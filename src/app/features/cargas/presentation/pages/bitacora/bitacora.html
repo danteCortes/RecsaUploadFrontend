@@ -38,25 +38,34 @@
   <!-- Filtros -->
   <div class="flex items-center gap-3 mb-6">
     <div class="relative flex-1 max-w-xs">
-      <fa-icon [icon]="faMagnifyingGlass" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm" />
+      <fa-icon
+        [icon]="faMagnifyingGlass"
+        class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm"
+      />
       <input
         type="text"
         placeholder="Buscar..."
         class="w-full pl-9 pr-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614] placeholder:text-[#1A1614]/40 focus:outline-none focus:border-[#2D9596] transition-colors"
       />
     </div>
-    <select class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors">
+    <select
+      class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors"
+    >
       <option>Todas las empresas</option>
       <option>Empresa Demo S.A.</option>
       <option>Servicios Integrales Ltda.</option>
       <option>Tecnología Avanzada Inc.</option>
     </select>
-    <select class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors">
+    <select
+      class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors"
+    >
       <option>Todos los tipos</option>
       <option>Flujo</option>
       <option>Refresco</option>
     </select>
-    <select class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors">
+    <select
+      class="px-4 py-2 rounded-lg border border-[#E4DDD1] bg-white text-sm text-[#1A1614]/70 focus:outline-none focus:border-[#2D9596] transition-colors"
+    >
       <option>Todos los estados</option>
       <option>Pendiente</option>
       <option>Ejecutado</option>
@@ -84,13 +93,21 @@
           <tr class="border-b border-[#E4DDD1] last:border-0 hover:bg-[#FAF8F5] transition-colors">
             <td class="px-6 py-4 text-[#1A1614]/70">{{ proceso.empresa }}</td>
             <td class="px-6 py-4">
-              <span [class]="tipoBadgeClass(proceso.tipo) + ' px-2.5 py-0.5 rounded-full text-xs font-medium'">
+              <span
+                [class]="
+                  tipoBadgeClass(proceso.tipo) + ' px-2.5 py-0.5 rounded-full text-xs font-medium'
+                "
+              >
                 {{ proceso.tipo }}
               </span>
             </td>
             <td class="px-6 py-4 text-[#1A1614]/60 font-mono text-xs">{{ proceso.fechaInicio }}</td>
             <td class="px-6 py-4">
-              <span [class]="estadoColor(proceso.estado) + ' flex items-center gap-1.5 text-xs font-medium'">
+              <span
+                [class]="
+                  estadoColor(proceso.estado) + ' flex items-center gap-1.5 text-xs font-medium'
+                "
+              >
                 @if (proceso.estado === 'Finalizado') {
                   <fa-icon [icon]="faCircleCheck" class="text-sm" />
                 } @else if (proceso.estado === 'Ejecutado') {
@@ -108,10 +125,16 @@
             <td class="px-6 py-4">
               <div class="flex items-center justify-end gap-2">
                 @if (proceso.estado === 'Ejecutado') {
-                  <button class="text-[#1A1614]/40 hover:text-[#E8A838] transition-colors p-1" title="Pausar">
+                  <button
+                    class="text-[#1A1614]/40 hover:text-[#E8A838] transition-colors p-1"
+                    title="Pausar"
+                  >
                     <fa-icon [icon]="faPause" class="text-xs" />
                   </button>
-                  <button class="text-[#1A1614]/40 hover:text-[#D16666] transition-colors p-1" title="Detener">
+                  <button
+                    class="text-[#1A1614]/40 hover:text-[#D16666] transition-colors p-1"
+                    title="Detener"
+                  >
                     <fa-icon [icon]="faStop" class="text-xs" />
                   </button>
                   <button class="text-[#1A1614]/40 hover:text-[#1E3A5F] transition-colors p-1">

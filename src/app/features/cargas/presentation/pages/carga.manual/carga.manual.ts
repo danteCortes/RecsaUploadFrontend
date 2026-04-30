@@ -37,18 +37,39 @@ export class CargaManual {
   private templateFlowService = inject(TemplateFlowService);
 
   readonly configuraciones = signal<ConfiguracionCarga[]>([
-    { codigo: 'EMP001', empresa: 'Empresa Demo S.A.', templateName: 'Template Clientes Argentina', pais: 'Argentina', responsable: 'Juan Pérez', activo: true },
-    { codigo: 'EMP002', empresa: 'Servicios Integrales Ltda.', templateName: 'Template Deuda Chile', pais: 'Chile', responsable: 'María González', activo: true },
-    { codigo: 'EMP003', empresa: 'Tecnología Avanzada Inc.', templateName: 'Template Pagos México', pais: 'México', responsable: 'Carlos Rodríguez', activo: false },
+    {
+      codigo: 'EMP001',
+      empresa: 'Empresa Demo S.A.',
+      templateName: 'Template Clientes Argentina',
+      pais: 'Argentina',
+      responsable: 'Juan Pérez',
+      activo: true,
+    },
+    {
+      codigo: 'EMP002',
+      empresa: 'Servicios Integrales Ltda.',
+      templateName: 'Template Deuda Chile',
+      pais: 'Chile',
+      responsable: 'María González',
+      activo: true,
+    },
+    {
+      codigo: 'EMP003',
+      empresa: 'Tecnología Avanzada Inc.',
+      templateName: 'Template Pagos México',
+      pais: 'México',
+      responsable: 'Carlos Rodríguez',
+      activo: false,
+    },
   ]);
 
   readonly total = computed(() => this.configuraciones().length);
-  readonly activas = computed(() => this.configuraciones().filter(c => c.activo).length);
-  readonly inactivas = computed(() => this.configuraciones().filter(c => !c.activo).length);
+  readonly activas = computed(() => this.configuraciones().filter((c) => c.activo).length);
+  readonly inactivas = computed(() => this.configuraciones().filter((c) => !c.activo).length);
 
   toggleEstado(codigo: string): void {
-    this.configuraciones.update(items =>
-      items.map(item => item.codigo === codigo ? { ...item, activo: !item.activo } : item)
+    this.configuraciones.update((items) =>
+      items.map((item) => (item.codigo === codigo ? { ...item, activo: !item.activo } : item)),
     );
   }
 

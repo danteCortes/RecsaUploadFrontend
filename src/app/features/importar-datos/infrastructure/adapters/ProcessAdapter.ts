@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import type { ProcessRepository } from '../../domain/ports/ProcessPort';
 import { HttpClient } from '@angular/common/http';
 import type { Process } from '../../domain/entities/process';
-import type { ProcessId } from '../../domain/value-objects/process/processId';
+import type { ProcessId } from '../../domain/value-objects/process/ProcessId';
 import type { ImportFile } from '../../domain/entities/ImportFile';
 import { firstValueFrom } from 'rxjs';
 import type { ProcessResponse } from '../../application/responses/process/ProcessResponse';
@@ -20,7 +20,7 @@ export class ProcessAdapter implements ProcessRepository {
     try {
       const data = await firstValueFrom(
         this.http.post<ProcessResponse>(
-          `${environment.apiUrl}/process-config`,
+          `${environment.apiUrl}/process`,
           new SaveProcessRequest(
             entity.companyId()?.value() ?? null,
             entity.loadTypeId()?.value() ?? null,
@@ -54,7 +54,7 @@ export class ProcessAdapter implements ProcessRepository {
   async findById(id: ProcessId): Promise<Process> {
     try {
       const data = await firstValueFrom(
-        this.http.get<ProcessResponse>(`${environment.apiUrl}/process-config/${id.value()}`),
+        this.http.get<ProcessResponse>(`${environment.apiUrl}/process/${id.value()}`),
       );
       return ProcessFactory.fromPrimitives(
         data.id,
@@ -65,14 +65,7 @@ export class ProcessAdapter implements ProcessRepository {
         data.responsible,
       );
     } catch {
-      return ProcessFactory.fromPrimitives(
-        id.value(),
-        null,
-        null,
-        null,
-        null,
-        null,
-      );
+      return ProcessFactory.fromPrimitives(id.value(), null, null, null, null, null);
     }
   }
 
@@ -83,7 +76,7 @@ export class ProcessAdapter implements ProcessRepository {
     try {
       const data = await firstValueFrom(
         this.http.put<ProcessResponse>(
-          `${environment.apiUrl}/process-config/${id.value()}`,
+          `${environment.apiUrl}/process/${id.value()}`,
           new SaveProcessRequest(
             entity.companyId()?.value() ?? null,
             entity.loadTypeId()?.value() ?? null,
@@ -110,7 +103,7 @@ export class ProcessAdapter implements ProcessRepository {
     try {
       const data = await firstValueFrom(
         this.http.get<{ importFiles: FileResponse[] }>(
-          `${environment.apiUrl}/process-config/${id.value()}/files`,
+          `${environment.apiUrl}/process/${id.value()}/files`,
         ),
       );
       return data.importFiles.map((file) =>

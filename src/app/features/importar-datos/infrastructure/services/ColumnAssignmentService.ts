@@ -14,10 +14,18 @@ export class ColumnAssignmentService {
   ): Promise<ColumnAssignmentResponse> {
     try {
       return await firstValueFrom(
-        this.http.post<ColumnAssignmentResponse>(`${environment.apiUrl}/column-assignment`, request),
+        this.http.post<ColumnAssignmentResponse>(
+          `${environment.apiUrl}/column-assignment`,
+          request,
+        ),
       );
     } catch {
-      return { id: crypto.randomUUID(), import_file_id: request.import_file_id ?? '', column_name: request.column_name ?? '', system_field_id: request.system_field_id ?? '' };
+      return {
+        id: crypto.randomUUID(),
+        import_file_id: request.import_file_id ?? '',
+        column_name: request.column_name ?? '',
+        system_field_id: request.system_field_id ?? '',
+      };
     }
   }
 
@@ -33,7 +41,12 @@ export class ColumnAssignmentService {
         ),
       );
     } catch {
-      return { id, import_file_id: request.import_file_id ?? '', column_name: request.column_name ?? '', system_field_id: request.system_field_id ?? '' };
+      return {
+        id,
+        import_file_id: request.import_file_id ?? '',
+        column_name: request.column_name ?? '',
+        system_field_id: request.system_field_id ?? '',
+      };
     }
   }
 }

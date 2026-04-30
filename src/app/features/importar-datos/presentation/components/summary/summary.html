@@ -68,7 +68,10 @@
       @if (hasHeaders() !== null) {
         <div class="flex items-center justify-between">
           <span class="text-sm text-[#1A1614]/70">Encabezados</span>
-          <span class="font-semibold text-sm" [ngClass]="hasHeaders() ? 'text-[#2D9596]' : 'text-[#D16666]'">
+          <span
+            class="font-semibold text-sm"
+            [ngClass]="hasHeaders() ? 'text-[#2D9596]' : 'text-[#D16666]'"
+          >
             {{ hasHeaders() ? 'Sí' : 'No' }}
           </span>
         </div>
@@ -155,12 +158,11 @@
 
   <!-- Aviso si hay errores -->
   @if (hasWarnings()) {
-    <div class="mt-4 p-3 rounded-xl border border-[#E8A838]/40 bg-[#E8A838]/8 flex items-center gap-2">
+    <div
+      class="mt-4 p-3 rounded-xl border border-[#E8A838]/40 bg-[#E8A838]/8 flex items-center gap-2"
+    >
       <fa-icon [icon]="faWarning" class="text-[#E8A838] text-sm flex-shrink-0" />
-      <p class="text-xs text-[#1A1614]/70">
-        Revisá antes de continuar
-      </p>
+      <p class="text-xs text-[#1A1614]/70">Revisá antes de continuar</p>
     </div>
   }
 </div>
-

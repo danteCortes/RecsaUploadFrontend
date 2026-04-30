@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { FileAdapter } from '../adapters/FileAdapter';
 import { UploadFilesUseCase } from '../../application/use-cases/UploadFilesUsecase';
-import { UpdateFileUseCase } from '../../application/use-cases/updateFileUsecase';
+import { UpdateFileUseCase } from '../../application/use-cases/UpdateFileUsecase';
 import { PreviewFileUseCase } from '../../application/use-cases/PreviewFileUseCase';
 import { DeleteFileUseCase } from '../../application/use-cases/DeleteFileUseCase';
 import { UploadFilesDTO } from '../../application/dtos/file/UploadFilesDTO';

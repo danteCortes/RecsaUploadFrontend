@@ -21,23 +21,25 @@ export class NuevaIntegracion {
   readonly faTrash = faTrash;
 
   readonly paises = ['Argentina', 'Chile', 'México', 'Colombia', 'Perú', 'Brasil', 'Uruguay'];
-  readonly empresas = ['Empresa Demo S.A.', 'Servicios Integrales Ltda.', 'Tecnología Avanzada Inc.'];
+  readonly empresas = [
+    'Empresa Demo S.A.',
+    'Servicios Integrales Ltda.',
+    'Tecnología Avanzada Inc.',
+  ];
 
   private nextId = signal(2);
 
-  readonly items = signal<ItemIntegracion[]>([
-    { id: 1, nombre: '', pais: '', empresa: '' },
-  ]);
+  readonly items = signal<ItemIntegracion[]>([{ id: 1, nombre: '', pais: '', empresa: '' }]);
 
   agregarMas(): void {
     const id = this.nextId();
-    this.items.update(list => [...list, { id, nombre: '', pais: '', empresa: '' }]);
-    this.nextId.update(n => n + 1);
+    this.items.update((list) => [...list, { id, nombre: '', pais: '', empresa: '' }]);
+    this.nextId.update((n) => n + 1);
   }
 
   eliminar(id: number): void {
     if (this.items().length > 1) {
-      this.items.update(list => list.filter(item => item.id !== id));
+      this.items.update((list) => list.filter((item) => item.id !== id));
     }
   }
 }

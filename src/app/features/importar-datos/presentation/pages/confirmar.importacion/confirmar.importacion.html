@@ -5,7 +5,9 @@
   <!-- Stats cards -->
   <div class="grid grid-cols-3 gap-4 mb-6">
     <!-- Filas válidas -->
-    <div class="p-5 rounded-xl border border-[#2D9596]/30 bg-[#2D9596]/5 flex items-center justify-between">
+    <div
+      class="p-5 rounded-xl border border-[#2D9596]/30 bg-[#2D9596]/5 flex items-center justify-between"
+    >
       <div>
         <p class="text-sm text-[#1A1614]/60 mb-1">Filas válidas</p>
         <p class="text-3xl font-bold text-[#2D9596]">{{ totalValidRows() }}</p>
@@ -16,16 +18,20 @@
     <!-- Filas con error -->
     <div
       class="p-5 rounded-xl border flex items-center justify-between"
-      [ngClass]="totalErrorRows() > 0
-        ? 'border-[#D16666]/30 bg-[#D16666]/5'
-        : 'border-[#E4DDD1] bg-[#FAF8F5]'"
+      [ngClass]="
+        totalErrorRows() > 0
+          ? 'border-[#D16666]/30 bg-[#D16666]/5'
+          : 'border-[#E4DDD1] bg-[#FAF8F5]'
+      "
     >
       <div>
         <p class="text-sm text-[#1A1614]/60 mb-1">Filas con error</p>
         <p
           class="text-3xl font-bold"
           [ngClass]="totalErrorRows() > 0 ? 'text-[#D16666]' : 'text-[#1A1614]/40'"
-        >{{ totalErrorRows() }}</p>
+        >
+          {{ totalErrorRows() }}
+        </p>
       </div>
       <fa-icon
         [icon]="faCircleXmark"
@@ -37,16 +43,20 @@
     <!-- Duplicados -->
     <div
       class="p-5 rounded-xl border flex items-center justify-between"
-      [ngClass]="totalDuplicatedRows() > 0
-        ? 'border-[#E8A838]/30 bg-[#E8A838]/5'
-        : 'border-[#E4DDD1] bg-[#FAF8F5]'"
+      [ngClass]="
+        totalDuplicatedRows() > 0
+          ? 'border-[#E8A838]/30 bg-[#E8A838]/5'
+          : 'border-[#E4DDD1] bg-[#FAF8F5]'
+      "
     >
       <div>
         <p class="text-sm text-[#1A1614]/60 mb-1">Duplicados</p>
         <p
           class="text-3xl font-bold"
           [ngClass]="totalDuplicatedRows() > 0 ? 'text-[#E8A838]' : 'text-[#1A1614]/40'"
-        >{{ totalDuplicatedRows() }}</p>
+        >
+          {{ totalDuplicatedRows() }}
+        </p>
       </div>
       <fa-icon
         [icon]="faCopy"
@@ -58,12 +68,15 @@
 
   <!-- Advertencia si hay errores -->
   @if (hasWarnings()) {
-    <div class="mb-6 p-4 rounded-xl border border-[#E8A838]/40 bg-[#E8A838]/8 flex items-start gap-3">
+    <div
+      class="mb-6 p-4 rounded-xl border border-[#E8A838]/40 bg-[#E8A838]/8 flex items-start gap-3"
+    >
       <fa-icon [icon]="faWarning" class="text-[#E8A838] mt-0.5 flex-shrink-0" />
       <div>
         <p class="font-medium text-[#1A1614] text-sm">Revisá antes de continuar</p>
         <p class="text-sm text-[#1A1614]/60 mt-0.5">
-          Se encontraron algunos problemas que <span class="font-semibold">deberías</span> revisar antes de procesar.
+          Se encontraron algunos problemas que <span class="font-semibold">deberías</span> revisar
+          antes de procesar.
         </p>
       </div>
     </div>
@@ -76,13 +89,17 @@
       @for (file of importFiles(); track $index) {
         <div class="p-4 rounded-xl border border-[#E4DDD1] bg-[#FAF8F5]">
           <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-lg bg-linear-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center flex-shrink-0">
+            <div
+              class="w-10 h-10 rounded-lg bg-linear-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center flex-shrink-0"
+            >
               <fa-icon [icon]="faFileLines" class="text-white" />
             </div>
             <div class="flex-1 min-w-0">
               <p class="font-medium text-[#1A1614] truncate">{{ file.fileName }}</p>
               <div class="flex items-center gap-2 flex-wrap mt-1">
-                <span class="px-2 py-0.5 rounded text-xs font-medium bg-[#1E3A5F]/10 text-[#1E3A5F]">
+                <span
+                  class="px-2 py-0.5 rounded text-xs font-medium bg-[#1E3A5F]/10 text-[#1E3A5F]"
+                >
                   {{ getFileExtension(file.fileName) }}
                 </span>
                 @if (file.fileDelimiter) {
@@ -91,7 +108,9 @@
                   </span>
                 }
                 @if (file.key) {
-                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-[#E8A838]/15 text-[#C68B28] flex items-center gap-1">
+                  <span
+                    class="px-2 py-0.5 rounded text-xs font-medium bg-[#E8A838]/15 text-[#C68B28] flex items-center gap-1"
+                  >
                     <fa-icon [icon]="faKey" class="text-xs" />
                     Clave: {{ file.key }}
                   </span>
@@ -106,13 +125,19 @@
             </div>
             <div>
               <p class="text-xs text-[#1A1614]/50 mb-0.5">Con error</p>
-              <p class="font-semibold" [ngClass]="file.errorRows > 0 ? 'text-[#D16666]' : 'text-[#1A1614]/40'">
+              <p
+                class="font-semibold"
+                [ngClass]="file.errorRows > 0 ? 'text-[#D16666]' : 'text-[#1A1614]/40'"
+              >
                 {{ file.errorRows }}
               </p>
             </div>
             <div>
               <p class="text-xs text-[#1A1614]/50 mb-0.5">Duplicados</p>
-              <p class="font-semibold" [ngClass]="file.duplicatedRows > 0 ? 'text-[#E8A838]' : 'text-[#1A1614]/40'">
+              <p
+                class="font-semibold"
+                [ngClass]="file.duplicatedRows > 0 ? 'text-[#E8A838]' : 'text-[#1A1614]/40'"
+              >
                 {{ file.duplicatedRows }}
               </p>
             </div>

@@ -3,10 +3,14 @@
   <div class="flex items-start justify-between mb-8">
     <div>
       <h1 class="text-3xl font-bold text-[#1E3A5F] mb-1">Carga manual</h1>
-      <p class="text-[#1A1614]/60">Seleccioná un cliente con configuración existente o creá una nueva</p>
+      <p class="text-[#1A1614]/60">
+        Seleccioná un cliente con configuración existente o creá una nueva
+      </p>
     </div>
     <div class="flex items-center gap-3">
-      <button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#2D9596] text-[#2D9596] hover:bg-[#2D9596]/5 transition-colors text-sm font-medium">
+      <button
+        class="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#2D9596] text-[#2D9596] hover:bg-[#2D9596]/5 transition-colors text-sm font-medium"
+      >
         <fa-icon [icon]="faPlus" class="text-xs" />
         Nueva configuración
       </button>
@@ -22,7 +26,10 @@
 
   <!-- Buscador -->
   <div class="relative mb-6 max-w-sm">
-    <fa-icon [icon]="faMagnifyingGlass" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm" />
+    <fa-icon
+      [icon]="faMagnifyingGlass"
+      class="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1614]/40 text-sm"
+    />
     <input
       type="text"
       placeholder="Buscar por código o nombre..."
@@ -56,17 +63,23 @@
               <div class="flex items-center gap-2">
                 <button
                   (click)="toggleEstado(config.codigo)"
-                  [class]="config.activo
-                    ? 'relative inline-flex w-10 h-5 rounded-full bg-[#2D9596] transition-colors'
-                    : 'relative inline-flex w-10 h-5 rounded-full bg-[#1A1614]/20 transition-colors'"
+                  [class]="
+                    config.activo
+                      ? 'relative inline-flex w-10 h-5 rounded-full bg-[#2D9596] transition-colors'
+                      : 'relative inline-flex w-10 h-5 rounded-full bg-[#1A1614]/20 transition-colors'
+                  "
                 >
                   <span
-                    [class]="config.activo
-                      ? 'absolute top-0.5 left-5 w-4 h-4 rounded-full bg-white shadow transition-all'
-                      : 'absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-all'"
+                    [class]="
+                      config.activo
+                        ? 'absolute top-0.5 left-5 w-4 h-4 rounded-full bg-white shadow transition-all'
+                        : 'absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-all'
+                    "
                   ></span>
                 </button>
-                <span [class]="config.activo ? 'text-[#2D9596] text-xs' : 'text-[#1A1614]/40 text-xs'">
+                <span
+                  [class]="config.activo ? 'text-[#2D9596] text-xs' : 'text-[#1A1614]/40 text-xs'"
+                >
                   {{ config.activo ? 'Activo' : 'Inactivo' }}
                 </span>
               </div>
@@ -79,7 +92,11 @@
                 <button class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors">
                   <fa-icon [icon]="faPen" />
                 </button>
-                <button (click)="cargarArchivo(config)" class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors" title="Cargar archivo">
+                <button
+                  (click)="cargarArchivo(config)"
+                  class="text-[#1A1614]/40 hover:text-[#2D9596] transition-colors"
+                  title="Cargar archivo"
+                >
                   <fa-icon [icon]="faArrowUpFromBracket" />
                 </button>
               </div>

@@ -12,7 +12,9 @@ export class CompanyService {
   async getCompanies(): Promise<{ id: string; name: string }[]> {
     try {
       const data = await firstValueFrom(
-        this.http.get<{ companies: { id: string; name: string }[] }>(`${environment.apiUrl}/company`),
+        this.http.get<{ companies: { id: string; name: string }[] }>(
+          `${environment.apiUrl}/company`,
+        ),
       );
       return data.companies;
     } catch {

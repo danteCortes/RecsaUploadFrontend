@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  faArrowUpFromBracket,
-  faCity,
-  faBell,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpFromBracket, faCity, faBell } from '@fortawesome/free-solid-svg-icons';
 import { DropdownMenu } from './shared/components/dropdown.menu/dropdown.menu';
 
 @Component({

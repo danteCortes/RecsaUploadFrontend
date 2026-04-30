@@ -1,5 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
-import { faFileLines, faKey, faWarning, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFileLines,
+  faKey,
+  faWarning,
+  faCheckCircle,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
 import { FileService } from '../../../infrastructure/services/FileService';
@@ -96,9 +102,7 @@ export class ImportDatasSummary {
     return f.firstRowHeaders;
   });
 
-  readonly requiredFields = computed(() =>
-    this.systemFields().filter((f) => f.required),
-  );
+  readonly requiredFields = computed(() => this.systemFields().filter((f) => f.required));
 
   readonly keyColumn = computed(() => this.importFiles()[0]?.key ?? null);
 
@@ -119,8 +123,7 @@ export class ImportDatasSummary {
     this.importFiles().some((f) => (f.errorRows ?? 0) > 0 || (f.duplicatedRows ?? 0) > 0),
   );
 
-  readonly hasProcessConfig = computed(() =>
-    !!(this.companyName() || this.layoutName() || this.loadTypeName()),
+  readonly hasProcessConfig = computed(
+    () => !!(this.companyName() || this.layoutName() || this.loadTypeName()),
   );
 }
-

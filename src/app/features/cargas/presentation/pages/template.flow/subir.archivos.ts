@@ -32,7 +32,9 @@ export class TemplateSubirArchivos {
     if (input.files) this.addFiles(input.files);
   }
 
-  onDragOver(event: DragEvent) { event.preventDefault(); }
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
 
   onDrop(event: DragEvent) {
     event.preventDefault();
@@ -44,16 +46,18 @@ export class TemplateSubirArchivos {
     if (!processId) return;
 
     const allowed = ['csv', 'xlsx', 'txt', 'xls', 'xml', 'json'];
-    const newFiles = Array.from(fileList).filter(f => {
-      const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
-      return allowed.includes(ext);
-    }).filter(nf => !this.fileService.files().some(f => f.name === nf.name));
+    const newFiles = Array.from(fileList)
+      .filter((f) => {
+        const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+        return allowed.includes(ext);
+      })
+      .filter((nf) => !this.fileService.files().some((f) => f.name === nf.name));
 
     const response = await this.fileService.uploadFiles(newFiles, processId);
 
-    this.importFiles.update(current => [
+    this.importFiles.update((current) => [
       ...current,
-      ...response.map(r => ({
+      ...response.map((r) => ({
         id: r.id,
         fileName: r.fileName,
         fileFormat: r.fileFormat,

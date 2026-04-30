@@ -28,12 +28,12 @@ export class InterfacesIntegraciones {
   ]);
 
   readonly total = computed(() => this.integraciones().length);
-  readonly activas = computed(() => this.integraciones().filter(i => i.activo).length);
-  readonly inactivas = computed(() => this.integraciones().filter(i => !i.activo).length);
+  readonly activas = computed(() => this.integraciones().filter((i) => i.activo).length);
+  readonly inactivas = computed(() => this.integraciones().filter((i) => !i.activo).length);
 
   toggleEstado(nombre: string): void {
-    this.integraciones.update(items =>
-      items.map(item => item.nombre === nombre ? { ...item, activo: !item.activo } : item)
+    this.integraciones.update((items) =>
+      items.map((item) => (item.nombre === nombre ? { ...item, activo: !item.activo } : item)),
     );
   }
 }
