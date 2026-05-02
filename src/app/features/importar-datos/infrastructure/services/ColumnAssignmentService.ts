@@ -15,7 +15,7 @@ export class ColumnAssignmentService {
     try {
       return await firstValueFrom(
         this.http.post<ColumnAssignmentResponse>(
-          `${environment.apiUrl}/column-assignment`,
+          `${environment.webUrl}/column-assignment`,
           request,
         ),
       );
@@ -36,7 +36,7 @@ export class ColumnAssignmentService {
     try {
       return await firstValueFrom(
         this.http.put<ColumnAssignmentResponse>(
-          `${environment.apiUrl}/column-assignment/${id}`,
+          `${environment.webUrl}/column-assignment/${id}`,
           request,
         ),
       );

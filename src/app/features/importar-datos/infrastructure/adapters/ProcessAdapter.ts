@@ -1,16 +1,48 @@
 import { inject, Injectable } from '@angular/core';
 import type { ProcessRepository } from '../../domain/ports/ProcessPort';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import type { Process } from '../../domain/entities/process';
 import type { ProcessId } from '../../domain/value-objects/process/ProcessId';
 import type { ImportFile } from '../../domain/entities/ImportFile';
 import { firstValueFrom } from 'rxjs';
-import type { ProcessResponse } from '../../application/responses/process/ProcessResponse';
 import { environment } from '../../../../../environments/environment';
-import { SaveProcessRequest } from '../requests/SaveProcessRequest';
 import { ProcessFactory } from '../../domain/factories/ProcessFactory';
 import type { FileResponse } from '../../application/responses/file/FileResponse';
 import { ImportFileFactory } from '../../domain/factories/ImportFileFactory';
+
+interface ProcessApiResponse {
+  id: string;
+  company: string | null;
+  loadType: string | null;
+  layout: string | null;
+  responsible: string | null;
+  templateName: string | null;
+  startDate: string | null;
+  records: number;
+  status: string | null;
+}
+
+export interface PaginatedProcessResponse {
+  total: number;
+  perPage: number;
+  page: number;
+  lastPage: number;
+  from: number | null;
+  to: number | null;
+  items: {
+    id: string;
+    company_code: string;
+    company_name: string;
+    company_status: boolean;
+    country: string;
+    loadType: string;
+    layout: string;
+    responsible: string;
+    templateName: string;
+    startDate: string | null;
+    records: number;
+  }[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class ProcessAdapter implements ProcessRepository {
@@ -19,22 +51,19 @@ export class ProcessAdapter implements ProcessRepository {
   async save(entity: Process): Promise<Process> {
     try {
       const data = await firstValueFrom(
-        this.http.post<ProcessResponse>(
-          `${environment.apiUrl}/process`,
-          new SaveProcessRequest(
-            entity.companyId()?.value() ?? null,
-            entity.loadTypeId()?.value() ?? null,
-            entity.processTypeId()?.value() ?? null,
-            entity.layoutId()?.value() ?? null,
-            entity.responsible()?.value() ?? null,
-          ),
-        ),
+        this.http.post<ProcessApiResponse>(`${environment.apiUrl}/process`, {
+          company: entity.companyId()?.value() ?? null,
+          load_type: entity.loadTypeId()?.value() ?? null,
+          layout: entity.layoutId()?.value() ?? null,
+          responsible: entity.responsible()?.value() ?? null,
+          template_name: entity.processTypeId()?.value() ?? null,
+        }),
       );
       return ProcessFactory.fromPrimitives(
         data.id,
         data.company,
         data.loadType,
-        data.processType,
+        data.templateName,
         data.layout,
         data.responsible,
       );
@@ -54,13 +83,13 @@ export class ProcessAdapter implements ProcessRepository {
   async findById(id: ProcessId): Promise<Process> {
     try {
       const data = await firstValueFrom(
-        this.http.get<ProcessResponse>(`${environment.apiUrl}/process/${id.value()}`),
+        this.http.get<ProcessApiResponse>(`${environment.apiUrl}/process/${id.value()}`),
       );
       return ProcessFactory.fromPrimitives(
         data.id,
         data.company,
         data.loadType,
-        data.processType,
+        data.templateName,
         data.layout,
         data.responsible,
       );
@@ -75,22 +104,19 @@ export class ProcessAdapter implements ProcessRepository {
 
     try {
       const data = await firstValueFrom(
-        this.http.put<ProcessResponse>(
-          `${environment.apiUrl}/process/${id.value()}`,
-          new SaveProcessRequest(
-            entity.companyId()?.value() ?? null,
-            entity.loadTypeId()?.value() ?? null,
-            entity.processTypeId()?.value() ?? null,
-            entity.layoutId()?.value() ?? null,
-            entity.responsible()?.value() ?? null,
-          ),
-        ),
+        this.http.put<ProcessApiResponse>(`${environment.apiUrl}/process/${id.value()}`, {
+          company: entity.companyId()?.value() ?? null,
+          load_type: entity.loadTypeId()?.value() ?? null,
+          layout: entity.layoutId()?.value() ?? null,
+          responsible: entity.responsible()?.value() ?? null,
+          template_name: entity.processTypeId()?.value() ?? null,
+        }),
       );
       return ProcessFactory.fromPrimitives(
         data.id,
         data.company,
         data.loadType,
-        data.processType,
+        data.templateName,
         data.layout,
         data.responsible,
       );
@@ -128,6 +154,25 @@ export class ProcessAdapter implements ProcessRepository {
       );
     } catch {
       return [];
+    }
+  }
+
+  async listProcesses(
+    page: number,
+    perPage: number,
+    search: string,
+  ): Promise<PaginatedProcessResponse> {
+    const params = new HttpParams()
+      .set('page', String(page))
+      .set('perPage', String(perPage))
+      .set('search', search);
+
+    try {
+      return await firstValueFrom(
+        this.http.get<PaginatedProcessResponse>(`${environment.apiUrl}/process/list`, { params }),
+      );
+    } catch {
+      return { total: 0, perPage, page, lastPage: 1, from: null, to: null, items: [] };
     }
   }
 }
