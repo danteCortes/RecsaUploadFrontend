@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import type { ImportFile } from '../../domain/entities/ImportFile';
 import type { FileRepository } from '../../domain/ports/FilePort';
-import { FilePreview } from '../../domain/value-objects/file/FilePreview';
+import { FilePreview } from '../../domain/value-objects/file/filePreview';
 import type { FileUploadCommand } from '../../domain/value-objects/file/FileUploadCommand';
 import type { ImportFileId } from '../../domain/value-objects/file/ImportFileId';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +16,8 @@ import type { ColumnAssignment } from '../../domain/entities/ColumnAssignment';
 import type { ColumnAssignmentResponse } from '../../application/responses/columnAssignment/ColumnAssignmentResponse';
 import { ColumnAssignmentFactory } from '../../domain/factories/ColumnAssignmentFactory';
 
+const CHUNK_SIZE = 5 * 1024 * 1024; // 5 MB
+
 @Injectable({ providedIn: 'root' })
 export class FileAdapter implements FileRepository {
   private http = inject(HttpClient);
@@ -29,35 +31,35 @@ export class FileAdapter implements FileRepository {
 
     for (const file of files) {
       try {
-        const imported = await this.uploadSingleFileInChunks(
-          file.content(),
-          process_config.value(),
-        );
+        const rawFile = file.content();
+        const imported =
+          rawFile.size > CHUNK_SIZE
+            ? await this.uploadInChunks(rawFile, process_config.value())
+            : await this.uploadSimple(rawFile, process_config.value());
         results.push(imported);
       } catch {
-        // Backend unavailable — create a local mock entry from the File object
         const rawFile = file.content();
         const ext = rawFile.name.split('.').pop()?.toUpperCase() ?? 'CSV';
-        const mockId = crypto.randomUUID();
-        const mock = ImportFileFactory.fromPrimitives(
-          mockId,
-          rawFile.name,
-          ext,
-          rawFile.size,
-          `mock/${rawFile.name}`,
-          null,
-          'UTF-8',
-          null,
-          ext === 'XLSX' ? 'Hoja1' : null,
-          process_config.value(),
-          true,
-          null,
-          results.length,
-          0,
-          0,
-          0,
+        results.push(
+          ImportFileFactory.fromPrimitives(
+            crypto.randomUUID(),
+            rawFile.name,
+            ext,
+            rawFile.size,
+            `mock/${rawFile.name}`,
+            null,
+            'UTF-8',
+            null,
+            ext === 'XLSX' ? 'Hoja1' : null,
+            process_config.value(),
+            true,
+            null,
+            results.length,
+            0,
+            0,
+            0,
+          ),
         );
-        results.push(mock);
       }
     }
 
@@ -70,11 +72,8 @@ export class FileAdapter implements FileRepository {
 
     try {
       const data = await firstValueFrom(
-        this.http.put<{
-          message: string;
-          data: FileResponse;
-        }>(
-          `${environment.apiUrl}/import-file/${id.value()}`,
+        this.http.put<{ message: string; data: FileResponse }>(
+          `${environment.webUrl}/import-file/${id.value()}`,
           new UpdateFileRequest(
             file.fileName().value(),
             file.fileFormat(),
@@ -114,7 +113,6 @@ export class FileAdapter implements FileRepository {
         data.data.errorRows,
       );
     } catch {
-      // Mock: backend unavailable — return proper entity with validation counts
       return ImportFileFactory.fromPrimitives(
         file.id()?.value() ?? crypto.randomUUID(),
         file.fileName().value(),
@@ -139,10 +137,9 @@ export class FileAdapter implements FileRepository {
   async previewFile(id: ImportFileId): Promise<FilePreview> {
     try {
       const data = await firstValueFrom(
-        this.http.get<{
-          columns: string[];
-          rows: string[][];
-        }>(`${environment.apiUrl}/import-file/${id.value()}/preview`),
+        this.http.get<{ columns: string[]; rows: string[][] }>(
+          `${environment.webUrl}/import-file/${id.value()}/preview`,
+        ),
       );
       return FilePreview.create(data.columns, data.rows);
     } catch {
@@ -220,7 +217,7 @@ export class FileAdapter implements FileRepository {
   async deleteFile(id: ImportFileId): Promise<void> {
     try {
       await firstValueFrom(
-        this.http.delete<void>(`${environment.apiUrl}/import-file/${id.value()}`),
+        this.http.delete<void>(`${environment.webUrl}/import-file/${id.value()}`),
       );
     } catch {
       // mock: silently succeed
@@ -231,7 +228,7 @@ export class FileAdapter implements FileRepository {
     try {
       const data = await firstValueFrom(
         this.http.get<ColumnAssignmentResponse[]>(
-          `${environment.apiUrl}/import-file/${id.value()}/column-assignments`,
+          `${environment.webUrl}/import-file/${id.value()}/column-assignments`,
         ),
       );
       return data.map((column) =>
@@ -247,8 +244,52 @@ export class FileAdapter implements FileRepository {
     }
   }
 
-  private async uploadSingleFileInChunks(file: File, processConfigId: string): Promise<ImportFile> {
-    const CHUNK_SIZE = 5 * 1024 * 1024; // 5 MB
+  async getSpreadsheets(id: ImportFileId): Promise<string[]> {
+    try {
+      return await firstValueFrom(
+        this.http.get<string[]>(`${environment.webUrl}/import-file/${id.value()}/spreadsheets`),
+      );
+    } catch {
+      return ['Hoja1'];
+    }
+  }
+
+  private async uploadSimple(file: File, processConfigId: string): Promise<ImportFile> {
+    const formData = new FormData();
+    formData.append('files[]', file, file.name);
+    formData.append('process_config', processConfigId);
+
+    const data = await firstValueFrom(
+      this.http.post<{ message: string; data: FileResponse[] }>(
+        `${environment.apiUrl}/uploaded-file`,
+        formData,
+      ),
+    );
+
+    const result = data.data[0];
+    this.uploadProgress$.next(100);
+
+    return ImportFileFactory.fromPrimitives(
+      result.id,
+      result.fileName,
+      result.fileFormat,
+      result.fileSize,
+      result.storagePath,
+      result.decimalSeparator,
+      result.fileEncoding,
+      result.fileDelimiter,
+      result.spreadsheet,
+      result.processConfig,
+      result.firstRowHeaders,
+      result.key,
+      result.position,
+      result.validRows,
+      result.duplicatedRows,
+      result.errorRows,
+    );
+  }
+
+  private async uploadInChunks(file: File, processConfigId: string): Promise<ImportFile> {
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
     const uploadId = crypto.randomUUID();
 
@@ -258,24 +299,22 @@ export class FileAdapter implements FileRepository {
       formData.append('chunk', chunk);
       formData.append('upload_id', uploadId);
       formData.append('chunk_index', String(i));
-      formData.append('total_chunks', String(totalChunks));
-      formData.append('filename', file.name);
-      formData.append('mime_type', file.type);
-      formData.append('process_config', processConfigId);
 
-      await firstValueFrom(this.http.post(`${environment.apiUrl}/import-file/chunk`, formData));
+      await firstValueFrom(this.http.post(`${environment.webUrl}/import-file/chunk`, formData));
 
-      // Emite progreso si tienes un Subject/Signal para la barra
       this.uploadProgress$.next(Math.round(((i + 1) / totalChunks) * 100));
     }
 
-    // Notifica que terminó y recibe la entidad creada
+    const completeForm = new FormData();
+    completeForm.append('upload_id', uploadId);
+    completeForm.append('filename', file.name);
+    completeForm.append('process_config', processConfigId);
+
     const data = await firstValueFrom(
-      this.http.post<{ data: FileResponse }>(`${environment.apiUrl}/import-file/complete`, {
-        upload_id: uploadId,
-        filename: file.name,
-        process_config: processConfigId,
-      }),
+      this.http.post<{ data: FileResponse }>(
+        `${environment.webUrl}/import-file/complete`,
+        completeForm,
+      ),
     );
 
     return ImportFileFactory.fromPrimitives(

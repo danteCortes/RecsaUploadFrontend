@@ -61,7 +61,7 @@ export class TemplateFlow implements OnInit {
         company: cfg?.empresa ?? null,
         layout: cfg?.interfaz ?? null,
         load_type: cfg?.tipoCarga ?? null,
-        process_type: null,
+        process_type: cfg?.templateName ?? null,
         responsible: cfg?.responsable ?? null,
       });
       localStorage.setItem('process_id', response.id ?? '');
