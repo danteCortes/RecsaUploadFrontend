@@ -33,12 +33,26 @@ export class ImportarDatosIndex implements OnInit {
 
     const processId = localStorage.getItem('process_id');
     if (processId) {
-      const [files, process] = await Promise.all([
-        this.processService.filesProcess(processId),
-        this.processService.showProcess(processId),
-      ]);
-      this.process.set(process);
-      this.fileService.importFiles.set(files);
+      try {
+        const [files, process] = await Promise.all([
+          this.processService.filesProcess(processId),
+          this.processService.showProcess(processId),
+        ]);
+        this.process.set(process);
+        this.fileService.importFiles.set(files);
+      } catch {
+        // El proceso guardado ya no existe en el servidor, crear uno nuevo
+        localStorage.removeItem('process_id');
+        const response = await this.processService.saveProcess({
+          company: null,
+          layout: null,
+          load_type: null,
+          process_type: null,
+          responsible: null,
+        });
+        localStorage.setItem('process_id', response.id ?? '');
+        this.process.set(response);
+      }
     } else {
       const response = await this.processService.saveProcess({
         company: null,

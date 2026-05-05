@@ -93,7 +93,7 @@ export class ConfigurarProceso implements OnInit {
     const request = new SaveProcessRequest(
       this.form().company,
       this.form().load_type,
-      null,
+      this.form().template_name || null,
       this.form().layout_name,
       this.form().responsible,
     );

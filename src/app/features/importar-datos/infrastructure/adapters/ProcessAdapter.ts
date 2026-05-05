@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import type { ProcessRepository } from '../../domain/ports/ProcessPort';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import type { Process } from '../../domain/entities/process';
 import type { ProcessId } from '../../domain/value-objects/process/ProcessId';
 import type { ImportFile } from '../../domain/entities/ImportFile';
@@ -93,7 +93,10 @@ export class ProcessAdapter implements ProcessRepository {
         data.layout,
         data.responsible,
       );
-    } catch {
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 404) {
+        throw error;
+      }
       return ProcessFactory.fromPrimitives(id.value(), null, null, null, null, null);
     }
   }
