@@ -60,8 +60,8 @@ export class TemplateFlow implements OnInit {
       const response = await this.processService.saveProcess({
         company: cfg?.empresa ?? null,
         layout: cfg?.interfaz ?? null,
-        load_type: cfg?.tipoCarga ?? null,
-        process_type: cfg?.templateName ?? null,
+        process_type: cfg?.tipoCarga ?? null,
+        template_name: cfg?.templateName ?? null,
         responsible: cfg?.responsable ?? null,
       });
       localStorage.setItem('process_id', response.id ?? '');
@@ -90,9 +90,9 @@ export class TemplateFlow implements OnInit {
 
   stepClass(stepIndex: number): string {
     const current = this.getCurrentStepIndex();
-    if (current === stepIndex) return 'bg-[#1E3A5F] text-white shadow-lg shadow-[#1E3A5F]/20';
-    if (current > stepIndex) return 'bg-[#2D9596] text-white';
-    return 'bg-white text-[#1A1614]/40 border border-[#E4DDD1]';
+    if (current === stepIndex) return 'bg-rin-ink text-white shadow-lg';
+    if (current > stepIndex) return 'bg-rin-orange text-white';
+    return 'bg-white text-rin-ink/40 border border-rin-line';
   }
 
   readonly fileCount = computed(() => this.importFiles().length);

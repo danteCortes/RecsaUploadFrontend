@@ -1,3 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap');
+
 @import 'tailwindcss';
+
+@theme {
+  --color-rin-orange: #FF6A1A;
+  --color-rin-ink: #0E1116;
+  --color-rin-ink-soft: #1A1F26;
+  --color-rin-paper: #FAFAF7;
+  --color-rin-surface: #F2F1EC;
+  --color-rin-line: #E4E2DC;
+  --color-rin-muted: #6B7079;
+  --color-rin-success: #0B6B3A;
+  --color-rin-critical: #9B1B1B;
+  --color-rin-info: #1F4FA8;
+}
+
+* {
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+}

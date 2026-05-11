@@ -25,4 +25,13 @@ export class CompanyService {
       ];
     }
   }
+
+  async getCompaniesByCountry(countryId: string): Promise<{ id: string; name: string }[]> {
+    const data = await firstValueFrom(
+      this.http.get<{ companies: { id: string; name: string }[] }>(
+        `${environment.apiUrl}/country/${countryId}/companies`,
+      ),
+    );
+    return data.companies;
+  }
 }

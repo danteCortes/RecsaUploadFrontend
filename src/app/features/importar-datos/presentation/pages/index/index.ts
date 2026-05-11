@@ -31,6 +31,10 @@ export class ImportarDatosIndex implements OnInit {
     if (data['backLink']) this.backLink.set(data['backLink']);
     if (data['backText']) this.backText.set(data['backText']);
 
+    // Limpiar estado previo antes de cualquier carga para evitar datos fantasma
+    this.process.set(null);
+    this.fileService.importFiles.set([]);
+
     const processId = localStorage.getItem('process_id');
     if (processId) {
       try {
@@ -46,8 +50,8 @@ export class ImportarDatosIndex implements OnInit {
         const response = await this.processService.saveProcess({
           company: null,
           layout: null,
-          load_type: null,
           process_type: null,
+          template_name: null,
           responsible: null,
         });
         localStorage.setItem('process_id', response.id ?? '');
@@ -57,8 +61,8 @@ export class ImportarDatosIndex implements OnInit {
       const response = await this.processService.saveProcess({
         company: null,
         layout: null,
-        load_type: null,
         process_type: null,
+        template_name: null,
         responsible: null,
       });
       localStorage.setItem('process_id', response.id ?? '');

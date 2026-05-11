@@ -1,51 +1,39 @@
 <div class="p-8">
   <div class="mb-10">
-    <h1 class="text-3xl font-semibold text-[#1E3A5F] mb-2">Bienvenido al sistema de gestión</h1>
-    <p class="text-[#1A1614]/60">Administrá tus empresas, importá datos y gestioná tus procesos</p>
+    <h1 class="text-3xl font-semibold text-rin-ink mb-2">Bienvenido al sistema de gestión</h1>
+    <p class="text-rin-ink/60">Administrá tus empresas, importá datos y gestioná tus procesos</p>
   </div>
   <div class="flex gap-6 flex-wrap">
     <!-- Importar datos -->
     <a routerLink="/cargas/importar" class="w-72">
-      <div
-        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full"
-      >
-        <div
-          class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#2D9596] flex items-center justify-center mb-5 text-white"
-        >
+      <div class="p-8 rounded-2xl bg-white border border-rin-line shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full">
+        <div class="w-12 h-12 rounded-xl bg-rin-orange flex items-center justify-center mb-5 text-white">
           <fa-icon [icon]="faArrowUpFromBracket" class="text-lg" />
         </div>
-        <h3 class="text-base font-semibold mb-1 text-[#2D9596]">Importar datos</h3>
-        <p class="text-sm text-[#1A1614]/60">Automatizá cargas o realizá cargas manuales</p>
+        <h3 class="text-base font-semibold mb-1 text-rin-ink">Importar datos</h3>
+        <p class="text-sm text-rin-ink/60">Automatizá cargas o realizá cargas manuales.</p>
       </div>
     </a>
 
     <!-- Gestión de empresas -->
     <a routerLink="/empresas" class="w-72">
-      <div
-        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full"
-      >
-        <div
-          class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2D9596] to-[#1E3A5F] flex items-center justify-center mb-5 text-white"
-        >
+      <div class="p-8 rounded-2xl bg-white border border-rin-line shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full">
+        <div class="w-12 h-12 rounded-xl bg-rin-ink flex items-center justify-center mb-5 text-white">
           <fa-icon [icon]="faBuilding" class="text-lg" />
         </div>
-        <h3 class="text-base font-semibold mb-1 text-[#2D9596]">Gestión de empresas</h3>
-        <p class="text-sm text-[#1A1614]/60">Administrá las empresas y sus configuraciones</p>
+        <h3 class="text-base font-semibold mb-1 text-rin-ink">Gestión de empresas</h3>
+        <p class="text-sm text-rin-ink/60">Administrá las empresas y sus configuraciones.</p>
       </div>
     </a>
 
     <!-- Bitácora -->
     <a routerLink="/cargas/bitacora" class="w-72">
-      <div
-        class="p-8 rounded-2xl bg-white border border-[#E4DDD1] shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full"
-      >
-        <div
-          class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#E8A838] to-[#D16666] flex items-center justify-center mb-5 text-white"
-        >
-          <fa-icon [icon]="faClockRotateLeft" class="text-lg" />
+      <div class="p-8 rounded-2xl bg-white border border-rin-line shadow-md hover:shadow-xl transition-shadow cursor-pointer h-full">
+        <div class="w-12 h-12 rounded-xl bg-rin-surface border border-rin-line flex items-center justify-center mb-5">
+          <fa-icon [icon]="faClockRotateLeft" class="text-lg text-rin-orange" />
         </div>
-        <h3 class="text-base font-semibold mb-1 text-[#E8A838]">Bitácora</h3>
-        <p class="text-sm text-[#1A1614]/60">Monitoreá el estado de los procesos de carga</p>
+        <h3 class="text-base font-semibold mb-1 text-rin-ink">Bitácora</h3>
+        <p class="text-sm text-rin-ink/60">Monitoreá el estado de los procesos de carga.</p>
       </div>
     </a>
   </div>

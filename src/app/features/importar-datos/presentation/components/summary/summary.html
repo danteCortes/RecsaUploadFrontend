@@ -1,44 +1,41 @@
-<div class="bg-white rounded-2xl p-6 shadow-lg shadow-[#1E3A5F]/5 border border-[#E4DDD1]">
+<div class="bg-white rounded-2xl p-6 shadow-lg border border-rin-line">
   <!-- Header -->
-  <div class="mb-5 pb-5 border-b border-[#E4DDD1]">
-    <h3 class="text-lg font-semibold text-[#1E3A5F]">Resumen de importación</h3>
-    <p class="text-sm text-[#1A1614]/50 mt-0.5">Paso {{ getStep() }} de 5</p>
+  <div class="mb-5 pb-5 border-b border-rin-line">
+    <h3 class="text-lg font-semibold text-rin-ink">Resumen de importación</h3>
+    <p class="text-sm text-rin-ink/50 mt-0.5">Paso {{ getStep() }} de 5</p>
   </div>
 
   <!-- Configuración del proceso -->
   @if (hasProcessConfig()) {
-    <div class="mb-5 pb-5 border-b border-[#E4DDD1]">
-      <p class="text-xs font-semibold text-[#1A1614]/50 uppercase tracking-wider mb-3">
+    <div class="mb-5 pb-5 border-b border-rin-line">
+      <p class="text-xs font-semibold text-rin-ink/50 uppercase tracking-wider mb-3">
         Configuración del proceso
       </p>
       <div class="space-y-2.5">
         @if (companyName()) {
           <div>
-            <p class="text-xs text-[#1A1614]/50">Empresa</p>
-            <p class="text-sm font-semibold text-[#1E3A5F]">{{ companyName() }}</p>
+            <p class="text-xs text-rin-ink/50">Empresa</p>
+            <p class="text-sm font-semibold text-rin-ink">{{ companyName() }}</p>
           </div>
         }
         @if (layoutName()) {
           <div>
-            <p class="text-xs text-[#1A1614]/50">Interfaz</p>
-            <p class="text-sm font-semibold text-[#1E3A5F]">{{ layoutName() }}</p>
+            <p class="text-xs text-rin-ink/50">Interfaz</p>
+            <p class="text-sm font-semibold text-rin-ink">{{ layoutName() }}</p>
           </div>
         }
         @if (loadTypeName()) {
           <div>
-            <p class="text-xs text-[#1A1614]/50">Tipo de carga</p>
-            <span
-              class="inline-block mt-0.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#2D9596]/15 text-[#2D9596]"
-            >
+            <p class="text-xs text-rin-ink/50">Tipo de carga</p>
+            <span class="inline-block mt-0.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-rin-orange/15 text-rin-orange">
               {{ loadTypeName() }}
             </span>
           </div>
         }
-
         @if (responsible()) {
           <div>
-            <p class="text-xs text-[#1A1614]/50">Responsable</p>
-            <p class="text-sm font-semibold text-[#1E3A5F]">{{ responsible() }}</p>
+            <p class="text-xs text-rin-ink/50">Responsable</p>
+            <p class="text-sm font-semibold text-rin-ink">{{ responsible() }}</p>
           </div>
         }
       </div>
@@ -47,30 +44,30 @@
 
   <!-- Stats de archivos -->
   @if (fileCount() > 0) {
-    <div class="mb-5 pb-5 border-b border-[#E4DDD1] space-y-2.5">
+    <div class="mb-5 pb-5 border-b border-rin-line space-y-2.5">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <fa-icon [icon]="faFileLines" class="text-[#1E3A5F] text-sm" />
-          <span class="text-sm text-[#1A1614]/70">Archivos</span>
+          <fa-icon [icon]="faFileLines" class="text-rin-ink text-sm" />
+          <span class="text-sm text-rin-ink/70">Archivos</span>
         </div>
-        <span class="font-semibold text-[#1E3A5F] text-sm">{{ fileCount() }}</span>
+        <span class="font-semibold text-rin-ink text-sm">{{ fileCount() }}</span>
       </div>
       <div class="flex items-center justify-between">
-        <span class="text-sm text-[#1A1614]/70">Formatos</span>
-        <span class="font-semibold text-[#1E3A5F] text-sm">{{ fileExtensions() }}</span>
+        <span class="text-sm text-rin-ink/70">Formatos</span>
+        <span class="font-semibold text-rin-ink text-sm">{{ fileExtensions() }}</span>
       </div>
       @if (delimiter()) {
         <div class="flex items-center justify-between">
-          <span class="text-sm text-[#1A1614]/70">Separador</span>
-          <span class="font-semibold text-[#1E3A5F] text-sm">{{ delimiter() }}</span>
+          <span class="text-sm text-rin-ink/70">Separador</span>
+          <span class="font-semibold text-rin-ink text-sm">{{ delimiter() }}</span>
         </div>
       }
       @if (hasHeaders() !== null) {
         <div class="flex items-center justify-between">
-          <span class="text-sm text-[#1A1614]/70">Encabezados</span>
+          <span class="text-sm text-rin-ink/70">Encabezados</span>
           <span
             class="font-semibold text-sm"
-            [ngClass]="hasHeaders() ? 'text-[#2D9596]' : 'text-[#D16666]'"
+            [ngClass]="hasHeaders() ? 'text-rin-success' : 'text-rin-critical'"
           >
             {{ hasHeaders() ? 'Sí' : 'No' }}
           </span>
@@ -78,8 +75,8 @@
       }
       @if (requiredFields().length > 0) {
         <div class="flex items-center justify-between">
-          <span class="text-sm text-[#1A1614]/70">Columnas</span>
-          <span class="font-semibold text-[#1E3A5F] text-sm">{{ requiredFields().length }}</span>
+          <span class="text-sm text-rin-ink/70">Columnas</span>
+          <span class="font-semibold text-rin-ink text-sm">{{ requiredFields().length }}</span>
         </div>
       }
     </div>
@@ -87,14 +84,14 @@
 
   <!-- Campos obligatorios -->
   @if (getStep() >= 3 && requiredFields().length > 0) {
-    <div class="mb-4 p-3 rounded-xl bg-[#D16666]/8 border border-[#D16666]/25">
-      <p class="text-xs font-semibold text-[#D16666] mb-2">
+    <div class="mb-4 p-3 rounded-xl bg-rin-critical/8 border border-rin-critical/25">
+      <p class="text-xs font-semibold text-rin-critical mb-2">
         {{ requiredFields().length }} campos clave requeridos:
       </p>
       <ul class="space-y-1">
         @for (field of requiredFields(); track $index) {
-          <li class="flex items-center gap-1.5 text-xs text-[#1A1614]/70">
-            <span class="w-1 h-1 rounded-full bg-[#D16666] flex-shrink-0"></span>
+          <li class="flex items-center gap-1.5 text-xs text-rin-ink/70">
+            <span class="w-1 h-1 rounded-full bg-rin-critical shrink-0"></span>
             {{ field.name }}
           </li>
         }
@@ -104,17 +101,17 @@
 
   <!-- Columna clave -->
   @if (getStep() >= 3 && fileCount() > 0) {
-    <div class="mb-4 p-3 rounded-xl bg-[#E8A838]/8 border border-[#E8A838]/30">
+    <div class="mb-4 p-3 rounded-xl bg-rin-orange/8 border border-rin-orange/30">
       <div class="flex items-center gap-2 mb-1">
-        <fa-icon [icon]="faKey" class="text-[#E8A838] text-sm" />
-        <p class="text-xs font-semibold text-[#C68B28]">Columna clave</p>
+        <fa-icon [icon]="faKey" class="text-rin-orange text-sm" />
+        <p class="text-xs font-semibold text-rin-orange">Columna clave</p>
       </div>
       @if (keyColumn()) {
-        <p class="text-xs text-[#1A1614]/70">
-          Columna clave: <span class="font-semibold text-[#C68B28]">{{ keyColumn() }}</span>
+        <p class="text-xs text-rin-ink/70">
+          Columna clave: <span class="font-semibold text-rin-orange">{{ keyColumn() }}</span>
         </p>
       } @else {
-        <p class="text-xs text-[#1A1614]/60 italic">
+        <p class="text-xs text-rin-ink/60 italic">
           Identificador para vincular<br />
           <span class="not-italic">Seleccioná una columna única en cada archivo</span>
         </p>
@@ -125,32 +122,32 @@
   <!-- Validación -->
   @if (hasValidationData()) {
     <div class="mb-4 space-y-2">
-      <div class="flex items-center justify-between p-2.5 rounded-lg bg-[#2D9596]/8">
+      <div class="flex items-center justify-between p-2.5 rounded-lg bg-rin-success/8">
         <div class="flex items-center gap-2">
-          <fa-icon [icon]="faCheckCircle" class="text-[#2D9596] text-sm" />
-          <span class="text-xs text-[#1A1614]/70">Filas válidas</span>
+          <fa-icon [icon]="faCheckCircle" class="text-rin-success text-sm" />
+          <span class="text-xs text-rin-ink/70">Filas válidas</span>
         </div>
-        <span class="font-semibold text-[#2D9596] text-sm">{{ validRows() }}</span>
+        <span class="font-semibold text-rin-success text-sm">{{ validRows() }}</span>
       </div>
-      <div class="flex items-center justify-between p-2.5 rounded-lg bg-[#D16666]/8">
+      <div class="flex items-center justify-between p-2.5 rounded-lg bg-rin-critical/8">
         <div class="flex items-center gap-2">
-          <fa-icon [icon]="faTimesCircle" class="text-[#D16666] text-sm" />
-          <span class="text-xs text-[#1A1614]/70">Filas con error</span>
+          <fa-icon [icon]="faTimesCircle" class="text-rin-critical text-sm" />
+          <span class="text-xs text-rin-ink/70">Filas con error</span>
         </div>
-        <span class="font-semibold text-[#D16666] text-sm">{{ errorRows() }}</span>
+        <span class="font-semibold text-rin-critical text-sm">{{ errorRows() }}</span>
       </div>
     </div>
   }
 
   <!-- Progreso -->
-  <div class="pt-4 border-t border-[#E4DDD1]">
+  <div class="pt-4 border-t border-rin-line">
     <div class="flex items-center justify-between mb-2">
-      <span class="text-xs text-[#1A1614]/60">Progreso</span>
-      <span class="text-xs font-semibold text-[#1E3A5F]">{{ getPercent() }}%</span>
+      <span class="text-xs text-rin-ink/60">Progreso</span>
+      <span class="text-xs font-semibold text-rin-ink">{{ getPercent() }}%</span>
     </div>
-    <div class="h-2 bg-[#E4DDD1] rounded-full overflow-hidden">
+    <div class="h-2 bg-rin-line rounded-full overflow-hidden">
       <div
-        class="h-full bg-gradient-to-r from-[#1E3A5F] to-[#2D9596] rounded-full transition-all duration-500"
+        class="h-full bg-rin-orange rounded-full transition-all duration-500"
         [style.width]="getPercent() + '%'"
       ></div>
     </div>
@@ -158,11 +155,9 @@
 
   <!-- Aviso si hay errores -->
   @if (hasWarnings()) {
-    <div
-      class="mt-4 p-3 rounded-xl border border-[#E8A838]/40 bg-[#E8A838]/8 flex items-center gap-2"
-    >
-      <fa-icon [icon]="faWarning" class="text-[#E8A838] text-sm flex-shrink-0" />
-      <p class="text-xs text-[#1A1614]/70">Revisá antes de continuar</p>
+    <div class="mt-4 p-3 rounded-xl border border-rin-orange/40 bg-rin-orange/8 flex items-center gap-2">
+      <fa-icon [icon]="faWarning" class="text-rin-orange text-sm shrink-0" />
+      <p class="text-xs text-rin-ink/70">Revisá antes de continuar</p>
     </div>
   }
 </div>

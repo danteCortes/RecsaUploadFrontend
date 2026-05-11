@@ -98,15 +98,17 @@ export class Bitacora {
 
   estadoColor(estado: EstadoProceso): string {
     const map: Record<EstadoProceso, string> = {
-      Pendiente: 'text-[#1A1614]/50',
-      Ejecutado: 'text-[#E8A838]',
-      Finalizado: 'text-[#2D9596]',
-      Error: 'text-[#D16666]',
+      Pendiente: 'text-rin-muted',
+      Ejecutado: 'text-rin-orange',
+      Finalizado: 'text-rin-success',
+      Error: 'text-rin-critical',
     };
     return map[estado];
   }
 
   tipoBadgeClass(tipo: TipoProceso): string {
-    return tipo === 'Flujo' ? 'bg-[#1E3A5F]/10 text-[#1E3A5F]' : 'bg-[#E8A838]/15 text-[#C68B28]';
+    return tipo === 'Flujo'
+      ? 'bg-rin-ink/10 text-rin-ink'
+      : 'bg-rin-orange/15 text-rin-orange';
   }
 }

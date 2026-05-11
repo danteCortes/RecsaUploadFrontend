@@ -37,11 +37,11 @@ export class ImportarDatosHeader {
   setBackgroundColor(step: number): string {
     const current = this.paths.indexOf(this.router.url);
     if (current === step) {
-      return 'bg-[#1E3A5F] shadow-[#1E3A5F]/20 shadow-lg text-white';
+      return 'bg-rin-ink shadow-lg text-white';
     } else if (current > step) {
-      return 'bg-[#2D9596] text-white';
+      return 'bg-rin-orange text-white';
     } else {
-      return 'bg-white text-[#1A1614]/40 border border-[#E4DDD1]';
+      return 'bg-white text-rin-ink/40 border border-rin-line';
     }
   }
 }

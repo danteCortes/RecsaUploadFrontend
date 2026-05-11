@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import type { ProcessRepository } from '../../domain/ports/ProcessPort';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import type { Process } from '../../domain/entities/process';
 import type { ProcessId } from '../../domain/value-objects/process/ProcessId';
 import type { ImportFile } from '../../domain/entities/ImportFile';
@@ -13,11 +13,11 @@ import { ImportFileFactory } from '../../domain/factories/ImportFileFactory';
 interface ProcessApiResponse {
   id: string;
   company: string | null;
-  loadType: string | null;
+  process_type: string | null;
   layout: string | null;
   responsible: string | null;
-  templateName: string | null;
-  startDate: string | null;
+  template_name: string | null;
+  start_date: string | null;
   records: number;
   status: string | null;
 }
@@ -53,7 +53,7 @@ export class ProcessAdapter implements ProcessRepository {
       const data = await firstValueFrom(
         this.http.post<ProcessApiResponse>(`${environment.apiUrl}/process`, {
           company: entity.companyId()?.value() ?? null,
-          load_type: entity.loadTypeId()?.value() ?? null,
+          process_type: entity.loadTypeId()?.value() ?? null,
           layout: entity.layoutId()?.value() ?? null,
           responsible: entity.responsible()?.value() ?? null,
           template_name: entity.processTypeId()?.value() ?? null,
@@ -62,8 +62,8 @@ export class ProcessAdapter implements ProcessRepository {
       return ProcessFactory.fromPrimitives(
         data.id,
         data.company,
-        data.loadType,
-        data.templateName,
+        data.process_type,
+        data.template_name,
         data.layout,
         data.responsible,
       );
@@ -81,24 +81,17 @@ export class ProcessAdapter implements ProcessRepository {
   }
 
   async findById(id: ProcessId): Promise<Process> {
-    try {
-      const data = await firstValueFrom(
-        this.http.get<ProcessApiResponse>(`${environment.apiUrl}/process/${id.value()}`),
-      );
-      return ProcessFactory.fromPrimitives(
-        data.id,
-        data.company,
-        data.loadType,
-        data.templateName,
-        data.layout,
-        data.responsible,
-      );
-    } catch (error) {
-      if (error instanceof HttpErrorResponse && error.status === 404) {
-        throw error;
-      }
-      return ProcessFactory.fromPrimitives(id.value(), null, null, null, null, null);
-    }
+    const data = await firstValueFrom(
+      this.http.get<ProcessApiResponse>(`${environment.apiUrl}/process/${id.value()}`),
+    );
+    return ProcessFactory.fromPrimitives(
+      data.id,
+      data.company,
+      data.process_type,
+      data.template_name,
+      data.layout,
+      data.responsible,
+    );
   }
 
   async update(entity: Process): Promise<Process> {
@@ -109,7 +102,7 @@ export class ProcessAdapter implements ProcessRepository {
       const data = await firstValueFrom(
         this.http.put<ProcessApiResponse>(`${environment.apiUrl}/process/${id.value()}`, {
           company: entity.companyId()?.value() ?? null,
-          load_type: entity.loadTypeId()?.value() ?? null,
+          process_type: entity.loadTypeId()?.value() ?? null,
           layout: entity.layoutId()?.value() ?? null,
           responsible: entity.responsible()?.value() ?? null,
           template_name: entity.processTypeId()?.value() ?? null,
@@ -118,8 +111,8 @@ export class ProcessAdapter implements ProcessRepository {
       return ProcessFactory.fromPrimitives(
         data.id,
         data.company,
-        data.loadType,
-        data.templateName,
+        data.process_type,
+        data.template_name,
         data.layout,
         data.responsible,
       );

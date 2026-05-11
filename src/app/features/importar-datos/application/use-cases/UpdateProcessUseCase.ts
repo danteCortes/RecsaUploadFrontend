@@ -15,8 +15,8 @@ export class UpdateProcessUseCase {
       ProcessFactory.fromPrimitives(
         id,
         dto.company,
-        dto.loadType,
         dto.processType,
+        dto.templateName,
         dto.layout,
         dto.responsible,
       ),

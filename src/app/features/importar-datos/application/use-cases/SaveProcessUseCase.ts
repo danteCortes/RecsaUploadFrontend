@@ -15,8 +15,8 @@ export class SaveProcessUseCase {
       ProcessFactory.fromPrimitives(
         null,
         dto.company,
-        dto.loadType,
         dto.processType,
+        dto.templateName,
         dto.layout,
         dto.responsible,
       ),

@@ -1,28 +1,28 @@
-<div class="min-h-screen bg-[#FAF8F5] p-8">
+<div class="min-h-screen bg-rin-paper p-8">
   <div class="max-w-[1600px] mx-auto">
     <div class="mb-12">
       @if (backLink()) {
         <a
           [routerLink]="backLink()"
-          class="inline-flex items-center gap-1 text-[#2D9596] hover:text-[#1E3A5F] transition-colors mb-4 text-sm font-medium"
+          class="inline-flex items-center gap-1 text-rin-ink/60 hover:text-rin-ink transition-colors mb-4 text-sm font-medium"
         >
           &lsaquo; {{ backText() }}
         </a>
       }
-      <h1 class="text-5xl mb-2 tracking-tight text-[#1E3A5F]">{{ pageTitle() }}</h1>
-      <p class="text-lg text-[#1A1614]/60">{{ pageSubtitle() }}</p>
+      <h1 class="text-5xl mb-2 tracking-tight text-rin-ink">{{ pageTitle() }}</h1>
+      <p class="text-lg text-rin-ink/60">{{ pageSubtitle() }}</p>
     </div>
     <app-importar-datos-header />
     <div class="flex gap-8 min-w-0">
-      <div class="flex-1 min-w-0" style="opacity: 1; transform: none">
+      <div class="grow min-w-0" style="opacity: 1; transform: none">
         <router-outlet />
       </div>
       <div style="opacity: 1; transform: none">
         <div class="w-80 sticky top-8" style="opacity: 1">
           <app-import-datas-summary />
-          <div class="mt-4 p-4 rounded-xl bg-white shadow-sm border border-[#E4DDD1]">
-            <h4 class="text-sm mb-2 text-[#1E3A5F]">💡 Consejo</h4>
-            <p class="text-xs text-[#1A1614]/60 leading-relaxed">
+          <div class="mt-4 p-4 rounded-xl bg-white shadow-sm border border-rin-line">
+            <h4 class="text-sm mb-2 text-rin-ink">💡 Consejo</h4>
+            <p class="text-xs text-rin-ink/60 leading-relaxed">
               Podés arrastrar varios archivos a la vez. El sistema detectará automáticamente el
               formato de cada uno.
             </p>

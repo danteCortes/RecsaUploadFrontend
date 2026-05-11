@@ -36,8 +36,8 @@ export class ProcessService {
     const response = await this.saveProcessUseCase.exec(
       new ProcessDTO(
         request.company,
-        request.load_type,
         request.process_type,
+        request.template_name,
         request.layout,
         request.responsible,
       ),
@@ -56,8 +56,8 @@ export class ProcessService {
     const response = await this.updateProcessUseCase.exec(
       new ProcessDTO(
         request.company,
-        request.load_type,
         request.process_type,
+        request.template_name,
         request.layout,
         request.responsible,
       ),
